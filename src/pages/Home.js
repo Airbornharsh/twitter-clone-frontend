@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "../pages/Sidebar/Sidebar";
 import Widgets from "../pages/Widgets/Widgets";
 import "../App.css";
-import auth from "../firebase.init";
+import auth from "../context/firebase";
 import { Outlet } from "react-router-dom";
 
 const Home = () => {

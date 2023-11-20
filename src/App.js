@@ -14,44 +14,47 @@ import Bookmarks from "./pages/Bookmarks/Bookmarks";
 import Lists from "./pages/Lists/Lists";
 import Profile from "./pages/Profile.js/Profile";
 import More from "./pages/More/More";
+import { UserAuthContextProvider } from "./context/UserAuthContext";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Feed />} />
-          </Route>
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="feed" element={<Feed />} />
-            <Route path="explore" element={<Explore />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="messages" element={<Messages />} />
-            <Route path="bookmarks" element={<Bookmarks />} />
-            <Route path="lists" element={<Lists />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="more" element={<More />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="page-loading" element={<PageLoading />} />
-        </Routes>
-      </BrowserRouter>
+      <UserAuthContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Feed />} />
+            </Route>
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="feed" element={<Feed />} />
+              <Route path="explore" element={<Explore />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="bookmarks" element={<Bookmarks />} />
+              <Route path="lists" element={<Lists />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="more" element={<More />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="page-loading" element={<PageLoading />} />
+          </Routes>
+        </BrowserRouter>
+      </UserAuthContextProvider>
     </div>
   );
 }

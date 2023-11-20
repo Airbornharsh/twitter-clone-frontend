@@ -5,7 +5,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import axios from "axios";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
 import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
+import auth from "../../context/firebase";
 
 function TweetBox() {
   const [post, setPost] = useState("");
@@ -51,7 +51,7 @@ function TweetBox() {
         .then((res) => res.json())
         .then((data) => {
           setName(data[0]?.name);
-          setUsername(data[0]?.username); 
+          setUsername(data[0]?.username);
         });
     } else {
       setName(user?.displayName);

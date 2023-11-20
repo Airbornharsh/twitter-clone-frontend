@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../firebase.init";
+import auth from "../context/firebase";
 
 const useLoggedInUser = () => {
   const [user] = useAuthState(auth);

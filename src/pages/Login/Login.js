@@ -5,7 +5,7 @@ import {
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
+import auth from "../../context/firebase";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom/dist";
 import GoogleButton from "react-google-button";
