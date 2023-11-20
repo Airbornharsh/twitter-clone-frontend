@@ -88,7 +88,7 @@ export default function EditProfile({ user, loggedInUser }) {
     };
     console.log(editedInfo);
     fetch(
-      `https://twitter-dummy-backend.vercel.app/userUpdates/${user?.email}`,
+      `https://twitter-clone-backend.harshkeshri.com/userUpdates/${user?.email}`,
       {
         method: "PATCH",
         headers: {

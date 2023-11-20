@@ -59,7 +59,9 @@ function TweetBox({ handleUpdate }) {
       let tempUsername;
 
       if (user?.providerData[0]?.providerId === "password") {
-        const res = fetch(`https://twitter-dummy-backend.vercel.app/loggedInUser?email=${email}`);
+        const res = fetch(
+          `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
+        );
         const data = await res.json();
         setName(data[0]?.name);
         setUsername(data[0]?.username);
@@ -84,13 +86,16 @@ function TweetBox({ handleUpdate }) {
         console.log(userPost);
         setPost("");
         setImageURL("");
-        const data = await fetch("https://twitter-dummy-backend.vercel.app/post", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(userPost),
-        });
+        const data = await fetch(
+          "https://twitter-clone-backend.harshkeshri.com/post",
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(userPost),
+          }
+        );
         const res = await data.json();
         console.log(res);
       }

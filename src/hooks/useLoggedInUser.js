@@ -9,7 +9,7 @@ const useLoggedInUser = () => {
 
   useEffect(() => {
     fetch(
-      `https://twitter-dummy-backend.vercel.app/loggedInUser?email=${email}`
+      `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -19,7 +19,7 @@ const useLoggedInUser = () => {
 
   const reloadUser = () => {
     fetch(
-      `https://twitter-dummy-backend.vercel.app/loggedInUser?email=${email}`
+      `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
     )
       .then((res) => res.json())
       .then((data) => {

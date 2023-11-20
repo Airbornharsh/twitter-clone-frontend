@@ -10,7 +10,7 @@ function Feed() {
 
   const handleUpdate = () => {
     axios
-      .get("https://twitter-dummy-backend.vercel.app/post")
+      .get("https://twitter-clone-backend.harshkeshri.com/post")
       .then((res) => {
         setPosts(res.data);
       })

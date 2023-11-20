@@ -22,7 +22,7 @@ const MainProfile = ({ user }) => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     fetch(
-      `https://twitter-dummy-backend.vercel.app/userpost?email=${user?.email}`
+      `https://twitter-clone-backend.harshkeshri.com/userpost?email=${user?.email}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -54,7 +54,7 @@ const MainProfile = ({ user }) => {
 
         if (url) {
           fetch(
-            `https://twitter-dummy-backend.vercel.app/userUpdates/${user?.email}`,
+            `https://twitter-clone-backend.harshkeshri.com/userUpdates/${user?.email}`,
             {
               method: "PATCH",
               headers: {
@@ -100,7 +100,7 @@ const MainProfile = ({ user }) => {
         setIsLoading(false);
         if (url) {
           fetch(
-            `https://twitter-dummy-backend.vercel.app/userUpdates/${user?.email}`,
+            `https://twitter-clone-backend.harshkeshri.com/userUpdates/${user?.email}`,
             {
               method: "PATCH",
               headers: {

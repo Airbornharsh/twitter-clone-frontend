@@ -49,7 +49,7 @@ const SignUp = () => {
       };
 
       await axios.post(
-        "https://twitter-dummy-backend.vercel.app/register",
+        "https://twitter-clone-backend.harshkeshri.com/register",
         user
       );
     } catch (e) {
