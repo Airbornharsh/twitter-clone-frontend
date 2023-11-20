@@ -2,7 +2,6 @@ import React from "react";
 import twitter from "../../assets/images/twitter.png";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import {
-  useSendEmailVerification,
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
@@ -36,6 +35,8 @@ const SignUp = () => {
 
   error && console.log(error);
   loading && console.log(loading);
+  googleError && console.log(googleError);
+  googleLoading && console.log(googleLoading);
 
   const handleSubmit = async (e) => {
     try {

@@ -12,7 +12,7 @@ function TweetBox({ handleUpdate }) {
   const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [username, setUsername] = useState(" ");
   const [loggedInUser] = useLoggedInUser();
   const [user] = useAuthState(auth);
@@ -63,12 +63,12 @@ function TweetBox({ handleUpdate }) {
           `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
         );
         const data = await res.json();
-        setName(data[0]?.name);
+        // setName(data[0]?.name);
         setUsername(data[0]?.username);
         tempName = data[0]?.name;
         tempUsername = data[0]?.username;
       } else {
-        setName(user?.displayName);
+        // setName(user?.displayName);
         setUsername(email?.split("@")[0]);
         tempName = user?.displayName;
         tempUsername = email?.split("@")[0];
