@@ -6,7 +6,6 @@ body {
 .app {
   display: flex;
   height: 100vh;
-  flex-direction: column;
   max-width: 1300px;
   margin-right: auto;
   margin-left: auto;
@@ -14,5 +13,7 @@ body {
 }
 
 @media screen and (max-width: 668px) {
-  
+  .app {
+    display: block;
+  }
 }

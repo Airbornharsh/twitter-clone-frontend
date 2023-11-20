@@ -11,6 +11,7 @@ import { useState } from "react";
 import GoogleButton from "react-google-button";
 import { Link, useNavigate } from "react-router-dom/dist";
 import "./Login.css";
+import axios from "axios";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -36,9 +37,21 @@ const SignUp = () => {
   error && console.log(error);
   loading && console.log(loading);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createUserWithEmailAndPassword(email, password);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      await createUserWithEmailAndPassword(email, password);
+
+      const user = {
+        name: name,
+        username: username,
+        email: email,
+      };
+
+      await axios.post("http://localhost:4000/register", user);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleGoogleSignIn = () => {
