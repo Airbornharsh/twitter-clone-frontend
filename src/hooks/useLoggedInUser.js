@@ -15,7 +15,15 @@ const useLoggedInUser = () => {
       });
   }, [email]);
 
-  return [loggedInUser, setLoggedInUser];
+  const reloadUser = () => {
+    fetch(`http://localhost:4000/loggedInUser?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setLoggedInUser(data[0]);
+      });
+  };
+
+  return [loggedInUser, setLoggedInUser, reloadUser];
 };
 
 export default useLoggedInUser;

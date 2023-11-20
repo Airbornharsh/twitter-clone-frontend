@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./TweetBox.css";
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button, CircularProgress, Modal } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import axios from "axios";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
@@ -11,6 +11,7 @@ function TweetBox() {
   const [post, setPost] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [name, setName] = useState("");
   const [username, setUsername] = useState(" ");
   const [loggedInUser] = useLoggedInUser();
@@ -23,6 +24,7 @@ function TweetBox() {
 
   const handleUploadImage = (e) => {
     setIsLoading(true);
+    setIsScreenLoading(true);
     const image = e.target.files[0];
 
     const formData = new FormData();
@@ -40,47 +42,62 @@ function TweetBox() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setIsScreenLoading(false);
       });
   };
 
-  const handleTweet = (e) => {
+  const handleTweet = async (e) => {
     e.preventDefault();
 
-    if (user?.providerData[0]?.providerId === "password") {
-      fetch(`http://localhost:4000/loggedInUser?email=${email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setName(data[0]?.name);
-          setUsername(data[0]?.username);
-        });
-    } else {
-      setName(user?.displayName);
-      setUsername(email?.split("@")[0]);
-    }
+    console.log("water");
+    try {
+      setIsScreenLoading(true);
 
-    if (name) {
-      const userPost = {
-        profilePhoto: userProfilePic,
-        post: post,
-        photo: imageURL,
-        username: username,
-        name: name,
-        email: email,
-      };
-      console.log(userPost);
-      setPost("");
-      setImageURL("");
-      fetch("http://localhost:4000/post", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(userPost),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
+      let tempName;
+      let tempUsername;
+
+      if (user?.providerData[0]?.providerId === "password") {
+        const res = fetch(`http://localhost:4000/loggedInUser?email=${email}`);
+        const data = await res.json();
+        setName(data[0]?.name);
+        setUsername(data[0]?.username);
+        tempName = data[0]?.name;
+        tempUsername = data[0]?.username;
+      } else {
+        setName(user?.displayName);
+        setUsername(email?.split("@")[0]);
+        tempName = user?.displayName;
+        tempUsername = email?.split("@")[0];
+      }
+
+      if (tempName) {
+        const userPost = {
+          profilePhoto: userProfilePic,
+          post: post,
+          photo: imageURL,
+          username: username,
+          name: tempName,
+          email: tempUsername,
+        };
+        console.log(userPost);
+        setPost("");
+        setImageURL("");
+        const data = await fetch("http://localhost:4000/post", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userPost),
         });
+        const res = await data.json();
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsScreenLoading(false);
     }
   };
 
@@ -122,6 +139,16 @@ function TweetBox() {
           </Button>
         </div>
       </form>
+      <Modal
+        open={isScreenLoading}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </Modal>
     </div>
   );
 }

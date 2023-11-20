@@ -13,12 +13,11 @@ function Feed() {
       .get("http://localhost:4000/post")
       .then((res) => {
         setPosts(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [posts]);
+  }, []);
 
   return (
     <div className="feed">

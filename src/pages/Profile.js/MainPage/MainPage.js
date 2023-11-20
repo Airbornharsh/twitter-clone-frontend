@@ -16,14 +16,12 @@ const MainProfile = ({ user }) => {
   const navigate = useNavigate();
   // const [imageURL, setImageURL] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedInUser] = useLoggedInUser();
+  const [loggedInUser, reloadUser] = useLoggedInUser();
 
   const username = user?.email?.split("@")[0];
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch(
-      `http://localhost:4000/userpost?email=${user?.email}`
-    )
+    fetch(`http://localhost:4000/userpost?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setPosts(data);
@@ -53,19 +51,17 @@ const MainProfile = ({ user }) => {
         setIsLoading(false);
 
         if (url) {
-          fetch(
-            `http://localhost:4000/userUpdates/${user?.email}`,
-            {
-              method: "PATCH",
-              headers: {
-                "content-type": "application/json",
-              },
-              body: JSON.stringify(userCoverImage),
-            }
-          )
+          fetch(`http://localhost:4000/userUpdates/${user?.email}`, {
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(userCoverImage),
+          })
             .then((res) => res.json())
             .then((data) => {
               console.log("done", data);
+              reloadUser();
             });
         }
       })
@@ -108,6 +104,7 @@ const MainProfile = ({ user }) => {
             .then((res) => res.json())
             .then((data) => {
               console.log("done", data);
+              reloadUser();
             });
         }
       })
