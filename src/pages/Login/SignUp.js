@@ -48,7 +48,10 @@ const SignUp = () => {
         email: email,
       };
 
-      await axios.post("http://localhost:4000/register", user);
+      await axios.post(
+        "https://twitter-dummy-backend.vercel.app/register",
+        user
+      );
     } catch (e) {
       console.log(e);
     }

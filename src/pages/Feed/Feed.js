@@ -8,15 +8,19 @@ import Post from "./Post/Post";
 function Feed() {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
+  const handleUpdate = () => {
     axios
-      .get("http://localhost:4000/post")
+      .get("https://twitter-dummy-backend.vercel.app/post")
       .then((res) => {
         setPosts(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    handleUpdate();
   }, []);
 
   return (
@@ -24,7 +28,7 @@ function Feed() {
       <div className="feed__header">
         <h2>Home</h2>
       </div>
-      <TweetBox />
+      <TweetBox handleUpdate={handleUpdate} />
       {posts.map((p) => (
         <Post key={p._id} p={p} />
       ))}

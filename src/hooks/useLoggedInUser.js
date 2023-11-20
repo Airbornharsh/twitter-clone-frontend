@@ -8,7 +8,9 @@ const useLoggedInUser = () => {
   const [loggedInUser, setLoggedInUser] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:4000/loggedInUser?email=${email}`)
+    fetch(
+      `https://twitter-dummy-backend.vercel.app/loggedInUser?email=${email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setLoggedInUser(data[0]);
@@ -16,7 +18,9 @@ const useLoggedInUser = () => {
   }, [email]);
 
   const reloadUser = () => {
-    fetch(`http://localhost:4000/loggedInUser?email=${email}`)
+    fetch(
+      `https://twitter-dummy-backend.vercel.app/loggedInUser?email=${email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setLoggedInUser(data[0]);

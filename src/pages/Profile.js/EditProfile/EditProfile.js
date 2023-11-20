@@ -87,13 +87,16 @@ export default function EditProfile({ user, loggedInUser }) {
       dob,
     };
     console.log(editedInfo);
-    fetch(`http://localhost:4000/userUpdates/${user?.email}`, {
-      method: "PATCH",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(editedInfo),
-    })
+    fetch(
+      `https://twitter-dummy-backend.vercel.app/userUpdates/${user?.email}`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(editedInfo),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log("done", data);

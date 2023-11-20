@@ -7,7 +7,7 @@ import useLoggedInUser from "../../hooks/useLoggedInUser";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../context/firebase";
 
-function TweetBox() {
+function TweetBox({ handleUpdate }) {
   const [post, setPost] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +59,7 @@ function TweetBox() {
       let tempUsername;
 
       if (user?.providerData[0]?.providerId === "password") {
-        const res = fetch(`http://localhost:4000/loggedInUser?email=${email}`);
+        const res = fetch(`https://twitter-dummy-backend.vercel.app/loggedInUser?email=${email}`);
         const data = await res.json();
         setName(data[0]?.name);
         setUsername(data[0]?.username);
@@ -84,7 +84,7 @@ function TweetBox() {
         console.log(userPost);
         setPost("");
         setImageURL("");
-        const data = await fetch("http://localhost:4000/post", {
+        const data = await fetch("https://twitter-dummy-backend.vercel.app/post", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -98,6 +98,7 @@ function TweetBox() {
       console.log(e);
     } finally {
       setIsScreenLoading(false);
+      handleUpdate();
     }
   };
 
