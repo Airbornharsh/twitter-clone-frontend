@@ -94,7 +94,12 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
         <div className="user__info">
           <h4>{loggedInUser.name ? loggedInUser.name : user?.displayName}</h4>
           {loggedInUser && typeof loggedInUser === "object" && (
-            <h5>@{loggedInUser.username}</h5>
+            <h5>
+              @
+              {typeof loggedInUser == "object" && loggedInUser.username
+                ? loggedInUser.username
+                : user?.email?.split("@")[0]}
+            </h5>
           )}
         </div>
         <IconButton
@@ -120,7 +125,12 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
                   {" "}
                   {loggedInUser.name ? loggedInUser.name : user?.displayName}
                 </h4>
-                {/* <h5>@{loggedInUser.username}</h5> */}
+                <h5>
+                  @
+                  {typeof loggedInUser == "object" && loggedInUser.username
+                    ? loggedInUser.username
+                    : user?.email?.split("@")[0]}
+                </h5>
               </div>
               <ListItemIcon className="">
                 <DoneIcon />
