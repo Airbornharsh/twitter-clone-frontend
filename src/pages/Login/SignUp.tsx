@@ -10,6 +10,8 @@ import GoogleButton from "react-google-button";
 import { Link, useNavigate } from "react-router-dom/dist";
 import "./Login.css";
 import axios from "axios";
+import { signOut } from "firebase/auth";
+import { CircularProgress, Modal } from "@mui/material";
 const twitter = require("../../assets/images/twitter.png");
 
 const SignUp = () => {
@@ -17,6 +19,7 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -41,6 +44,7 @@ const SignUp = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     try {
       e.preventDefault();
+      setIsLoading(true);
       await createUserWithEmailAndPassword(email, password);
 
       const user = {
@@ -50,16 +54,38 @@ const SignUp = () => {
       };
 
       await axios.post(
-        "https://twitter-clone-backend.harshkeshri.com/register",
+        "https://twitter-clone-backend.harshkeshri.com/api/user",
         user
       );
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle();
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsLoading(true);
+      const userData = (await signInWithGoogle())?.user;
+
+      const user = {
+        name: userData?.displayName,
+        username: userData?.email?.split("@")[0],
+        email: userData?.email,
+        profileImage: userData?.photoURL,
+      };
+
+      await axios.post(
+        "https://twitter-clone-backend.harshkeshri.com/api/user",
+        user
+      );
+    } catch (e) {
+      console.log(e);
+      signOut(auth);
+    } finally {
+      setIsLoading(true);
+    }
   };
 
   return (
@@ -127,6 +153,16 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={isLoading}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress />
+      </Modal>
     </div>
   );
 };
