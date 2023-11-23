@@ -10,10 +10,6 @@ type Props = {
 
 const ProtectedRoute: React.FC<Props> = ({ children }) => {
   const [user, isLoading] = useAuthState(auth);
-  console.log(
-    "🚀 ~ file: ProtectedRoute.js:9 ~ ProtectedRoute ~ isLoading:",
-    isLoading
-  );
   const navigate = useNavigate();
 
   if (isLoading) {
