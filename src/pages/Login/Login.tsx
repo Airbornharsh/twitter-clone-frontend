@@ -54,7 +54,7 @@ const Login: React.FC = () => {
 
       const user = {
         name: userData?.displayName,
-        username: userData?.email?.split("@")[0],
+        userName: userData?.email?.split("@")[0],
         email: userData?.email,
         profileImage: userData?.photoURL,
       };

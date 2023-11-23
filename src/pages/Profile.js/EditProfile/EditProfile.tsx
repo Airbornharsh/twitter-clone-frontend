@@ -24,7 +24,7 @@ const style = {
 
 type LoggedInUser = {
   name: string;
-  username: string;
+  userName: string;
   email: string;
   private: boolean;
   profileImage: string;

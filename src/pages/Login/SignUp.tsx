@@ -15,7 +15,7 @@ import { CircularProgress, Modal } from "@mui/material";
 const twitter = require("../../assets/images/twitter.png");
 
 const SignUp = () => {
-  const [username, setUsername] = useState("");
+  const [userName, setuserName] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +47,7 @@ const SignUp = () => {
 
       const user = {
         name: name,
-        username: username,
+        userName: userName,
         email: email,
       };
 
@@ -69,7 +69,7 @@ const SignUp = () => {
 
       const user = {
         name: userData?.displayName,
-        username: userData?.email?.split("@")[0],
+        userName: userData?.email?.split("@")[0],
         email: userData?.email,
         profileImage: userData?.photoURL,
       };
@@ -99,9 +99,9 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              className="username"
-              placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
+              className="userName"
+              placeholder="userName"
+              onChange={(e) => setuserName(e.target.value)}
             />
             <input
               type="text"

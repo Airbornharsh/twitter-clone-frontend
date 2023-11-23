@@ -3,9 +3,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../context/firebase";
 import axios from "axios";
 
-interface User {
+type User = {
   name: string;
-  username: string;
+  userName: string;
   email: string;
   private: boolean;
   profileImage: string;
@@ -14,14 +14,14 @@ interface User {
   location: string;
   website: string;
   dob: string;
-}
+};
 
 const useLoggedInUser = () => {
   const [user] = useAuthState(auth);
   const email = user?.email;
   const [loggedInUser, setLoggedInUser] = useState<User>({
     name: "",
-    username: "",
+    userName: "",
     email: "",
     private: false,
     profileImage: "",
@@ -45,7 +45,7 @@ const useLoggedInUser = () => {
       const data = await res.data.user;
       setLoggedInUser({
         name: data?.name,
-        username: data?.username,
+        userName: data?.userName,
         email: data?.email,
         private: data?.private,
         profileImage: data?.profileImage,
@@ -73,7 +73,7 @@ const useLoggedInUser = () => {
       const data = await res.data.user;
       setLoggedInUser({
         name: data?.name,
-        username: data?.username,
+        userName: data?.userName,
         email: data?.email,
         private: data?.private,
         profileImage: data?.profileImage,

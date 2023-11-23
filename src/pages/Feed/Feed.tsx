@@ -8,7 +8,7 @@ import Post from "./Post/Post";
 type post = {
   _id: string;
   displayName: string;
-  username: string;
+  userName: string;
   verified: boolean;
   text: string;
   image: string;

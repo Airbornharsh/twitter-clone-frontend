@@ -17,3 +17,14 @@ body {
     display: block;
   }
 }
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.modal {
+  display: "flex";
+  align-items: "center";
+  justify-content: "center";
+}

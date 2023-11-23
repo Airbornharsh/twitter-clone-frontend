@@ -17,7 +17,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   // const [name, setName] = useState("");
-  const [username, setUsername] = useState<string>("");
+  const [userName, setuserName] = useState<string>("");
   const [loggedInUser] = useLoggedInUser();
   const [user] = useAuthState(auth);
   const email = user?.email as string;
@@ -63,7 +63,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
       setIsScreenLoading(true);
 
       let tempName;
-      let tempUsername;
+      let tempuserName;
 
       if (user?.providerData[0]?.providerId === "password") {
         const res = await fetch(
@@ -71,14 +71,14 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
         );
         const data = await res.json();
         // setName(data[0]?.name);
-        setUsername(data[0]?.username);
+        setuserName(data[0]?.userName);
         tempName = data[0]?.name;
-        tempUsername = data[0]?.username;
+        tempuserName = data[0]?.userName;
       } else {
         // setName(user?.displayName);
-        setUsername(email?.split("@")[0]);
+        setuserName(email?.split("@")[0]);
         tempName = user?.displayName;
-        tempUsername = email?.split("@")[0];
+        tempuserName = email?.split("@")[0];
       }
 
       if (tempName) {
@@ -86,9 +86,9 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
           profilePhoto: userProfilePic,
           post: post,
           photo: imageURL,
-          username: username,
+          userName: userName,
           name: tempName,
-          email: tempUsername,
+          email: tempuserName,
         };
         setPost("");
         setImageURL("");

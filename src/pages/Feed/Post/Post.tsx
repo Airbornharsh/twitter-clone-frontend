@@ -10,7 +10,7 @@ import PublishIcon from "@mui/icons-material/Publish";
 type post = {
   _id: string;
   displayName: string;
-  username: string;
+  userName: string;
   verified: boolean;
   text: string;
   image: string;
@@ -27,7 +27,7 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ p }) => {
-  const { name, username, photo, post, profilePhoto } = p;
+  const { name, userName, photo, post, profilePhoto } = p;
   return (
     <div className="post">
       <div className="post__avatar">
@@ -39,7 +39,7 @@ const Post: React.FC<PostProps> = ({ p }) => {
             <h3>
               {name}{" "}
               <span className="post__headerSpecial">
-                <VerifiedUserIcon className="post__badge" /> @{username}
+                <VerifiedUserIcon className="post__badge" /> @{userName}
               </span>
             </h3>
           </div>

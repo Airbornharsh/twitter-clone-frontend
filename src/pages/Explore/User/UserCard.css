@@ -1,0 +1,50 @@
+.userCard__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 1rem;
+}
+
+.userCard__container:hover {
+  background-color: var(--twitter-background);
+}
+
+.userCard__container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.userCard__child1 {
+  display: flex;
+  align-items: center;
+}
+
+.userCard__details h4,
+.userCard__details p {
+  margin: 0;
+}
+
+.userCard__details h4 {
+  font-size: 1.05rem;
+}
+
+.userCard__details p {
+  font-size: 0.85rem;
+  color: gray;
+}
+
+.userCard__container button {
+  background-color: var(--twitter-color);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.1rem 1.6rem;
+  height: 2.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}

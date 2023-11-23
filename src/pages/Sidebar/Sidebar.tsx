@@ -96,8 +96,8 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
           {loggedInUser && typeof loggedInUser === "object" && (
             <h5>
               @
-              {typeof loggedInUser == "object" && loggedInUser.username
-                ? loggedInUser.username
+              {typeof loggedInUser == "object" && loggedInUser.userName
+                ? loggedInUser.userName
                 : user?.email?.split("@")[0]}
             </h5>
           )}
@@ -127,8 +127,8 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
                 </h4>
                 <h5>
                   @
-                  {typeof loggedInUser == "object" && loggedInUser.username
-                    ? loggedInUser.username
+                  {typeof loggedInUser == "object" && loggedInUser.userName
+                    ? loggedInUser.userName
                     : user?.email?.split("@")[0]}
                 </h5>
               </div>

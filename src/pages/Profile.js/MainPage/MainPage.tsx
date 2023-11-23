@@ -24,7 +24,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [loggedInUser, reloadUser] = useLoggedInUser();
 
-  const username = user?.email?.split("@")[0];
+  const userName = user?.email?.split("@")[0];
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     // const onLoad = async () => {
@@ -121,7 +121,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   return (
     <div>
       <ArrowBackIcon className="arrow-icon" onClick={() => navigate("/")} />
-      <h4 className="heading-4">{username}</h4>
+      <h4 className="heading-4">{userName}</h4>
       <div className="mainprofile">
         {/* <h1 className='heading-1' style={{ color: "white" }}>Building of profile page Tweets </h1> */}
         <div className="profile-bio">
@@ -196,7 +196,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                         ? loggedInUser.name
                         : user && user.displayName}
                     </h3>
-                    <p className="usernameSection">@{username}</p>
+                    <p className="userNameSection">@{userName}</p>
                   </div>
                   <EditProfile user={user} loggedInUser={loggedInUser} />
                 </div>

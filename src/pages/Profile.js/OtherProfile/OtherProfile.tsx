@@ -16,7 +16,7 @@ interface OtherProfileProps {
 
 interface User {
   name: string;
-  username: string;
+  userName: string;
   email: string;
   profileImage: string;
   coverImage: string;
@@ -31,7 +31,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ email }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [otherUser, setOtherUser] = useState<User>({
     name: "",
-    username: "",
+    userName: "",
     email: "",
     profileImage: "",
     coverImage: "",
@@ -70,7 +70,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ email }) => {
   return (
     <div>
       <ArrowBackIcon className="arrow-icon" onClick={() => navigate("/")} />
-      <h4 className="heading-4">{otherUser?.username}</h4>
+      <h4 className="heading-4">{otherUser?.userName}</h4>
       <div className="OtherProfile">
         {/* <h1 className='heading-1' style={{ color: "white" }}>Building of profile page Tweets </h1> */}
         <div className="profile-bio">
@@ -105,7 +105,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ email }) => {
                     <h3 className="heading-3">
                       {otherUser?.name ? otherUser.name : "Name not provided"}
                     </h3>
-                    <p className="usernameSection">@{otherUser?.username}</p>
+                    <p className="userNameSection">@{otherUser?.userName}</p>
                   </div>
                 </div>
                 <div className="infoContainer">

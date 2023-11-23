@@ -1,0 +1,38 @@
+.explore__page {
+  flex: 0.9;
+  border-right: 1px solid var(--twitter-background);
+  width: 100vw;
+  /* padding: 0 1px; */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.explore__page::-webkit-scrollbar {
+  display: none;
+}
+
+.explore__page .explore__input {
+  display: flex;
+  align-items: center;
+  background-color: var(--twitter-background);
+  padding: 10px 20px;
+  border-radius: 50px;
+  margin-top: 10px;
+  margin-left: 20px;
+  width: 80%;
+}
+
+.explore__input input {
+  border: none;
+  margin-top: 0px;
+  background-color: var(--twitter-background);
+}
+
+.explore__userUl{
+  width: 86%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
