@@ -42,15 +42,15 @@ const useLoggedInUser = () => {
       );
       const data = await res.data.user;
       setLoggedInUser({
-        name: data.name,
-        username: data.username,
-        email: data.email,
-        profileImage: data.profileImage,
-        coverImage: data.coverImage,
-        bio: data.bio,
-        location: data.location,
-        website: data.website,
-        dob: data.dob,
+        name: data?.name,
+        username: data?.username,
+        email: data?.email,
+        profileImage: data?.profileImage,
+        coverImage: data?.coverImage,
+        bio: data?.bio,
+        location: data?.location,
+        website: data?.website,
+        dob: data?.dob,
       });
     };
 
@@ -69,15 +69,15 @@ const useLoggedInUser = () => {
       );
       const data = await res.data.user;
       setLoggedInUser({
-        name: data.name,
-        username: data.username,
-        email: data.email,
-        profileImage: data.profileImage,
-        coverImage: data.coverImage,
-        bio: data.bio,
-        location: data.location,
-        website: data.website,
-        dob: data.dob,
+        name: data?.name,
+        username: data?.username,
+        email: data?.email,
+        profileImage: data?.profileImage,
+        coverImage: data?.coverImage,
+        bio: data?.bio,
+        location: data?.location,
+        website: data?.website,
+        dob: data?.dob,
       });
     };
 
