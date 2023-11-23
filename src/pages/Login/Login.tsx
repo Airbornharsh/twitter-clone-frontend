@@ -8,11 +8,15 @@ import auth from "../../context/firebase";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom/dist";
 import GoogleButton from "react-google-button";
+import { signOut } from "firebase/auth";
+import axios from "axios";
+import { CircularProgress, Modal } from "@mui/material";
 const twitter = require("../../assets/images/twitter.png");
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -33,13 +37,40 @@ const Login: React.FC = () => {
   googleError && console.log(googleError);
   googleLoading && console.log(googleLoading);
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(email, password);
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      await signInWithEmailAndPassword(email, password);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    signInWithGoogle();
+  const handleGoogleSignIn = async () => {
+    try {
+      setIsLoading(true);
+      const userData = (await signInWithGoogle())?.user;
+
+      const user = {
+        name: userData?.displayName,
+        username: userData?.email?.split("@")[0],
+        email: userData?.email,
+        profileImage: userData?.photoURL,
+      };
+
+      await axios.post(
+        "https://twitter-clone-backend.harshkeshri.com/api/user",
+        user
+      );
+    } catch (e) {
+      console.log(e);
+      signOut(auth);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -97,6 +128,16 @@ const Login: React.FC = () => {
           </Link>
         </div>
       </div>
+      <Modal
+        open={isLoading}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress />
+      </Modal>
     </div>
   );
 };
