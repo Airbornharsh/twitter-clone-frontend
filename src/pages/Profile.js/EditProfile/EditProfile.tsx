@@ -111,7 +111,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
         website,
         dob,
       };
-      console.log(editedInfo);
       await axios.put(
         `https://twitter-clone-backend.harshkeshri.com/api/user`,
         {

@@ -32,8 +32,6 @@ const SignUp = () => {
 
   if (user || googleUser) {
     navigate("/");
-    console.log(user);
-    console.log(googleUser);
   }
 
   error && console.log(error);

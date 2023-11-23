@@ -28,8 +28,6 @@ const Login: React.FC = () => {
 
   if (user || googleUser) {
     navigate("/");
-    console.log(user);
-    console.log(googleUser);
   }
 
   error && console.log(error);

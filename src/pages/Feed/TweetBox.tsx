@@ -90,7 +90,6 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
           name: tempName,
           email: tempUsername,
         };
-        console.log(userPost);
         setPost("");
         setImageURL("");
         const data = await fetch(
@@ -103,8 +102,7 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
             body: JSON.stringify(userPost),
           }
         );
-        const res = await data.json();
-        console.log(res);
+        await data.json();
       }
     } catch (e) {
       console.log(e);
