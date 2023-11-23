@@ -7,6 +7,7 @@ interface User {
   name: string;
   username: string;
   email: string;
+  private: boolean;
   profileImage: string;
   coverImage: string;
   bio: string;
@@ -22,6 +23,7 @@ const useLoggedInUser = () => {
     name: "",
     username: "",
     email: "",
+    private: false,
     profileImage: "",
     coverImage: "",
     bio: "",
@@ -45,6 +47,7 @@ const useLoggedInUser = () => {
         name: data?.name,
         username: data?.username,
         email: data?.email,
+        private: data?.private,
         profileImage: data?.profileImage,
         coverImage: data?.coverImage,
         bio: data?.bio,
@@ -72,6 +75,7 @@ const useLoggedInUser = () => {
         name: data?.name,
         username: data?.username,
         email: data?.email,
+        private: data?.private,
         profileImage: data?.profileImage,
         coverImage: data?.coverImage,
         bio: data?.bio,

@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import { CircularProgress, IconButton } from "@mui/material";
+import { CircularProgress, IconButton, Switch } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -26,6 +26,7 @@ type LoggedInUser = {
   name: string;
   username: string;
   email: string;
+  private: boolean;
   profileImage: string;
   coverImage: string;
   bio: string;
@@ -130,6 +131,30 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
     }
   };
 
+  const handlePrivate = async () => {
+    try {
+      setIsLoading(true);
+      await axios.put(
+        `https://twitter-clone-backend.harshkeshri.com/api/user/privacy`,
+        {
+          private: !loggedInUser.private,
+        },
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // console.log(loggedInUser.private);
+
   return (
     <div>
       <button
@@ -204,6 +229,14 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
               defaultValue={loggedInUser?.website ? loggedInUser.website : ""}
             />
           </form>
+          <div className="privacy-section">
+            <p>Private Account</p>
+            <Switch
+              value="active"
+              checked={loggedInUser?.private}
+              onChange={handlePrivate}
+            />
+          </div>
           <div className="birthdate-section">
             <p>Birth Date</p>
             <p>.</p>
