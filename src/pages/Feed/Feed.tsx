@@ -5,8 +5,23 @@ import TweetBox from "./TweetBox";
 import axios from "axios";
 import Post from "./Post/Post";
 
+type post = {
+  _id: string;
+  displayName: string;
+  username: string;
+  verified: boolean;
+  text: string;
+  image: string;
+  avatar: string;
+  timestamp: string;
+  post: string;
+  profilePhoto: string;
+  name: string;
+  photo: string;
+};
+
 function Feed() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<post[]>([]);
 
   const handleUpdate = () => {
     axios

@@ -11,8 +11,13 @@ import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import "./MainPage.css";
 // import Post from "../Post/Post";
 import Post from "../../Feed/Post/Post";
+import { User } from "firebase/auth";
 
-const MainProfile = ({ user }) => {
+interface MainProfileProps {
+  user: User | null;
+}
+
+const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const navigate = useNavigate();
   // const [imageURL, setImageURL] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -21,16 +26,16 @@ const MainProfile = ({ user }) => {
   const username = user?.email?.split("@")[0];
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch(
-      `https://twitter-clone-backend.harshkeshri.com/userpost?email=${user?.email}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts(data);
-      });
+    // fetch(
+    //   `https://twitter-clone-backend.harshkeshri.com/userpost?email=${user?.email}`
+    // )
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setPosts(data);
+    //   });
   }, [user?.email]);
 
-  const handleUploadCoverImage = (e) => {
+  const handleUploadCoverImage = (e: any) => {
     setIsLoading(true);
     const image = e.target.files[0];
 
@@ -66,7 +71,7 @@ const MainProfile = ({ user }) => {
             .then((res) => res.json())
             .then((data) => {
               console.log("done", data);
-              reloadUser();
+              typeof reloadUser === "function" && reloadUser();
             });
         }
       })
@@ -77,7 +82,7 @@ const MainProfile = ({ user }) => {
       });
   };
 
-  const handleUploadProfileImage = (e) => {
+  const handleUploadProfileImage = (e: any) => {
     setIsLoading(true);
     const image = e.target.files[0];
 
@@ -112,7 +117,7 @@ const MainProfile = ({ user }) => {
             .then((res) => res.json())
             .then((data) => {
               console.log("done", data);
-              reloadUser();
+              typeof reloadUser === "function" && reloadUser();
             });
         }
       })
@@ -135,8 +140,10 @@ const MainProfile = ({ user }) => {
               <div className="coverImageContainer">
                 <img
                   src={
-                    loggedInUser?.coverImage
+                    typeof loggedInUser == "object"
                       ? loggedInUser?.coverImage
+                        ? loggedInUser?.coverImage
+                        : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
                       : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
                   }
                   alt=""
@@ -164,9 +171,11 @@ const MainProfile = ({ user }) => {
                 <div className="avatarContainer">
                   <img
                     src={
-                      loggedInUser?.profileImage
-                        ? loggedInUser?.profileImage
-                        : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                      typeof loggedInUser == "object"
+                        ? loggedInUser?.coverImage
+                          ? loggedInUser?.coverImage
+                          : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
+                        : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
                     }
                     className="avatar"
                     alt=""
@@ -201,16 +210,22 @@ const MainProfile = ({ user }) => {
                   <EditProfile user={user} loggedInUser={loggedInUser} />
                 </div>
                 <div className="infoContainer">
-                  {loggedInUser?.bio ? <p>{loggedInUser.bio}</p> : ""}
+                  {typeof loggedInUser == "object" && loggedInUser?.bio ? (
+                    <p>{loggedInUser.bio}</p>
+                  ) : (
+                    ""
+                  )}
                   <div className="locationAndLink">
-                    {loggedInUser?.location ? (
+                    {typeof loggedInUser == "object" &&
+                    loggedInUser?.location ? (
                       <p className="subInfo">
                         <MyLocationIcon /> {loggedInUser.location}
                       </p>
                     ) : (
                       ""
                     )}
-                    {loggedInUser?.website ? (
+                    {typeof loggedInUser == "object" &&
+                    loggedInUser?.website ? (
                       <p className="subInfo link">
                         <AddLinkIcon /> {loggedInUser.website}
                       </p>

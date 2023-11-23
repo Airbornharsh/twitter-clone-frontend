@@ -7,6 +7,7 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./EditProfile.css";
+import { User } from "firebase/auth";
 
 const style = {
   position: "absolute",
@@ -20,7 +21,29 @@ const style = {
   borderRadius: 8,
 };
 
-function EditChild({ dob, setDob }) {
+type LoggedInUser = {
+  name: string;
+  username: string;
+  email: string;
+  profileImage: string;
+  coverImage: string;
+  bio: string;
+  location: string;
+  website: string;
+  dob: string;
+};
+
+interface EditChildProps {
+  dob: string;
+  setDob: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface EditProfileProps {
+  user: User | null;
+  loggedInUser: LoggedInUser | any;
+}
+
+const EditChild: React.FC<EditChildProps> = ({ dob, setDob }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -66,9 +89,9 @@ function EditChild({ dob, setDob }) {
       </Modal>
     </React.Fragment>
   );
-}
+};
 
-export default function EditProfile({ user, loggedInUser }) {
+const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
   const [name, setName] = React.useState("");
   const [bio, setBio] = React.useState("");
   const [location, setLocation] = React.useState("");
@@ -153,7 +176,7 @@ export default function EditProfile({ user, loggedInUser }) {
               id="fullWidth"
               variant="filled"
               onChange={(e) => setName(e.target.value)}
-              defaultValue={loggedInUser[0]?.name ? loggedInUser[0].name : ""}
+              defaultValue={loggedInUser?.name ? loggedInUser.name : ""}
             />
             <TextField
               className="text-field"
@@ -162,7 +185,7 @@ export default function EditProfile({ user, loggedInUser }) {
               id="fullWidth"
               variant="filled"
               onChange={(e) => setBio(e.target.value)}
-              defaultValue={loggedInUser[0]?.bio ? loggedInUser[0].bio : ""}
+              defaultValue={loggedInUser?.bio ? loggedInUser.bio : ""}
             />
             <TextField
               className="text-field"
@@ -171,9 +194,7 @@ export default function EditProfile({ user, loggedInUser }) {
               id="fullWidth"
               variant="filled"
               onChange={(e) => setLocation(e.target.value)}
-              defaultValue={
-                loggedInUser[0]?.location ? loggedInUser[0].location : ""
-              }
+              defaultValue={loggedInUser?.location ? loggedInUser.location : ""}
             />
             <TextField
               className="text-field"
@@ -182,9 +203,7 @@ export default function EditProfile({ user, loggedInUser }) {
               id="fullWidth"
               variant="filled"
               onChange={(e) => setWebsite(e.target.value)}
-              defaultValue={
-                loggedInUser[0]?.website ? loggedInUser[0].website : ""
-              }
+              defaultValue={loggedInUser?.website ? loggedInUser.website : ""}
             />
           </form>
           <div className="birthdate-section">
@@ -193,8 +212,8 @@ export default function EditProfile({ user, loggedInUser }) {
             <EditChild dob={dob} setDob={setDob} />
           </div>
           <div className="last-section">
-            {loggedInUser[0]?.dob ? (
-              <h2>{loggedInUser[0].dob}</h2>
+            {loggedInUser?.dob ? (
+              <h2>{loggedInUser.dob}</h2>
             ) : (
               <h2>{dob ? dob : "Add your date of birth"}</h2>
             )}
@@ -217,4 +236,6 @@ export default function EditProfile({ user, loggedInUser }) {
       </Modal>
     </div>
   );
-}
+};
+
+export default EditProfile;

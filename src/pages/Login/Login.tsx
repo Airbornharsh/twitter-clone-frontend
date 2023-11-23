@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import twitter from "../../assets/images/twitter.png";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import {
   useSignInWithEmailAndPassword,
@@ -9,8 +8,9 @@ import auth from "../../context/firebase";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom/dist";
 import GoogleButton from "react-google-button";
+const twitter = require("../../assets/images/twitter.png");
 
-const Login = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
@@ -30,8 +30,10 @@ const Login = () => {
 
   error && console.log(error);
   loading && console.log(loading);
+  googleError && console.log(googleError);
+  googleLoading && console.log(googleLoading);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     signInWithEmailAndPassword(email, password);
   };

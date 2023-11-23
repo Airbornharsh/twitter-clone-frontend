@@ -22,17 +22,26 @@ import {
 } from "@mui/material";
 import CustomLink from "./CustomLink";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
+import { User } from "firebase/auth";
 
-const Sidebar = ({ handleLogout, user }) => {
+interface Props {
+  handleLogout: () => void;
+  user: User | null;
+}
+
+const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [loggedInUser] = useLoggedInUser();
   const openMenu = Boolean(anchorEl);
 
-  const userProfilePic = loggedInUser?.profileImage
-    ? loggedInUser?.profileImage
-    : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+  const userProfilePic =
+    loggedInUser &&
+    typeof loggedInUser === "object" &&
+    (loggedInUser?.profileImage
+      ? loggedInUser?.profileImage
+      : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png");
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -40,7 +49,7 @@ const Sidebar = ({ handleLogout, user }) => {
     setAnchorEl(null);
   };
 
-  const result = user?.email.split("@")[0];
+  //  user?.email.split("@")[0];
 
   return (
     <div className="sidebar">
@@ -75,14 +84,18 @@ const Sidebar = ({ handleLogout, user }) => {
       </Button>
 
       <div className="Profile__info">
-        <Avatar src={userProfilePic} />
+        <Avatar
+          src={
+            userProfilePic ||
+            "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+          }
+          alt="profile"
+        />
         <div className="user__info">
-          <h4>
-            {loggedInUser.name
-              ? loggedInUser.name
-              : user && user[0] && user.displayName}
-          </h4>
-          <h5>@{loggedInUser.username}</h5>
+          <h4>{loggedInUser.name ? loggedInUser.name : user?.displayName}</h4>
+          {loggedInUser && typeof loggedInUser === "object" && (
+            <h5>@{loggedInUser.username}</h5>
+          )}
         </div>
         <IconButton
           size="small"
@@ -105,11 +118,9 @@ const Sidebar = ({ handleLogout, user }) => {
               <div>
                 <h4>
                   {" "}
-                  {loggedInUser.name
-                    ? loggedInUser.name
-                    : user && user[0] && user[0]?.displayName}
+                  {loggedInUser.name ? loggedInUser.name : user?.displayName}
                 </h4>
-                <h5>@{loggedInUser.username}</h5>
+                {/* <h5>@{loggedInUser.username}</h5> */}
               </div>
               <ListItemIcon className="">
                 <DoneIcon />

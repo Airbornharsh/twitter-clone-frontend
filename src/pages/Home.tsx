@@ -1,6 +1,6 @@
 import React from "react";
-import Sidebar from "../pages/Sidebar/Sidebar";
-import Widgets from "../pages/Widgets/Widgets";
+import Sidebar from "./Sidebar/Sidebar";
+import Widgets from "./Widgets/Widgets";
 import "../App.css";
 import auth from "../context/firebase";
 import { Outlet } from "react-router-dom";

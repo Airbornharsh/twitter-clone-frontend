@@ -1,5 +1,4 @@
 import React from "react";
-import twitter from "../../assets/images/twitter.png";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import {
   useCreateUserWithEmailAndPassword,
@@ -11,6 +10,7 @@ import GoogleButton from "react-google-button";
 import { Link, useNavigate } from "react-router-dom/dist";
 import "./Login.css";
 import axios from "axios";
+const twitter = require("../../assets/images/twitter.png");
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -38,7 +38,7 @@ const SignUp = () => {
   googleError && console.log(googleError);
   googleLoading && console.log(googleLoading);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     try {
       e.preventDefault();
       await createUserWithEmailAndPassword(email, password);

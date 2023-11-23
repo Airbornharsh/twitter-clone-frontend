@@ -7,22 +7,29 @@ import useLoggedInUser from "../../hooks/useLoggedInUser";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../context/firebase";
 
-function TweetBox({ handleUpdate }) {
+interface TweetBoxProps {
+  handleUpdate: () => void;
+}
+
+const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
   const [post, setPost] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   // const [name, setName] = useState("");
-  const [username, setUsername] = useState(" ");
+  const [username, setUsername] = useState<string>("");
   const [loggedInUser] = useLoggedInUser();
   const [user] = useAuthState(auth);
-  const email = user?.email;
+  const email = user?.email as string;
 
-  const userProfilePic = loggedInUser?.profileImage
-    ? loggedInUser?.profileImage
-    : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+  const userProfilePic =
+    loggedInUser &&
+    typeof loggedInUser == "object" &&
+    (loggedInUser?.profileImage
+      ? loggedInUser?.profileImage
+      : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png");
 
-  const handleUploadImage = (e) => {
+  const handleUploadImage = (e: any) => {
     setIsLoading(true);
     setIsScreenLoading(true);
     const image = e.target.files[0];
@@ -48,7 +55,7 @@ function TweetBox({ handleUpdate }) {
       });
   };
 
-  const handleTweet = async (e) => {
+  const handleTweet = async (e: any) => {
     e.preventDefault();
 
     console.log("water");
@@ -59,7 +66,7 @@ function TweetBox({ handleUpdate }) {
       let tempUsername;
 
       if (user?.providerData[0]?.providerId === "password") {
-        const res = fetch(
+        const res = await fetch(
           `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
         );
         const data = await res.json();
@@ -111,7 +118,7 @@ function TweetBox({ handleUpdate }) {
     <div className="tweetBox">
       <form onSubmit={handleTweet}>
         <div className="tweetBox__input">
-          <Avatar src={userProfilePic} />
+          <Avatar src={userProfilePic || ""} alt="profile" />
           <input
             type="text"
             placeholder="What's happening?"
@@ -157,5 +164,5 @@ function TweetBox({ handleUpdate }) {
       </Modal>
     </div>
   );
-}
+};
 export default TweetBox;
