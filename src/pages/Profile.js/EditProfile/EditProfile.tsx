@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./EditProfile.css";
 import { User } from "firebase/auth";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -100,36 +101,34 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
   const [dob, setDob] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const HandleSave = () => {
-    setIsLoading(true);
-    const editedInfo = {
-      name,
-      bio,
-      location,
-      website,
-      dob,
-    };
-    console.log(editedInfo);
-    fetch(
-      `https://twitter-clone-backend.harshkeshri.com/userUpdates/${user?.email}`,
-      {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
+  const HandleSave = async () => {
+    try {
+      setIsLoading(true);
+      const editedInfo = {
+        name,
+        bio,
+        location,
+        website,
+        dob,
+      };
+      console.log(editedInfo);
+      await axios.put(
+        `https://twitter-clone-backend.harshkeshri.com/api/user`,
+        {
+          ...editedInfo,
         },
-        body: JSON.stringify(editedInfo),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("done", data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      window.location.reload();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
