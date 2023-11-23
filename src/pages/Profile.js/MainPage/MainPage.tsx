@@ -12,6 +12,7 @@ import "./MainPage.css";
 // import Post from "../Post/Post";
 import Post from "../../Feed/Post/Post";
 import { User } from "firebase/auth";
+import { CircularProgress, Modal } from "@mui/material";
 
 interface MainProfileProps {
   user: User | null;
@@ -19,7 +20,7 @@ interface MainProfileProps {
 
 const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const navigate = useNavigate();
-  // const [imageURL, setImageURL] = useState('');
+  // const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loggedInUser, reloadUser] = useLoggedInUser();
 
@@ -33,6 +34,18 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
     //   .then((data) => {
     //     setPosts(data);
     //   });
+    // const onLoad = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `https://twitter-clone-backend.harshkeshri.com/userpost?email=${user?.email}`
+    //     );
+    //     const data = await response.json();
+    //     setPosts(data);
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
+    // onLoad();
   }, [user?.email]);
 
   const handleUploadCoverImage = (e: any) => {
@@ -82,50 +95,43 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
       });
   };
 
-  const handleUploadProfileImage = (e: any) => {
-    setIsLoading(true);
-    const image = e.target.files[0];
+  const handleUploadProfileImage = async (e: any) => {
+    try {
+      setIsLoading(true);
+      const image = e.target.files[0];
 
-    const formData = new FormData();
-    formData.set("image", image);
+      const formData = new FormData();
+      formData.set("image", image);
 
-    axios
-      .post(
+      const res = await axios.post(
         "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
         formData
-      )
-      .then((res) => {
-        const url = res.data.data.display_url;
-        // setImageURL(url);
-        // console.log(res.data.data.display_url);
-        const userProfileImage = {
-          email: user?.email,
-          profileImage: url,
-        };
-        setIsLoading(false);
-        if (url) {
-          fetch(
-            `https://twitter-clone-backend.harshkeshri.com/userUpdates/${user?.email}`,
-            {
-              method: "PATCH",
-              headers: {
-                "content-type": "application/json",
-              },
-              body: JSON.stringify(userProfileImage),
-            }
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              console.log("done", data);
-              typeof reloadUser === "function" && reloadUser();
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        window.alert(error);
-        setIsLoading(false);
-      });
+      );
+
+      const url = res.data.data.display_url;
+      // setImageURL(url);
+      if (url) {
+        await axios.put(
+          `https://twitter-clone-backend.harshkeshri.com/api/user`,
+          {
+            profileImage: url,
+          },
+          {
+            headers: {
+              email: user?.email,
+            },
+          }
+        );
+
+        // typeof reloadUser === "function" && reloadUser();
+        window.location.reload();
+      }
+    } catch (e) {
+      console.log(e);
+      window.alert(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -170,10 +176,11 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
               <div className="avatar-img">
                 <div className="avatarContainer">
                   <img
+                    key={"profileImage" + Date.now()}
                     src={
                       typeof loggedInUser == "object"
-                        ? loggedInUser?.coverImage
-                          ? loggedInUser?.coverImage
+                        ? loggedInUser?.profileImage
+                          ? loggedInUser?.profileImage
                           : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
                         : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
                     }
@@ -244,6 +251,16 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
           }
         </div>
       </div>
+      <Modal
+        open={isLoading}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </Modal>
     </div>
   );
 };
