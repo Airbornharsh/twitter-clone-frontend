@@ -27,13 +27,6 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const username = user?.email?.split("@")[0];
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    // fetch(
-    //   `https://twitter-clone-backend.harshkeshri.com/userpost?email=${user?.email}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setPosts(data);
-    //   });
     // const onLoad = async () => {
     //   try {
     //     const response = await axios.get(
@@ -48,51 +41,42 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
     // onLoad();
   }, [user?.email]);
 
-  const handleUploadCoverImage = (e: any) => {
-    setIsLoading(true);
-    const image = e.target.files[0];
+  const handleUploadCoverImage = async (e: any) => {
+    try {
+      setIsLoading(true);
+      const image = e.target.files[0];
 
-    const formData = new FormData();
-    formData.set("image", image);
+      const formData = new FormData();
+      formData.set("image", image);
 
-    axios
-      .post(
+      const res = await axios.post(
         "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
         formData
-      )
-      .then((res) => {
-        const url = res.data.data.display_url;
-        // setImageURL(url);
-        // console.log(res.data.data.display_url);
-        const userCoverImage = {
-          email: user?.email,
-          coverImage: url,
-        };
-        setIsLoading(false);
+      );
 
-        if (url) {
-          fetch(
-            `https://twitter-clone-backend.harshkeshri.com/userUpdates/${user?.email}`,
-            {
-              method: "PATCH",
-              headers: {
-                "content-type": "application/json",
-              },
-              body: JSON.stringify(userCoverImage),
-            }
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              console.log("done", data);
-              typeof reloadUser === "function" && reloadUser();
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        window.alert(error);
-        setIsLoading(false);
-      });
+      const url = res.data.data.display_url;
+      // setImageURL(url);
+      if (url) {
+        await axios.put(
+          `https://twitter-clone-backend.harshkeshri.com/api/user`,
+          {
+            coverImage: url,
+          },
+          {
+            headers: {
+              email: user?.email,
+            },
+          }
+        );
+
+        // typeof reloadUser === "function" && reloadUser();
+        window.location.reload();
+      }
+    } catch (e) {
+      console.log(e);
+      window.alert(e);
+      setIsLoading(false);
+    }
   };
 
   const handleUploadProfileImage = async (e: any) => {
