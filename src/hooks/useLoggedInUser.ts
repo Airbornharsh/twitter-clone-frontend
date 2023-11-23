@@ -31,23 +31,6 @@ const useLoggedInUser = () => {
   });
 
   useEffect(() => {
-    // fetch(
-    //   `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setLoggedInUser({
-    //       name: data[0].name,
-    //       username: data[0].username,
-    //       email: data[0].email,
-    //       profileImage: data[0].profileImage,
-    //       coverImage: data[0].coverImage,
-    //       bio: data[0].bio,
-    //       location: data[0].location,
-    //       website: data[0].website,
-    //       dob: data[0].dob,
-    //     });
-    //   });
     const onLoad = async () => {
       const res = await axios.get(
         `https://twitter-clone-backend.harshkeshri.com/api/user`,
@@ -75,23 +58,30 @@ const useLoggedInUser = () => {
   }, [email]);
 
   const reloadUser = () => {
-    // fetch(
-    //   `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setLoggedInUser({
-    //       name: data[0].name,
-    //       username: data[0].username,
-    //       email: data[0].email,
-    //       profileImage: data[0].profileImage,
-    //       coverImage: data[0].coverImage,
-    //       bio: data[0].bio,
-    //       location: data[0].location,
-    //       website: data[0].website,
-    //       dob: data[0].dob,
-    //     });
-    //   });
+    const onLoad = async () => {
+      const res = await axios.get(
+        `https://twitter-clone-backend.harshkeshri.com/api/user`,
+        {
+          headers: {
+            email: email,
+          },
+        }
+      );
+      const data = await res.data.user;
+      setLoggedInUser({
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        profileImage: data.profileImage,
+        coverImage: data.coverImage,
+        bio: data.bio,
+        location: data.location,
+        website: data.website,
+        dob: data.dob,
+      });
+    };
+
+    onLoad();
   };
 
   return [loggedInUser, reloadUser];
