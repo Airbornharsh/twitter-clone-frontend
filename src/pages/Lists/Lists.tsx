@@ -13,7 +13,7 @@ const Lists = () => {
 
   const location = useLocation();
 
-  const userType = location.search.split("=")[1] || "allowed";
+  const userType = location.search.split("=")[1] || "pending";
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -46,12 +46,16 @@ const Lists = () => {
       <ul>
         <li>
           <Link
+            to="/home/lists?userType=pending"
+            className={userType === "pending" ? "lists__page__activeList" : ""}
+          >
+            Pending
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/home/lists?userType=allowed"
-            className={
-              userType === "allowed" || userType === ""
-                ? "lists__page__activeList"
-                : ""
-            }
+            className={userType === "allowed" ? "lists__page__activeList" : ""}
           >
             Allowed
           </Link>
@@ -68,7 +72,7 @@ const Lists = () => {
       </ul>
       <div className="userCardList__ul">
         {users.map((user: any) => (
-          <UserCard key={user._id} {...user} />
+          <UserCard key={user._id} {...user} type={userType} />
         ))}
       </div>
       <Modal

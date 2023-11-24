@@ -78,6 +78,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
             userName={user.userName}
             email={user.email}
             id={user._id}
+            type=""
           />
         ))}
       </ul>
