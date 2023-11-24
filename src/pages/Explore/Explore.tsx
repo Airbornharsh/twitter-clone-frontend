@@ -6,6 +6,11 @@ import axios from "axios";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
 import UserCard from "./User/UserCard";
 
+type ExploreProps = {
+  users: User[];
+  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+};
+
 type User = {
   name: string;
   userName: string;
@@ -17,11 +22,11 @@ type User = {
   location: string;
   website: string;
   dob: string;
+  _id: string;
 };
 
-const Explore = () => {
+const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
   const [search, setSearch] = useState("");
   const [loggedInUser] = useLoggedInUser();
 
@@ -72,6 +77,7 @@ const Explore = () => {
             name={user.name}
             userName={user.userName}
             email={user.email}
+            id={user._id}
           />
         ))}
       </ul>

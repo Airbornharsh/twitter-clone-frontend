@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./UserCard.css";
 import React from "react";
 
@@ -6,6 +7,7 @@ interface UserCardProps {
   name: string;
   userName: string;
   email: string;
+  id: string;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -13,9 +15,20 @@ const UserCard: React.FC<UserCardProps> = ({
   name,
   userName,
   email,
+  id,
 }) => {
+  const navigate = useNavigate();
+
+  const handleUserClick = async () => {
+    try {
+      email && navigate(`/home/explore/${email}`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <li className="userCard__container">
+    <li className="userCard__container" onClick={handleUserClick}>
       <div className="userCard__child1">
         <img
           src={

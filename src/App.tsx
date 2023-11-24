@@ -1,6 +1,6 @@
 import "./App.css";
 import "./pages/Page.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/Login/SignUp";
@@ -15,8 +15,26 @@ import Lists from "./pages/Lists/Lists";
 import Profile from "./pages/Profile.js/Profile";
 import More from "./pages/More/More";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
+import OtherProfile from "./pages/Profile.js/OtherProfile/OtherProfile";
+import { useState } from "react";
+
+type User = {
+  name: string;
+  userName: string;
+  email: string;
+  private: boolean;
+  profileImage: string;
+  coverImage: string;
+  bio: string;
+  location: string;
+  website: string;
+  dob: string;
+  _id: string;
+};
 
 function App() {
+  const [users, setUsers] = useState<User[]>([]);
+
   return (
     <div className="App">
       <UserAuthContextProvider>
@@ -41,7 +59,11 @@ function App() {
               }
             >
               <Route path="feed" element={<Feed />} />
-              <Route path="explore" element={<Explore />} />
+              <Route
+                path="explore"
+                element={<Explore users={users} setUsers={setUsers} />}
+              />
+              <Route path="explore/:email" element={<OtherProfile />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="messages" element={<Messages />} />
               <Route path="bookmarks" element={<Bookmarks />} />

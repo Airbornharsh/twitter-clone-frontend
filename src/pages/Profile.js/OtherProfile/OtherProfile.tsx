@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import AddLinkIcon from "@mui/icons-material/AddLink";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import "./OtherProfile.css";
 // import Post from "../Post/Post";
 import Post from "../../Feed/Post/Post";
 import { CircularProgress, Modal } from "@mui/material";
-
-interface OtherProfileProps {
-  email: string | null;
-}
-
 interface User {
   name: string;
   userName: string;
@@ -26,7 +21,7 @@ interface User {
   dob: string;
 }
 
-const OtherProfile: React.FC<OtherProfileProps> = ({ email }) => {
+const OtherProfile = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [otherUser, setOtherUser] = useState<User>({
@@ -40,7 +35,9 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ email }) => {
     website: "",
     dob: "",
   });
-  // const [loggedInUser] = useLoggedInUser();
+  const location = useLocation();
+
+  const email = location.pathname.split("/")[3];
 
   useEffect(() => {
     setIsLoading(true);
@@ -69,8 +66,10 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ email }) => {
 
   return (
     <div>
-      <ArrowBackIcon className="arrow-icon" onClick={() => navigate("/")} />
-      <h4 className="heading-4">{otherUser?.userName}</h4>
+      <ArrowBackIcon className="arrow-icon" onClick={() => navigate(-1)} />
+      <h4 className="heading-4">
+        {otherUser?.userName ? otherUser?.userName : "User Name not Set"}
+      </h4>
       <div className="OtherProfile">
         {/* <h1 className='heading-1' style={{ color: "white" }}>Building of profile page Tweets </h1> */}
         <div className="profile-bio">

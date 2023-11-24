@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const CustomeLink: React.FC<Props> = ({ children, to, ...props }) => {
+const CustomLink: React.FC<Props> = ({ children, to, ...props }) => {
   let resolved = useResolvedPath(to);
   let match = useMatch({ path: resolved.pathname, end: true });
 
@@ -26,4 +26,4 @@ const CustomeLink: React.FC<Props> = ({ children, to, ...props }) => {
   );
 };
 
-export default CustomeLink;
+export default CustomLink;
