@@ -40,6 +40,11 @@ const Lists = () => {
     fetchLists();
   }, [userType, loggedInUser]);
 
+  const removeUserFromList = (id: string) => {
+    const newUsers = users.filter((user: any) => user._id !== id);
+    setUsers(newUsers);
+  };
+
   return (
     <div className="lists__page">
       <h2 className="pageTitle">Welcome to Lists</h2>
@@ -72,7 +77,16 @@ const Lists = () => {
       </ul>
       <div className="userCardList__ul">
         {users.map((user: any) => (
-          <UserCard key={user._id} {...user} type={userType} />
+          <UserCard
+            key={user._id}
+            profileImage={user.profileImage}
+            name={user.name}
+            userName={user.userName}
+            email={user.email}
+            id={user._id}
+            type={userType}
+            removeUserFromList={removeUserFromList}
+          />
         ))}
       </div>
       <Modal
@@ -81,6 +95,9 @@ const Lists = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "white",
         }}
       >
         <CircularProgress />

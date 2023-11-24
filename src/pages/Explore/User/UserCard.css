@@ -21,6 +21,7 @@
 .userCard__child1 {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .userCard__details h4,

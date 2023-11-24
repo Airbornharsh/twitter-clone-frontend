@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import "./UserCard.css";
 import React from "react";
-import { IconButton } from "@mui/material";
+import { CircularProgress, IconButton, Modal } from "@mui/material";
+import axios from "axios";
+import useLoggedInUser from "../../../hooks/useLoggedInUser";
 interface UserCardProps {
   profileImage: string;
   name: string;
@@ -9,6 +11,7 @@ interface UserCardProps {
   email: string;
   id: string;
   type: string;
+  removeUserFromList: (id: string) => void;
 }
 
 const UserCard: React.FC<UserCardProps> = ({
@@ -18,7 +21,12 @@ const UserCard: React.FC<UserCardProps> = ({
   email,
   id,
   type,
+  removeUserFromList,
 }) => {
+  const [loggedInUser] = useLoggedInUser();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const user = typeof loggedInUser == "object" ? loggedInUser : null;
+
   const navigate = useNavigate();
 
   const handleUserClick = async () => {
@@ -31,8 +39,21 @@ const UserCard: React.FC<UserCardProps> = ({
 
   const handleAllowUser = async () => {
     try {
+      setIsLoading(true);
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/allowing/${id}`,
+        {},
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      removeUserFromList(id);
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,8 +79,8 @@ const UserCard: React.FC<UserCardProps> = ({
   };
 
   return (
-    <li className="userCard__container" onClick={handleUserClick}>
-      <div className="userCard__child1">
+    <li className="userCard__container">
+      <div className="userCard__child1" onClick={handleUserClick}>
         <img
           src={
             profileImage
@@ -94,6 +115,17 @@ const UserCard: React.FC<UserCardProps> = ({
           <p>+</p>
         </IconButton>
       )}
+      <Modal
+        open={isLoading}
+        className="modal"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress />
+      </Modal>
     </li>
   );
 };

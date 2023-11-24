@@ -46,8 +46,6 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
 
       const users = res.data.users;
 
-      console.log(users);
-
       setUsers(users);
     } catch (e) {
       console.log(e);
@@ -73,12 +71,14 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
       <ul className="explore__userUl">
         {users.map((user: User) => (
           <UserCard
+            key={user._id}
             profileImage={user.profileImage}
             name={user.name}
             userName={user.userName}
             email={user.email}
             id={user._id}
             type=""
+            removeUserFromList={() => {}}
           />
         ))}
       </ul>
