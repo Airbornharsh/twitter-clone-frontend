@@ -113,7 +113,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
         dob,
       };
       await axios.put(
-        `https://twitter-clone-backend.harshkeshri.com/api/user`,
+        `${process.env.REACT_APP_BACKEND_URL}/user`,
         {
           ...editedInfo,
         },
@@ -135,7 +135,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
     try {
       setIsLoading(true);
       await axios.put(
-        `https://twitter-clone-backend.harshkeshri.com/api/user/privacy`,
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy`,
         {
           private: !loggedInUser.private,
         },

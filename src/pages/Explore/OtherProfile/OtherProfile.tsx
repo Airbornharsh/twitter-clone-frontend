@@ -45,8 +45,7 @@ const OtherProfile = () => {
     const onLoad = async () => {
       try {
         const res = await axios.get(
-          "https://twitter-clone-backend.harshkeshri.com/api/user/other/" +
-            email,
+          `${process.env.REACT_APP_BACKEND_URL}/user/other/` + email,
           {
             headers: {
               email: email,

@@ -36,7 +36,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
       setIsLoading(true);
 
       const res = await axios.get(
-        "https://twitter-clone-backend.harshkeshri.com/api/user/list",
+        `${process.env.REACT_APP_BACKEND_URL}/user/list?search=${search}`,
         {
           headers: {
             email: typeof loggedInUser == "object" && loggedInUser?.email,

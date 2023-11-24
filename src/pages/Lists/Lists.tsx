@@ -21,7 +21,7 @@ const Lists = () => {
         setIsLoading(true);
 
         const res = await axios.get(
-          `https://twitter-clone-backend.harshkeshri.com/api/user/${userType}`,
+          `${process.env.REACT_APP_BACKEND_URL}/user/list/${userType}`,
           {
             headers: {
               email: typeof loggedInUser == "object" && loggedInUser?.email,

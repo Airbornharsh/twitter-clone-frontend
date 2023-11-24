@@ -35,6 +35,8 @@ type User = {
 function App() {
   const [users, setUsers] = useState<User[]>([]);
 
+  console.log(process.env)
+
   return (
     <div className="App">
       <UserAuthContextProvider>

@@ -58,7 +58,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
       // setImageURL(url);
       if (url) {
         await axios.put(
-          `https://twitter-clone-backend.harshkeshri.com/api/user`,
+          `${process.env.REACT_APP_BACKEND_URL}/user`,
           {
             coverImage: url,
           },
@@ -96,7 +96,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
       // setImageURL(url);
       if (url) {
         await axios.put(
-          `https://twitter-clone-backend.harshkeshri.com/api/user`,
+          `${process.env.REACT_APP_BACKEND_URL}/user`,
           {
             profileImage: url,
           },

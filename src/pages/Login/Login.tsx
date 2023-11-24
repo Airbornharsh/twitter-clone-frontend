@@ -59,10 +59,7 @@ const Login: React.FC = () => {
         profileImage: userData?.photoURL,
       };
 
-      await axios.post(
-        "https://twitter-clone-backend.harshkeshri.com/api/user",
-        user
-      );
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/user`, user);
     } catch (e) {
       console.log(e);
       signOut(auth);

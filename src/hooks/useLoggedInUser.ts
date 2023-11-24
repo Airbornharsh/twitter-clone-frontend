@@ -34,14 +34,11 @@ const useLoggedInUser = () => {
 
   useEffect(() => {
     const onLoad = async () => {
-      const res = await axios.get(
-        `https://twitter-clone-backend.harshkeshri.com/api/user`,
-        {
-          headers: {
-            email: email,
-          },
-        }
-      );
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+        headers: {
+          email: email,
+        },
+      });
       const data = await res.data.user;
       setLoggedInUser({
         name: data?.name,
@@ -62,14 +59,11 @@ const useLoggedInUser = () => {
 
   const reloadUser = () => {
     const onLoad = async () => {
-      const res = await axios.get(
-        `https://twitter-clone-backend.harshkeshri.com/api/user`,
-        {
-          headers: {
-            email: email,
-          },
-        }
-      );
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+        headers: {
+          email: email,
+        },
+      });
       const data = await res.data.user;
       setLoggedInUser({
         name: data?.name,
