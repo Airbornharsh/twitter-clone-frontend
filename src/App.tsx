@@ -15,7 +15,7 @@ import Lists from "./pages/Lists/Lists";
 import Profile from "./pages/Profile.js/Profile";
 import More from "./pages/More/More";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
-import OtherProfile from "./pages/Profile.js/OtherProfile/OtherProfile";
+import OtherProfile from "./pages/Explore/OtherProfile/OtherProfile";
 import { useState } from "react";
 
 type User = {

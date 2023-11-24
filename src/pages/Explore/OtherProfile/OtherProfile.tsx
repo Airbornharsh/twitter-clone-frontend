@@ -4,11 +4,12 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import AddLinkIcon from "@mui/icons-material/AddLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import "./OtherProfile.css";
 // import Post from "../Post/Post";
 import Post from "../../Feed/Post/Post";
 import { CircularProgress, Modal } from "@mui/material";
+import "./OtherProfile.css";
+
 interface User {
   name: string;
   userName: string;
@@ -65,7 +66,7 @@ const OtherProfile = () => {
   }, [email]);
 
   return (
-    <div>
+    <div className="otherProfile__page">
       <ArrowBackIcon className="arrow-icon" onClick={() => navigate(-1)} />
       <h4 className="heading-4">
         {otherUser?.userName ? otherUser?.userName : "User Name not Set"}
