@@ -1,0 +1,54 @@
+.lists__page {
+  flex: 0.9;
+  border-right: 1px solid var(--twitter-background);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lists__page::-webkit-scrollbar {
+  display: none;
+}
+
+.lists__page > ul {
+  width: 90%;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.lists__page > ul > li {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--twitter-background);
+}
+
+.lists__page > ul > li :hover {
+  background-color: var(--twitter-background);
+}
+
+.lists__page > ul > li > a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--twitter-color);
+}
+
+.lists__page__activeList{
+  background-color: var(--twitter-background);
+}
+
+.userCardList__ul{
+  width: 80%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
