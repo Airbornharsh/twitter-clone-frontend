@@ -14,6 +14,11 @@ type User = {
   location: string;
   website: string;
   dob: string;
+  allowed: string[];
+  blocked: string[];
+  followers: string[];
+  following: string[];
+  pending: string[];
 };
 
 const useLoggedInUser = () => {
@@ -30,6 +35,11 @@ const useLoggedInUser = () => {
     location: "",
     website: "",
     dob: "",
+    allowed: [],
+    blocked: [],
+    followers: [],
+    following: [],
+    pending: [],
   });
 
   useEffect(() => {
@@ -51,6 +61,11 @@ const useLoggedInUser = () => {
         location: data?.location,
         website: data?.website,
         dob: data?.dob,
+        allowed: data?.allowed,
+        blocked: data?.blocked,
+        followers: data?.followers,
+        following: data?.following,
+        pending: data?.pending,
       });
     };
 
@@ -76,6 +91,11 @@ const useLoggedInUser = () => {
         location: data?.location,
         website: data?.website,
         dob: data?.dob,
+        allowed: data?.allowed,
+        blocked: data?.blocked,
+        followers: data?.followers,
+        following: data?.following,
+        pending: data?.pending,
       });
     };
 

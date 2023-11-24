@@ -54,6 +54,14 @@ const Lists = () => {
             to="/home/lists?userType=pending"
             className={userType === "pending" ? "lists__page__activeList" : ""}
           >
+            Follow Pending
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/home/lists?userType=pending"
+            className={userType === "pending" ? "lists__page__activeList" : ""}
+          >
             Pending
           </Link>
         </li>

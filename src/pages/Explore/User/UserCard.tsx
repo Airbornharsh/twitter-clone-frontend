@@ -23,7 +23,7 @@ const UserCard: React.FC<UserCardProps> = ({
   type,
   removeUserFromList,
 }) => {
-  const [loggedInUser] = useLoggedInUser();
+  const [loggedInUser, reloadUser] = useLoggedInUser();
   const [isLoading, setIsLoading] = React.useState(false);
   const user = typeof loggedInUser == "object" ? loggedInUser : null;
 
@@ -97,6 +97,53 @@ const UserCard: React.FC<UserCardProps> = ({
     }
   };
 
+  const handleFollow = async () => {
+    try {
+      setIsLoading(true);
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/following/${id}`,
+        {},
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      typeof reloadUser === "function" && reloadUser();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUnFollow = async () => {
+    try {
+      setIsLoading(true);
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/unfollowing/${id}`,
+        {},
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      typeof reloadUser === "function" && reloadUser();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const checkIfFollowing = () => {
+    if (user) {
+      return user?.following.includes(id);
+    }
+    return false;
+  };
+
   return (
     <li className="userCard__container">
       <div className="userCard__child1" onClick={handleUserClick}>
@@ -129,11 +176,12 @@ const UserCard: React.FC<UserCardProps> = ({
           <button onClick={handleUnblockUser}>Unblock</button>
         </div>
       )}
-      {type === "" && (
-        <IconButton className="userCard__follow">
-          <p>+</p>
-        </IconButton>
-      )}
+      {type === "" &&
+        (checkIfFollowing() ? (
+          <button onClick={handleUnFollow}>Unfollow</button>
+        ) : (
+          <button onClick={handleFollow}>Follow</button>
+        ))}
       <Modal
         open={isLoading}
         className="modal"
