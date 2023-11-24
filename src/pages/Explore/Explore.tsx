@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import "./Explore.css";
 import { CircularProgress, Modal } from "@mui/material";
 import axios from "axios";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
 import UserCard from "./User/UserCard";
+import { useLocation } from "react-router-dom";
 
 type ExploreProps = {
   users: User[];
@@ -26,9 +27,37 @@ type User = {
 };
 
 const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [search, setSearch] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const [search, setSearch] = useState(
+    location.search.split("?search=")[1] || ""
+  );
   const [loggedInUser] = useLoggedInUser();
+
+  useEffect(() => {
+    const onLoad = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/user/list?search=${search}`,
+          {
+            headers: {
+              email: typeof loggedInUser == "object" && loggedInUser?.email,
+            },
+          }
+        );
+
+        const users = res.data.users;
+
+        setUsers(users);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    onLoad();
+  }, [loggedInUser, search, setUsers]);
 
   const searchHandler = async (e: any) => {
     try {
