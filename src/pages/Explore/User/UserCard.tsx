@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./UserCard.css";
 import React from "react";
-import { CircularProgress, IconButton, Modal } from "@mui/material";
+import { CircularProgress, Modal } from "@mui/material";
 import axios from "axios";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 interface UserCardProps {
