@@ -59,22 +59,41 @@ const UserCard: React.FC<UserCardProps> = ({
 
   const handleDenyUser = async () => {
     try {
+      setIsLoading(true);
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/blocking/${id}`,
+        {},
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      removeUserFromList(id);
     } catch (e) {
       console.log(e);
-    }
-  };
-
-  const handleBlockUser = async () => {
-    try {
-    } catch (e) {
-      console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleUnblockUser = async () => {
     try {
+      setIsLoading(true);
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/unblocking/${id}`,
+        {},
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      removeUserFromList(id);
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -102,7 +121,7 @@ const UserCard: React.FC<UserCardProps> = ({
       )}
       {type === "allowed" && (
         <div className="userCard__child2">
-          <button onClick={handleBlockUser}>Block</button>
+          <button onClick={handleDenyUser}>Block</button>
         </div>
       )}
       {type === "blocked" && (
