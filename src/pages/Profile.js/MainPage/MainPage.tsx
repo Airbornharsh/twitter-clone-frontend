@@ -22,7 +22,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const navigate = useNavigate();
   // const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedInUser, reloadUser] = useLoggedInUser();
+  const [loggedInUser] = useLoggedInUser();
 
   const userName = user?.email?.split("@")[0];
   const [posts, setPosts] = useState([]);
@@ -235,6 +235,24 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                         )}
                       </p>
                     )}
+                  </div>
+                  <div>
+                    <p className="subInfo">
+                      <span className="following">
+                        <p>
+                          {typeof loggedInUser == "object" &&
+                            loggedInUser?.following?.length}
+                        </p>
+                        <span className="followingText">Following</span>
+                      </span>
+                      <span className="followers">
+                        <p>
+                          {typeof loggedInUser == "object" &&
+                            loggedInUser?.followers?.length}
+                        </p>
+                        <span className="followersText">Followers</span>
+                      </span>
+                    </p>
                   </div>
                 </div>
                 <h4 className="tweetsText">Tweets</h4>

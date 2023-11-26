@@ -12,6 +12,7 @@ import "./OtherProfile.css";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 
 interface User {
+  _id: string;
   name: string;
   userName: string;
   email: string;
@@ -21,13 +22,24 @@ interface User {
   location: string;
   website: string;
   dob: string;
+  allowed: string[];
+  pending: string[];
+  pendingBy: string[];
+  allowedBy: string[];
+  blocked: string[];
+  blockedBy: string[];
+  followers: string[];
+  following: string[];
+  createdAt: number;
 }
 
 const OtherProfile = () => {
   const navigate = useNavigate();
-  const [loggedInUser, reloadUser] = useLoggedInUser();
+  const [loggedInUser] = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
   const [otherUser, setOtherUser] = useState<User>({
+    _id: location.pathname.split("/")[3],
     name: "",
     userName: "",
     email: "",
@@ -37,17 +49,23 @@ const OtherProfile = () => {
     location: "",
     website: "",
     dob: "",
+    allowed: [],
+    pending: [],
+    pendingBy: [],
+    allowedBy: [],
+    blocked: [],
+    blockedBy: [],
+    followers: [],
+    following: [],
+    createdAt: Date.now(),
   });
-  const location = useLocation();
-
-  const id = location.pathname.split("/")[3];
 
   useEffect(() => {
     setIsLoading(true);
     const onLoad = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/other/` + id,
+          `${process.env.REACT_APP_BACKEND_URL}/user/other/` + otherUser._id,
           {
             headers: {
               email: typeof loggedInUser == "object" && loggedInUser?.email,
@@ -64,7 +82,7 @@ const OtherProfile = () => {
     };
 
     onLoad();
-  }, [loggedInUser, id]);
+  }, [loggedInUser, otherUser._id]);
 
   return (
     <div className="otherProfile__page">
@@ -138,6 +156,18 @@ const OtherProfile = () => {
                         )}
                       </p>
                     )}
+                  </div>
+                  <div>
+                    <p className="subInfo">
+                      <span className="following">
+                        <p>{otherUser?.following?.length}</p>
+                        <span className="followingText">Following</span>
+                      </span>
+                      <span className="followers">
+                        <p>{otherUser?.followers?.length}</p>
+                        <span className="followersText">Followers</span>
+                      </span>
+                    </p>
                   </div>
                 </div>
                 <h4 className="tweetsText">Tweets</h4>

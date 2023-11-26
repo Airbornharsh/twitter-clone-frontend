@@ -168,3 +168,26 @@
   color: var(--twitter-color);
   cursor: pointer;
 }
+
+.following,
+.followers {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.following:hover,
+.followers:hover {
+  text-decoration: underline;
+}
+
+.following p,
+.followers p {
+  font-weight: bold;
+}
+
+.followingText,
+.followersText {
+  font-weight: lighter;
+}
