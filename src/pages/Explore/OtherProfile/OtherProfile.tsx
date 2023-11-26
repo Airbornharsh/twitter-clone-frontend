@@ -10,6 +10,7 @@ import Post from "../../Feed/Post/Post";
 import { CircularProgress, Modal } from "@mui/material";
 import "./OtherProfile.css";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
+import OtherFollow from "./OtherFollow/OtherFollow";
 
 interface User {
   _id: string;
@@ -141,6 +142,7 @@ const OtherProfile = () => {
                     </h3>
                     <p className="userNameSection">@{otherUser?.userName}</p>
                   </div>
+                  <OtherFollow otherUser={otherUser} />
                 </div>
                 <div className="infoContainer">
                   {otherUser?.bio ? <p>{otherUser.bio}</p> : ""}

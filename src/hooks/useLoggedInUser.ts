@@ -4,6 +4,7 @@ import auth from "../context/firebase";
 import axios from "axios";
 
 type User = {
+  id: string;
   name: string;
   userName: string;
   email: string;
@@ -28,6 +29,7 @@ const useLoggedInUser = () => {
   const [user] = useAuthState(auth);
   const email = user?.email;
   const [loggedInUser, setLoggedInUser] = useState<User>({
+    id: "",
     name: "",
     userName: "",
     email: "",
@@ -57,6 +59,7 @@ const useLoggedInUser = () => {
       });
       const data = await res.data.user;
       setLoggedInUser({
+        id: data?._id,
         name: data?.name,
         userName: data?.userName,
         email: data?.email,
@@ -90,6 +93,7 @@ const useLoggedInUser = () => {
       });
       const data = await res.data.user;
       setLoggedInUser({
+        id: data?._id,
         name: data?.name,
         userName: data?.userName,
         email: data?.email,

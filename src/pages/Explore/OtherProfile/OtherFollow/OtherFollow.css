@@ -1,0 +1,20 @@
+.OtherFollow__Container{
+  margin-right: 1rem;
+}
+
+.OtherFollow__Container button {
+  background-color: var(--twitter-color);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.1rem 1.6rem;
+  height: 2.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.OtherFollow__Container button:hover {
+  background-color: #36a0e2;
+}
+
