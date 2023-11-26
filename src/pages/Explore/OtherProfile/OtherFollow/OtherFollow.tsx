@@ -124,32 +124,42 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
     return false;
   };
 
+  const checkIfNotSame = () => {
+    if (otherUser) {
+      return (
+        typeof loggedInUser == "object" && loggedInUser?.id !== otherUser._id
+      );
+    }
+    return false; 
+  };
+
   return (
     <div className="OtherFollow__Container">
-      {checkIfPending() ? (
-        <button
-          style={{
-            backgroundColor: "transparent",
-            color: "gray",
-            border: "1px solid gray",
-          }}
-          onClick={handleCancelRequest}
-          onMouseEnter={(e) => {
-            e.currentTarget.textContent = "Cancel";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.textContent = "Pending";
-          }}
-        >
-          Pending
-        </button>
-      ) : checkIfFollowing() ? (
-        <button onClick={handleUnFollow}>Unfollow</button>
-      ) : checkIfBlocked() ? (
-        <button>UnBlock</button>
-      ) : (
-        <button onClick={handleFollow}>Follow</button>
-      )}
+      {checkIfNotSame() &&
+        (checkIfPending() ? (
+          <button
+            style={{
+              backgroundColor: "transparent",
+              color: "gray",
+              border: "1px solid gray",
+            }}
+            onClick={handleCancelRequest}
+            onMouseEnter={(e) => {
+              e.currentTarget.textContent = "Cancel";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.textContent = "Pending";
+            }}
+          >
+            Pending
+          </button>
+        ) : checkIfFollowing() ? (
+          <button onClick={handleUnFollow}>Unfollow</button>
+        ) : checkIfBlocked() ? (
+          <button>UnBlock</button>
+        ) : (
+          <button onClick={handleFollow}>Follow</button>
+        ))}
     </div>
   );
 };

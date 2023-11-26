@@ -198,6 +198,13 @@ const UserCard: React.FC<UserCardProps> = ({
     return false;
   };
 
+  const checkIfNotSame = () => {
+    if (user) {
+      return user?.id !== id;
+    }
+    return false;
+  };
+
   return (
     <li className="userCard__container">
       <div className="userCard__child1" onClick={handleUserClick}>
@@ -231,6 +238,7 @@ const UserCard: React.FC<UserCardProps> = ({
         </div>
       )}
       {type === "" &&
+        checkIfNotSame() &&
         (checkIfPending() ? (
           <button
             style={{
