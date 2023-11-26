@@ -117,6 +117,26 @@ const UserCard: React.FC<UserCardProps> = ({
     }
   };
 
+  const handleCancelRequest = async () => {
+    try {
+      setIsLoading(true);
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/unpending/${id}`,
+        {},
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      typeof reloadUser === "function" && reloadUser();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleFollow = async () => {
     try {
       setIsLoading(true);
@@ -196,7 +216,7 @@ const UserCard: React.FC<UserCardProps> = ({
       </div>
       {type === "pending" && (
         <div className="userCard__child2">
-          <button onClick={handleAllowUser}>Allow</button>
+          <button onClick={handleAllowUser}>Accept</button>
           <button onClick={handleDenyUser}>Deny</button>
         </div>
       )}
@@ -217,6 +237,13 @@ const UserCard: React.FC<UserCardProps> = ({
               backgroundColor: "transparent",
               color: "gray",
               border: "1px solid gray",
+            }}
+            onClick={handleCancelRequest}
+            onMouseEnter={(e) => {
+              e.currentTarget.textContent = "Cancel";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.textContent = "Pending";
             }}
           >
             Pending
