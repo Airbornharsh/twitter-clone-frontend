@@ -71,3 +71,8 @@
   align-items: center;
   gap: 0.3rem;
 }
+
+.userCard__pending{
+  background-color: var(--twitter-background);
+  color: var(--twitter-color);
+}

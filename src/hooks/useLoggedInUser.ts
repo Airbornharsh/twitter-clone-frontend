@@ -19,6 +19,8 @@ type User = {
   followers: string[];
   following: string[];
   pending: string[];
+  pendingBy: string[];
+  blockedBy: string[];
 };
 
 const useLoggedInUser = () => {
@@ -40,6 +42,8 @@ const useLoggedInUser = () => {
     followers: [],
     following: [],
     pending: [],
+    pendingBy: [],
+    blockedBy: [],
   });
 
   useEffect(() => {
@@ -66,6 +70,8 @@ const useLoggedInUser = () => {
         followers: data?.followers,
         following: data?.following,
         pending: data?.pending,
+        pendingBy: data?.pendingBy,
+        blockedBy: data?.blockedBy,
       });
     };
 
@@ -96,6 +102,8 @@ const useLoggedInUser = () => {
         followers: data?.followers,
         following: data?.following,
         pending: data?.pending,
+        pendingBy: data?.pendingBy,
+        blockedBy: data?.blockedBy,
       });
     };
 

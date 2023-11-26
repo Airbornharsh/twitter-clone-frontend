@@ -144,6 +144,20 @@ const UserCard: React.FC<UserCardProps> = ({
     return false;
   };
 
+  const checkIfPending = () => {
+    if (user) {
+      return user?.pendingBy.includes(id);
+    }
+    return false;
+  };
+
+  const checkIfBlocked = () => {
+    if (user) {
+      return user?.blocked.includes(id);
+    }
+    return false;
+  };
+
   return (
     <li className="userCard__container">
       <div className="userCard__child1" onClick={handleUserClick}>
@@ -177,8 +191,20 @@ const UserCard: React.FC<UserCardProps> = ({
         </div>
       )}
       {type === "" &&
-        (checkIfFollowing() ? (
+        (checkIfPending() ? (
+          <button
+            style={{
+              backgroundColor: "transparent",
+              color: "gray",
+              border: "1px solid gray",
+            }}
+          >
+            Pending
+          </button>
+        ) : checkIfFollowing() ? (
           <button onClick={handleUnFollow}>Unfollow</button>
+        ) : checkIfBlocked() ? (
+          <button>UnBlock</button>
         ) : (
           <button onClick={handleFollow}>Follow</button>
         ))}

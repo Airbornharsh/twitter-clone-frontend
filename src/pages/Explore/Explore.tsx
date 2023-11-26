@@ -32,7 +32,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
   const [search, setSearch] = useState(
     location.search.split("?search=")[1] || ""
   );
-  const [loggedInUser] = useLoggedInUser();
+  const [loggedInUser, reloadUser] = useLoggedInUser();
 
   useEffect(() => {
     const onLoad = async () => {
@@ -76,6 +76,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
       const users = res.data.users;
 
       setUsers(users);
+      typeof reloadUser == "function" && reloadUser();
     } catch (e) {
       console.log(e);
     } finally {
