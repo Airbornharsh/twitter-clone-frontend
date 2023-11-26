@@ -55,7 +55,6 @@ const Details = () => {
           className="arrow-icon"
           onClick={() => navigate("/home/profile")}
         />
-        {/* <h4 className="heading-4">{userName}</h4> */}
         <p>{userName}</p>
       </div>
       <ul>
