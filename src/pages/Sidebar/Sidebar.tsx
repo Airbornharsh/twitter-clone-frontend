@@ -35,11 +35,11 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
   const openMenu = Boolean(anchorEl);
 
   const userProfilePic =
-    loggedInUser &&
-    typeof loggedInUser === "object" &&
-    (loggedInUser?.profileImage
-      ? loggedInUser?.profileImage
-      : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png");
+    (loggedInUser &&
+      typeof loggedInUser === "object" &&
+      loggedInUser?.profileImage &&
+      loggedInUser?.profileImage) ||
+    "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -118,7 +118,7 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
           onClick={handleClose}
         >
           <MenuItem className="Profile__info">
-            <Avatar src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" />
+            <Avatar src={userProfilePic} />
             <div className="user_info subUser__info">
               <div>
                 <h4>
