@@ -60,6 +60,8 @@ const OtherProfile = () => {
     createdAt: Date.now(),
   });
 
+  let userName = otherUser?.email?.split("@")[0];
+
   useEffect(() => {
     setIsLoading(true);
     const onLoad = async () => {
@@ -81,17 +83,30 @@ const OtherProfile = () => {
       }
     };
 
-    onLoad();
+    if (
+      typeof loggedInUser == "object" &&
+      loggedInUser.email &&
+      otherUser._id
+    ) {
+      onLoad();
+    }
   }, [loggedInUser, otherUser._id]);
+
+  const onFollowingClick = () => {
+    navigate("/home/explore/following/" + otherUser._id);
+  };
+
+  const onFollowersClick = () => {
+    navigate("/home/explore/followers/" + otherUser._id);
+  };
 
   return (
     <div className="otherProfile__page">
-      <ArrowBackIcon className="arrow-icon" onClick={() => navigate(-1)} />
-      <h4 className="heading-4">
-        {otherUser?.userName ? otherUser?.userName : "User Name not Set"}
-      </h4>
+      <div className="heading-4">
+        <ArrowBackIcon className="arrow-icon" onClick={() => navigate(-1)} />
+        <p>{userName}</p>
+      </div>
       <div className="OtherProfile">
-        {/* <h1 className='heading-1' style={{ color: "white" }}>Building of profile page Tweets </h1> */}
         <div className="profile-bio">
           {
             <div>
@@ -159,11 +174,11 @@ const OtherProfile = () => {
                   </div>
                   <div>
                     <p className="subInfo">
-                      <span className="following">
+                      <span className="following" onClick={onFollowingClick}>
                         <p>{otherUser?.following?.length}</p>
                         <span className="followingText">Following</span>
                       </span>
-                      <span className="followers">
+                      <span className="followers" onClick={onFollowersClick}>
                         <p>{otherUser?.followers?.length}</p>
                         <span className="followersText">Followers</span>
                       </span>

@@ -1,23 +1,27 @@
 import React, { useEffect } from "react";
-import "./Lists.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import useLoggedInUser from "../../hooks/useLoggedInUser";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import axios from "axios";
 import { CircularProgress, Modal } from "@mui/material";
-import UserCard from "../Explore/User/UserCard";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import UserCard from "../../Explore/User/UserCard";
+import useLoggedInUser from "../../../hooks/useLoggedInUser";
+import axios from "axios";
 
-const Lists = () => {
-  const [isLoading, setIsLoading] = React.useState(false);
+const Details = () => {
+  const [isLoading, setIsLoading] = React.useState(true);
   const [users, setUsers] = React.useState([]);
   const [loggedInUser] = useLoggedInUser();
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const userType = location.search.split("=")[1] || "pending";
+  const type = location.pathname.split("/")[3];
   const userName =
     typeof loggedInUser == "object" && loggedInUser?.email?.split("@")[0];
+
+  const removeUserFromList = (id: string) => {
+    const newUsers = users.filter((user: any) => user._id !== id);
+    setUsers(newUsers);
+  };
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -25,7 +29,7 @@ const Lists = () => {
         setIsLoading(true);
 
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/list/${userType}`,
+          `${process.env.REACT_APP_BACKEND_URL}/user/list/${type}`,
           {
             headers: {
               email: typeof loggedInUser == "object" && loggedInUser?.email,
@@ -42,19 +46,14 @@ const Lists = () => {
     };
 
     fetchLists();
-  }, [userType, loggedInUser]);
-
-  const removeUserFromList = (id: string) => {
-    const newUsers = users.filter((user: any) => user._id !== id);
-    setUsers(newUsers);
-  };
+  }, [type, loggedInUser]);
 
   return (
     <div className="lists__page">
       <div className="heading-4">
         <ArrowBackIcon
           className="arrow-icon"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/home/profile")}
         />
         {/* <h4 className="heading-4">{userName}</h4> */}
         <p>{userName}</p>
@@ -62,38 +61,26 @@ const Lists = () => {
       <ul>
         <li>
           <Link
-            to="/home/lists?userType=pending"
+            to="/home/profile/following"
             className={
-              userType === "pending"
+              type === "following"
                 ? "lists__page__activeList"
                 : "lists__page__unactiveList"
             }
           >
-            Pending
+            Following
           </Link>
         </li>
         <li>
           <Link
-            to="/home/lists?userType=allowed"
+            to="/home/profile/followers"
             className={
-              userType === "allowed"
+              type === "followers"
                 ? "lists__page__activeList"
                 : "lists__page__unactiveList"
             }
           >
-            Allowed
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/home/lists?userType=blocked"
-            className={
-              userType === "blocked"
-                ? "lists__page__activeList"
-                : "lists__page__unactiveList"
-            }
-          >
-            Blocked
+            Followers
           </Link>
         </li>
       </ul>
@@ -106,7 +93,7 @@ const Lists = () => {
             userName={user.userName}
             email={user.email}
             id={user._id}
-            type={userType}
+            type={""}
             removeUserFromList={removeUserFromList}
           />
         ))}
@@ -128,4 +115,4 @@ const Lists = () => {
   );
 };
 
-export default Lists;
+export default Details;

@@ -17,6 +17,8 @@ import More from "./pages/More/More";
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import OtherProfile from "./pages/Explore/OtherProfile/OtherProfile";
 import { useState } from "react";
+import Details from "./pages/Profile.js/Details/Details";
+import OtherDetails from "./pages/Explore/OtherProfile/OtherDetails";
 
 type User = {
   name: string;
@@ -63,12 +65,16 @@ function App() {
                 path="explore"
                 element={<Explore users={users} setUsers={setUsers} />}
               />
-              <Route path="explore/:email" element={<OtherProfile />} />
+              <Route path="explore/:id" element={<OtherProfile />} />
+              <Route path="explore/followers/:id" element={<OtherDetails />} />
+              <Route path="explore/following/:id" element={<OtherDetails />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="messages" element={<Messages />} />
               <Route path="bookmarks" element={<Bookmarks />} />
               <Route path="lists" element={<Lists />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="profile/followers" element={<Details />} />
+              <Route path="profile/following" element={<Details />} />
               <Route path="more" element={<More />} />
             </Route>
             <Route path="/login" element={<Login />} />

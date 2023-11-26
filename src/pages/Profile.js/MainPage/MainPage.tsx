@@ -118,12 +118,21 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
     }
   };
 
+  const onFollowingClick = () => {
+    navigate("/home/profile/following");
+  };
+
+  const onFollowersClick = () => {
+    navigate("/home/profile/followers");
+  };
+
   return (
     <div>
-      <ArrowBackIcon className="arrow-icon" onClick={() => navigate("/")} />
-      <h4 className="heading-4">{userName}</h4>
+      <div className="heading-4">
+        <ArrowBackIcon className="arrow-icon" onClick={() => navigate("/")} />
+        <p>{userName}</p>
+      </div>
       <div className="mainprofile">
-        {/* <h1 className='heading-1' style={{ color: "white" }}>Building of profile page Tweets </h1> */}
         <div className="profile-bio">
           {
             <div>
@@ -238,14 +247,14 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                   </div>
                   <div>
                     <p className="subInfo">
-                      <span className="following">
+                      <span className="following" onClick={onFollowingClick}>
                         <p>
                           {typeof loggedInUser == "object" &&
                             loggedInUser?.following?.length}
                         </p>
                         <span className="followingText">Following</span>
                       </span>
-                      <span className="followers">
+                      <span className="followers" onClick={onFollowersClick}>
                         <p>
                           {typeof loggedInUser == "object" &&
                             loggedInUser?.followers?.length}

@@ -13,7 +13,7 @@
 }
 
 .lists__page > ul {
-  width: 90%;
+  width: 100%;
   list-style: none;
   display: flex;
   justify-content: space-around;
@@ -43,11 +43,17 @@
   color: var(--twitter-color);
 }
 
-.lists__page__activeList{
+.lists__page__activeList {
   background-color: var(--twitter-background);
+  border-bottom: 3px solid var(--twitter-color);
 }
 
-.userCardList__ul{
+.lists__page__unactiveList  {
+  color: var(--twitter-color);
+  border-bottom: 3px solid white;
+}
+
+.userCardList__ul {
   width: 80%;
   list-style: none;
   display: flex;
