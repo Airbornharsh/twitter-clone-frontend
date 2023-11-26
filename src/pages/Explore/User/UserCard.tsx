@@ -61,7 +61,7 @@ const UserCard: React.FC<UserCardProps> = ({
     try {
       setIsLoading(true);
       await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/blocking/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/user/privacy/denying/${id}`,
         {},
         {
           headers: {
