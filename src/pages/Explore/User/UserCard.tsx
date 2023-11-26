@@ -31,7 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({
 
   const handleUserClick = async () => {
     try {
-      email && navigate(`/home/explore/${email}`);
+      email && navigate(`/home/explore/${id}`);
     } catch (e) {
       console.log(e);
     }

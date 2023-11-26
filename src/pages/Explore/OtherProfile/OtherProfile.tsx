@@ -9,6 +9,7 @@ import "./OtherProfile.css";
 import Post from "../../Feed/Post/Post";
 import { CircularProgress, Modal } from "@mui/material";
 import "./OtherProfile.css";
+import useLoggedInUser from "../../../hooks/useLoggedInUser";
 
 interface User {
   name: string;
@@ -24,6 +25,7 @@ interface User {
 
 const OtherProfile = () => {
   const navigate = useNavigate();
+  const [loggedInUser, reloadUser] = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(false);
   const [otherUser, setOtherUser] = useState<User>({
     name: "",
@@ -38,17 +40,17 @@ const OtherProfile = () => {
   });
   const location = useLocation();
 
-  const email = location.pathname.split("/")[3];
+  const id = location.pathname.split("/")[3];
 
   useEffect(() => {
     setIsLoading(true);
     const onLoad = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/other/` + email,
+          `${process.env.REACT_APP_BACKEND_URL}/user/other/` + id,
           {
             headers: {
-              email: email,
+              email: typeof loggedInUser == "object" && loggedInUser?.email,
             },
           }
         );
@@ -62,7 +64,7 @@ const OtherProfile = () => {
     };
 
     onLoad();
-  }, [email]);
+  }, [loggedInUser, id]);
 
   return (
     <div className="otherProfile__page">
