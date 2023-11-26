@@ -8,8 +8,11 @@
 }
 
 .coverImage {
-  height: 200px;
-  width: 600px;
+  /* height: 200px;
+  width: 600px; */
+  height: 13.5rem;
+  width: 100%;
+  object-fit: cover;
 }
 
 .coverImageContainer {
