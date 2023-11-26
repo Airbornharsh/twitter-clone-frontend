@@ -223,6 +223,18 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                     ) : (
                       ""
                     )}
+                    {typeof loggedInUser == "object" && (
+                      <p className="subInfo">
+                        Joined{" "}
+                        {new Date(loggedInUser.createdAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "long",
+                            year: "numeric",
+                          }
+                        )}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <h4 className="tweetsText">Tweets</h4>

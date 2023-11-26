@@ -21,6 +21,7 @@ type User = {
   pending: string[];
   pendingBy: string[];
   blockedBy: string[];
+  createdAt: number;
 };
 
 const useLoggedInUser = () => {
@@ -44,6 +45,7 @@ const useLoggedInUser = () => {
     pending: [],
     pendingBy: [],
     blockedBy: [],
+    createdAt: Date.now(),
   });
 
   useEffect(() => {
@@ -72,6 +74,7 @@ const useLoggedInUser = () => {
         pending: data?.pending,
         pendingBy: data?.pendingBy,
         blockedBy: data?.blockedBy,
+        createdAt: data?.createdAt,
       });
     };
 
@@ -104,6 +107,7 @@ const useLoggedInUser = () => {
         pending: data?.pending,
         pendingBy: data?.pendingBy,
         blockedBy: data?.blockedBy,
+        createdAt: data?.createdAt,
       });
     };
 
