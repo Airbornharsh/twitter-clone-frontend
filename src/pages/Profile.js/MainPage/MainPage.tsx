@@ -63,7 +63,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const userName = user?.email?.split("@")[0];
   const [tweets, setTweets] = useState<tweet[]>([]);
   useEffect(() => {
-    const onLoad = async () => {
+    const handleUpdate = async () => {
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/tweet`,
@@ -79,8 +79,25 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
         console.log(e);
       }
     };
-    onLoad();
+    handleUpdate();
   }, [user?.email]);
+
+  const handleUpdate = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/tweet`,
+        {
+          headers: {
+            email: user?.email,
+          },
+        }
+      );
+      console.log(res.data);
+      setTweets(res.data.tweets);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleUploadCoverImage = async (e: any) => {
     try {
@@ -309,7 +326,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                 <hr />
               </div>
               {tweets.map((t) => (
-                <Tweet t={t} />
+                <Tweet t={t} handleUpdate={handleUpdate} />
               ))}
             </div>
           }

@@ -91,7 +91,7 @@ const Feed = () => {
       </div>
       <TweetBox handleUpdate={handleUpdate} />
       {tweets.map((t) => (
-        <Tweet key={t._id} t={t} />
+        <Tweet key={t._id} t={t} handleUpdate={handleUpdate} />
       ))}
     </div>
   );

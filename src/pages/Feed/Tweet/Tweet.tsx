@@ -1,6 +1,6 @@
 import React from "react";
 import "./Tweet.css";
-import { Avatar } from "@mui/material";
+import { Avatar, Modal } from "@mui/material";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import RepeatIcon from "@mui/icons-material/Repeat";
@@ -10,6 +10,7 @@ import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import axios from "axios";
+import TweetReplyBox from "./TweetReplyBox";
 
 type User = {
   _id: string;
@@ -51,9 +52,10 @@ type tweet = {
 
 interface TweetProps {
   t: tweet;
+  handleUpdate: () => void;
 }
 
-const Tweet: React.FC<TweetProps> = ({ t }) => {
+const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
   const {
     _id,
     title,
@@ -67,6 +69,7 @@ const Tweet: React.FC<TweetProps> = ({ t }) => {
   const [loggedInUser, reloadUser] = useLoggedInUser();
   const [likedByUser, setLikedByUser] = React.useState(likedBy);
   const [bookmarkedByUser, setBookmarkedByUser] = React.useState(bookmarkedBy);
+  const [isReply, setIsReply] = React.useState(false);
 
   if (typeof loggedInUser !== "object") return null;
   if (typeof reloadUser !== "function") return null;
@@ -191,7 +194,10 @@ const Tweet: React.FC<TweetProps> = ({ t }) => {
           <img src={tweetMedia[3]} alt="" width="500" className="tweet__img4" />
         )} */}
         <div className="tweet__footer">
-          <span className="tweet__footer__icon">
+          <span
+            className="tweet__footer__icon"
+            onClick={() => setIsReply(true)}
+          >
             <ChatBubbleOutlineIcon fontSize="small" />
             <p>{tweetReply.length}</p>
           </span>
@@ -224,6 +230,13 @@ const Tweet: React.FC<TweetProps> = ({ t }) => {
           </span>
         </div>
       </div>
+      <Modal open={isReply}>
+        <TweetReplyBox
+          id={_id}
+          setIsReply={setIsReply}
+          handleUpdate={handleUpdate}
+        />
+      </Modal>
     </div>
   );
 };

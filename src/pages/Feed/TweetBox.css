@@ -4,18 +4,41 @@
   padding-right: 10px;
 }
 
-.tweetBox>form {
+.tweetReplyBox {
+  padding-bottom: 10px;
+  padding-right: 10px;
+  border: 0;
+}
+
+.tweetBox > form {
   display: flex;
   flex-direction: column;
+}
+
+.tweetReplyBox > form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .tweetBox__input {
   padding: 20px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  /* justify-content: flex-start; */
 }
 
-.tweetBox__input>input {
+.tweetBox__input > textarea {
+  flex: 1;
+  resize: none;
+  margin-left: 15px;
+  font-size: 20px;
+  border: none;
+  margin-top: 0px;
+  height: 11rem;
+}
+
+.tweetBox__input > input {
   flex: 1;
   margin-left: 15px;
   font-size: 20px;
