@@ -68,7 +68,9 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
   } = t;
   const [loggedInUser, reloadUser] = useLoggedInUser();
   const [likedByUser, setLikedByUser] = React.useState(likedBy);
+  const [isLikedLoading, setIsLikedLoading] = React.useState(false);
   const [bookmarkedByUser, setBookmarkedByUser] = React.useState(bookmarkedBy);
+  const [isBookmarkLoading, setIsBookmarkLoading] = React.useState(false);
   const [isReply, setIsReply] = React.useState(false);
 
   if (typeof loggedInUser !== "object") return null;
@@ -114,7 +116,9 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
   };
 
   const onLike = async () => {
+    if (isLikedLoading) return;
     try {
+      setIsLikedLoading(true);
       await axios.patch(
         `${process.env.REACT_APP_BACKEND_URL}/tweet/like/${_id}`,
         {},
@@ -129,6 +133,8 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
       updateLikeTweet();
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsLikedLoading(false);
     }
   };
 
@@ -143,7 +149,9 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
   };
 
   const onBookmark = async () => {
+    if (isBookmarkLoading) return;
     try {
+      setIsBookmarkLoading(true);
       await axios.patch(
         `${process.env.REACT_APP_BACKEND_URL}/tweet/bookmark/${_id}`,
         {},
@@ -158,6 +166,8 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
       updateBookmarkTweet();
     } catch (e) {
       console.log(e);
+    } finally {
+      setIsBookmarkLoading(false);
     }
   };
 
