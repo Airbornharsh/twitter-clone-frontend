@@ -4,6 +4,7 @@ import "./Feed.css";
 import TweetBox from "./TweetBox";
 import axios from "axios";
 import Tweet from "./Tweet/Tweet";
+import useLoggedInUser from "../../hooks/useLoggedInUser";
 
 type User = {
   _id: string;
@@ -43,23 +44,45 @@ type tweet = {
   createdAt: number;
 };
 
-function Feed() {
+const Feed = () => {
   const [tweets, setTweets] = useState<tweet[]>([]);
-
-  const handleUpdate = () => {
-    axios
-      .get("https://twitter-clone-backend.harshkeshri.com/post")
-      .then((res) => {
-        setTweets(res.data.tweets);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const [loggedInUser, reloadUser] = useLoggedInUser();
 
   useEffect(() => {
+    const handleUpdate = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/tweet/other`,
+          {
+            headers: {
+              email: typeof loggedInUser == "object" && loggedInUser?.email,
+            },
+          }
+        );
+        setTweets(res.data.tweets);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     handleUpdate();
-  }, []);
+  }, [loggedInUser]);
+
+  const handleUpdate = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/tweet/other`,
+        {
+          headers: {
+            email: typeof loggedInUser == "object" && loggedInUser?.email,
+          },
+        }
+      );
+      setTweets(res.data.tweets);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className="feed">
@@ -72,6 +95,6 @@ function Feed() {
       ))}
     </div>
   );
-}
+};
 
 export default Feed;
