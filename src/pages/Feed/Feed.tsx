@@ -46,7 +46,7 @@ type tweet = {
 
 const Feed = () => {
   const [tweets, setTweets] = useState<tweet[]>([]);
-  const [loggedInUser, reloadUser] = useLoggedInUser();
+  const [loggedInUser] = useLoggedInUser();
 
   useEffect(() => {
     const handleUpdate = async () => {

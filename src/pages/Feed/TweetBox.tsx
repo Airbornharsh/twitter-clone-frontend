@@ -12,12 +12,10 @@ interface TweetBoxProps {
 }
 
 const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
-  const [post, setPost] = useState("");
+  const [title, setTitle] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
-  // const [name, setName] = useState("");
-  const [userName, setuserName] = useState<string>("");
   const [loggedInUser] = useLoggedInUser();
   const [user] = useAuthState(auth);
   const email = user?.email as string;
@@ -44,7 +42,6 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
       )
       .then((res) => {
         setImageURL(res.data.data.display_url);
-        // console.log(res.data.data.display_url);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -61,53 +58,26 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
     console.log("water");
     try {
       setIsScreenLoading(true);
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/tweet/`,
+        {
+          title: title,
+          tweetMedia: [imageURL],
+        },
+        {
+          headers: {
+            email: email,
+          },
+        }
+      );
 
-      let tempName;
-      let tempuserName;
-
-      if (user?.providerData[0]?.providerId === "password") {
-        const res = await fetch(
-          `https://twitter-clone-backend.harshkeshri.com/loggedInUser?email=${email}`
-        );
-        const data = await res.json();
-        // setName(data[0]?.name);
-        setuserName(data[0]?.userName);
-        tempName = data[0]?.name;
-        tempuserName = data[0]?.userName;
-      } else {
-        // setName(user?.displayName);
-        setuserName(email?.split("@")[0]);
-        tempName = user?.displayName;
-        tempuserName = email?.split("@")[0];
-      }
-
-      if (tempName) {
-        const userPost = {
-          profilePhoto: userProfilePic,
-          post: post,
-          photo: imageURL,
-          userName: userName,
-          name: tempName,
-          email: tempuserName,
-        };
-        setPost("");
-        setImageURL("");
-        const data = await fetch(
-          "https://twitter-clone-backend.harshkeshri.com/post",
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(userPost),
-          }
-        );
-        await data.json();
-      }
+      console.log(res.data);
     } catch (e) {
       console.log(e);
     } finally {
       setIsScreenLoading(false);
+      setImageURL("");
+      setTitle("");
       handleUpdate();
     }
   };
@@ -120,8 +90,8 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
           <input
             type="text"
             placeholder="What's happening?"
-            onChange={(e) => setPost(e.target.value)}
-            value={post}
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
             required
           />
         </div>
