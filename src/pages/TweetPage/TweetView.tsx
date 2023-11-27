@@ -113,7 +113,7 @@ const TweetView: React.FC<TweetViewProps> = ({ t, handleUpdate }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/tweet/reply/${_id}`,
         {
           title: reply,
@@ -124,8 +124,6 @@ const TweetView: React.FC<TweetViewProps> = ({ t, handleUpdate }) => {
           },
         }
       );
-
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     } finally {
