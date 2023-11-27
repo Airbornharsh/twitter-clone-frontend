@@ -54,7 +54,7 @@ const Lists = () => {
       <div className="heading-4">
         <ArrowBackIcon
           className="arrow-icon"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
         />
         {/* <h4 className="heading-4">{userName}</h4> */}
         <p>{userName}</p>
