@@ -60,6 +60,7 @@
 
 .tweet__avatar {
   padding: 20px;
+  cursor: pointer;
 }
 
 .tweet__img1 {

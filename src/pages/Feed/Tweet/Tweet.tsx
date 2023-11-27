@@ -11,6 +11,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import axios from "axios";
 import TweetReplyBox from "./TweetReplyBox";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   _id: string;
@@ -73,6 +74,7 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
   const [bookmarkedByUser, setBookmarkedByUser] = React.useState(bookmarkedBy);
   const [isBookmarkLoading, setIsBookmarkLoading] = React.useState(false);
   const [isReply, setIsReply] = React.useState(false);
+  const navigate = useNavigate();
 
   if (typeof loggedInUser !== "object") return null;
   if (typeof reloadUser !== "function") return null;
@@ -178,13 +180,33 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
     }
   };
 
+  const onTweetClick = () => {
+    console.log("clicked");
+  };
+
+  const onProfileClick = () => {
+    try {
+      if (typeof userId == "string") {
+        if (loggedInUser?.id === userId) {
+          navigate("/home/profile");
+        } else if (otherUser?._id === userId) {
+          navigate(`/home/explore/${userId}`);
+        }
+      } else if (typeof userId == "object") {
+        navigate(`/home/explore/${userId?._id}`);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="tweet">
-      <div className="tweet__avatar">
+      <div className="tweet__avatar" onClick={onProfileClick}>
         <Avatar src={profileImage} />
       </div>
       <div className="tweet__body">
-        <div className="tweet__header">
+        <div className="tweet__header" onClick={onTweetClick}>
           <div className="tweet__headerText">
             <h3>
               {name}{" "}
@@ -199,7 +221,13 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
           </div>
         </div>
         {tweetMedia[0] && (
-          <img src={tweetMedia[0]} alt="" width="500" className="tweet__img1" />
+          <img
+            src={tweetMedia[0]}
+            alt=""
+            width="500"
+            className="tweet__img1"
+            onClick={onTweetClick}
+          />
         )}
         {/* {tweetMedia[1] && (
           <img src={tweetMedia[1]} alt="" width="500" className="tweet__img2" />
