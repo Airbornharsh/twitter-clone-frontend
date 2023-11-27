@@ -6,13 +6,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./OtherProfile.css";
 // import Post from "../Post/Post";
-import Post from "../../Feed/Tweet/Tweet";
+import Tweet from "../../Feed/Tweet/Tweet";
 import { CircularProgress, Modal } from "@mui/material";
 import "./OtherProfile.css";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import OtherFollow from "./OtherFollow/OtherFollow";
 
-interface User {
+type User = {
   _id: string;
   name: string;
   userName: string;
@@ -31,14 +31,31 @@ interface User {
   blockedBy: string[];
   followers: string[];
   following: string[];
+  tweets: string[];
+  likedTweets: string[];
+  bookmarkedTweets: string[];
+  retweetedTweets: string[];
   createdAt: number;
-}
+};
+
+type tweet = {
+  _id: string;
+  userId: string | User;
+  title: string;
+  tweetMedia: string;
+  likedBy: string[];
+  bookmarkedBy: string[];
+  reply: string | null;
+  tweetReply: string[];
+  createdAt: number;
+};
 
 const OtherProfile = () => {
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
+  const [tweets, setTweets] = useState<tweet[]>([]);
   const [otherUser, setOtherUser] = useState<User>({
     _id: location.pathname.split("/")[3],
     name: "",
@@ -58,6 +75,10 @@ const OtherProfile = () => {
     blockedBy: [],
     followers: [],
     following: [],
+    tweets: [],
+    bookmarkedTweets: [],
+    likedTweets: [],
+    retweetedTweets: [],
     createdAt: Date.now(),
   });
 
@@ -65,6 +86,7 @@ const OtherProfile = () => {
 
   useEffect(() => {
     setIsLoading(true);
+
     const onLoad = async () => {
       try {
         const res = await axios.get(
@@ -84,14 +106,47 @@ const OtherProfile = () => {
       }
     };
 
+    const handleUpdate = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/tweet/other/list/${otherUser._id}`,
+          {
+            headers: {
+              email: typeof loggedInUser == "object" && loggedInUser?.email,
+            },
+          }
+        );
+        setTweets(res.data.tweets);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     if (
       typeof loggedInUser == "object" &&
       loggedInUser.email &&
       otherUser._id
     ) {
       onLoad();
+      handleUpdate();
     }
   }, [loggedInUser, otherUser._id]);
+
+  const handleUpdate = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/tweet/other/list/${otherUser._id}`,
+        {
+          headers: {
+            email: typeof loggedInUser == "object" && loggedInUser?.email,
+          },
+        }
+      );
+      setTweets(res.data.tweets);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const onFollowingClick = () => {
     navigate("/home/explore/following/" + otherUser._id);
@@ -190,9 +245,14 @@ const OtherProfile = () => {
                 <h4 className="tweetsText">Tweets</h4>
                 <hr />
               </div>
-              {/* {posts.map((p) => (
-                <Post p={p} />
-              ))} */}
+              {tweets.map((t) => (
+                <Tweet
+                  t={t}
+                  handleUpdate={handleUpdate}
+                  key={t._id}
+                  otherUser={otherUser}
+                />
+              ))}
             </div>
           }
         </div>

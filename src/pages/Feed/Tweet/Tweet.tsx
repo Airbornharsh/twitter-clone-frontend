@@ -53,9 +53,10 @@ type tweet = {
 interface TweetProps {
   t: tweet;
   handleUpdate: () => void;
+  otherUser?: User;
 }
 
-const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
+const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
   const {
     _id,
     title,
@@ -81,9 +82,15 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate }) => {
   let profileImage = "";
 
   if (typeof userId == "string") {
-    name = loggedInUser?.name || "";
-    userName = loggedInUser?.userName || "";
-    profileImage = loggedInUser?.profileImage || "";
+    if (loggedInUser?.id === userId) {
+      name = loggedInUser?.name || "";
+      userName = loggedInUser?.userName || "";
+      profileImage = loggedInUser?.profileImage || "";
+    } else if (otherUser?._id === userId) {
+      name = otherUser?.name || "";
+      userName = otherUser?.userName || "";
+      profileImage = otherUser?.profileImage || "";
+    }
   } else if (typeof userId == "object") {
     name = userId?.name || "";
     userName = userId?.userName || "";

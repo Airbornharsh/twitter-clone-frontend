@@ -326,7 +326,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                 <hr />
               </div>
               {tweets.map((t) => (
-                <Tweet t={t} handleUpdate={handleUpdate} />
+                <Tweet t={t} handleUpdate={handleUpdate} key={t._id} />
               ))}
             </div>
           }
