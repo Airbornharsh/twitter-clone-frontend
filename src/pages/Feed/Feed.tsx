@@ -3,31 +3,54 @@ import React, { useEffect, useState } from "react";
 import "./Feed.css";
 import TweetBox from "./TweetBox";
 import axios from "axios";
-import Post from "./Post/Post";
+import Tweet from "./Tweet/Tweet";
 
-type post = {
+type User = {
   _id: string;
-  displayName: string;
-  userName: string;
-  verified: boolean;
-  text: string;
-  image: string;
-  avatar: string;
-  timestamp: string;
-  post: string;
-  profilePhoto: string;
   name: string;
-  photo: string;
+  userName: string;
+  email: string;
+  profileImage: string;
+  coverImage: string;
+  bio: string;
+  location: string;
+  website: string;
+  dob: string;
+  allowed: string[];
+  pending: string[];
+  pendingBy: string[];
+  allowedBy: string[];
+  blocked: string[];
+  blockedBy: string[];
+  followers: string[];
+  following: string[];
+  tweets: string[];
+  likedTweets: string[];
+  bookmarkedTweets: string[];
+  retweetedTweets: string[];
+  createdAt: number;
+};
+
+type tweet = {
+  _id: string;
+  userId: string | User;
+  title: string;
+  tweetMedia: string;
+  likedBy: string[];
+  bookmarkedBy: string[];
+  reply: string | null;
+  tweetReply: string[];
+  createdAt: number;
 };
 
 function Feed() {
-  const [posts, setPosts] = useState<post[]>([]);
+  const [tweets, setTweets] = useState<tweet[]>([]);
 
   const handleUpdate = () => {
     axios
       .get("https://twitter-clone-backend.harshkeshri.com/post")
       .then((res) => {
-        setPosts(res.data);
+        setTweets(res.data.tweets);
       })
       .catch((err) => {
         console.log(err);
@@ -44,8 +67,8 @@ function Feed() {
         <h2>Home</h2>
       </div>
       <TweetBox handleUpdate={handleUpdate} />
-      {posts.map((p) => (
-        <Post key={p._id} p={p} />
+      {tweets.map((t) => (
+        <Tweet key={t._id} t={t} />
       ))}
     </div>
   );

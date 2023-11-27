@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./OtherProfile.css";
 // import Post from "../Post/Post";
-import Post from "../../Feed/Post/Post";
+import Post from "../../Feed/Tweet/Tweet";
 import { CircularProgress, Modal } from "@mui/material";
 import "./OtherProfile.css";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";

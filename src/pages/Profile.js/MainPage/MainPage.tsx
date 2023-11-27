@@ -9,36 +9,77 @@ import EditProfile from "../EditProfile/EditProfile";
 import axios from "axios";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import "./MainPage.css";
-// import Post from "../Post/Post";
-import Post from "../../Feed/Post/Post";
-import { User } from "firebase/auth";
+import Tweet from "../../Feed/Tweet/Tweet";
+import { User as FireBaseAuth } from "firebase/auth";
 import { CircularProgress, Modal } from "@mui/material";
 
 interface MainProfileProps {
-  user: User | null;
+  user: FireBaseAuth | null;
 }
+
+type User = {
+  _id: string;
+  name: string;
+  userName: string;
+  email: string;
+  profileImage: string;
+  coverImage: string;
+  bio: string;
+  location: string;
+  website: string;
+  dob: string;
+  allowed: string[];
+  pending: string[];
+  pendingBy: string[];
+  allowedBy: string[];
+  blocked: string[];
+  blockedBy: string[];
+  followers: string[];
+  following: string[];
+  tweets: string[];
+  likedTweets: string[];
+  bookmarkedTweets: string[];
+  retweetedTweets: string[];
+  createdAt: number;
+};
+
+type tweet = {
+  _id: string;
+  userId: string | User;
+  title: string;
+  tweetMedia: string;
+  likedBy: string[];
+  bookmarkedBy: string[];
+  reply: string | null;
+  tweetReply: string[];
+  createdAt: number;
+};
 
 const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const navigate = useNavigate();
-  // const [imageURL, setImageURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loggedInUser] = useLoggedInUser();
 
   const userName = user?.email?.split("@")[0];
-  const [posts, setPosts] = useState([]);
+  const [tweets, setTweets] = useState<tweet[]>([]);
   useEffect(() => {
-    // const onLoad = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       `https://twitter-clone-backend.harshkeshri.com/userpost?email=${user?.email}`
-    //     );
-    //     const data = await response.json();
-    //     setPosts(data);
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
-    // onLoad();
+    const onLoad = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/tweet`,
+          {
+            headers: {
+              email: user?.email,
+            },
+          }
+        );
+        console.log(res.data);
+        setTweets(res.data.tweets);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    onLoad();
   }, [user?.email]);
 
   const handleUploadCoverImage = async (e: any) => {
@@ -236,7 +277,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                       <p className="subInfo">
                         Joined{" "}
                         {new Date(loggedInUser.createdAt).toLocaleDateString(
-                          "en-US",
+                          "en-IN",
                           {
                             month: "long",
                             year: "numeric",
@@ -267,8 +308,8 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                 <h4 className="tweetsText">Tweets</h4>
                 <hr />
               </div>
-              {posts.map((p) => (
-                <Post p={p} />
+              {tweets.map((t) => (
+                <Tweet t={t} />
               ))}
             </div>
           }

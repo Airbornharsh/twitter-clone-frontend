@@ -22,6 +22,10 @@ type User = {
   pending: string[];
   pendingBy: string[];
   blockedBy: string[];
+  tweets: string[];
+  likedTweets: string[];
+  bookmarkedTweets: string[];
+  retweetedTweets: string[];
   createdAt: number;
 };
 
@@ -47,6 +51,10 @@ const useLoggedInUser = () => {
     pending: [],
     pendingBy: [],
     blockedBy: [],
+    tweets: [],
+    likedTweets: [],
+    bookmarkedTweets: [],
+    retweetedTweets: [],
     createdAt: Date.now(),
   });
 
@@ -77,6 +85,10 @@ const useLoggedInUser = () => {
         pending: data?.pending,
         pendingBy: data?.pendingBy,
         blockedBy: data?.blockedBy,
+        tweets: data?.tweets,
+        likedTweets: data?.likedTweets,
+        bookmarkedTweets: data?.bookmarkedTweets,
+        retweetedTweets: data?.retweetedTweets,
         createdAt: data?.createdAt,
       });
     };
@@ -84,38 +96,38 @@ const useLoggedInUser = () => {
     onLoad();
   }, [email]);
 
-  const reloadUser = () => {
-    const onLoad = async () => {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
-        headers: {
-          email: email,
-        },
-      });
-      const data = await res.data.user;
-      setLoggedInUser({
-        id: data?._id,
-        name: data?.name,
-        userName: data?.userName,
-        email: data?.email,
-        private: data?.private,
-        profileImage: data?.profileImage,
-        coverImage: data?.coverImage,
-        bio: data?.bio,
-        location: data?.location,
-        website: data?.website,
-        dob: data?.dob,
-        allowed: data?.allowed,
-        blocked: data?.blocked,
-        followers: data?.followers,
-        following: data?.following,
-        pending: data?.pending,
-        pendingBy: data?.pendingBy,
-        blockedBy: data?.blockedBy,
-        createdAt: data?.createdAt,
-      });
-    };
-
-    onLoad();
+  const reloadUser = async () => {
+    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
+      headers: {
+        email: email,
+      },
+    });
+    const data = await res.data.user;
+    setLoggedInUser({
+      id: data?._id,
+      name: data?.name,
+      userName: data?.userName,
+      email: data?.email,
+      private: data?.private,
+      profileImage: data?.profileImage,
+      coverImage: data?.coverImage,
+      bio: data?.bio,
+      location: data?.location,
+      website: data?.website,
+      dob: data?.dob,
+      allowed: data?.allowed,
+      blocked: data?.blocked,
+      followers: data?.followers,
+      following: data?.following,
+      pending: data?.pending,
+      pendingBy: data?.pendingBy,
+      blockedBy: data?.blockedBy,
+      tweets: data?.tweets,
+      likedTweets: data?.likedTweets,
+      bookmarkedTweets: data?.bookmarkedTweets,
+      retweetedTweets: data?.retweetedTweets,
+      createdAt: data?.createdAt,
+    });
   };
 
   return [loggedInUser, reloadUser];
