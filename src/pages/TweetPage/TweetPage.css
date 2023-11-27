@@ -1,0 +1,111 @@
+.tweetview {
+  display: flex;
+  flex-direction: column;
+  width: 94%;
+}
+
+.tweetview_details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tweetview_userDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tweetview_userDetails > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tweetview_userDetails > div span {
+  display: flex;
+  flex-direction: column;
+}
+
+.tweetview_userDetails > div .detail1 {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.tweetview_userDetails > div .detail2 {
+  font-size: small;
+  color: gray;
+}
+
+.tweetview__date {
+  display: flex;
+  color: gray;
+  gap: 5px;
+}
+
+.tweetview__date > span {
+  display: flex;
+  color: gray;
+}
+
+.tweetview__date > span p:first-child {
+  color: black;
+}
+
+.tweetview__content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+}
+
+.tweetview__footer {
+  border-top: 2px solid var(--twitter-background);
+  border-bottom: 2px solid var(--twitter-background);
+  padding: 1rem 0.5rem;
+}
+
+.tweetview__reply{
+  display: flex;
+  flex-direction: row;
+  padding: 1.5rem 0.5rem 1rem 0.5rem;
+  border-bottom: 2px solid var(--twitter-background);
+}
+
+.tweetview__reply textarea {
+  flex: 1;
+  resize: none;
+  margin-left: 15px;
+  font-size: 20px;
+  border: none;
+  margin-top: 0px;
+}
+
+.tweetview__reply button {
+  background-color: var(--twitter-color);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.1rem 1.6rem;
+  height: 2.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tweetpage{
+  flex: 0.9;
+  border-right: 1px solid var(--twitter-background);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  position: relative;
+  gap: 0.4rem;
+}
+
+.tweetpage::-webkit-scrollbar {
+  display: none;
+}

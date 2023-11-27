@@ -19,6 +19,7 @@ import OtherProfile from "./pages/Explore/OtherProfile/OtherProfile";
 import { useState } from "react";
 import Details from "./pages/Profile.js/Details/Details";
 import OtherDetails from "./pages/Explore/OtherProfile/OtherDetails";
+import TweetPage from "./pages/TweetPage/TweetPage";
 
 type User = {
   name: string;
@@ -70,6 +71,7 @@ function App() {
                 <Route path="followers/:id" element={<OtherDetails />} />
                 <Route path="following/:id" element={<OtherDetails />} />
               </Route>
+              <Route path="tweet/:id" element={<TweetPage />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="messages" element={<Messages />} />
               <Route path="bookmarks" element={<Bookmarks />} />
