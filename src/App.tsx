@@ -1,6 +1,6 @@
 import "./App.css";
 import "./pages/Page.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/Login/SignUp";
@@ -61,20 +61,24 @@ function App() {
               }
             >
               <Route path="feed" element={<Feed />} />
-              <Route
-                path="explore"
-                element={<Explore users={users} setUsers={setUsers} />}
-              />
-              <Route path="explore/:id" element={<OtherProfile />} />
-              <Route path="explore/followers/:id" element={<OtherDetails />} />
-              <Route path="explore/following/:id" element={<OtherDetails />} />
+              <Route path="explore" element={<Outlet />}>
+                <Route
+                  path=""
+                  element={<Explore users={users} setUsers={setUsers} />}
+                />
+                <Route path=":id" element={<OtherProfile />} />
+                <Route path="followers/:id" element={<OtherDetails />} />
+                <Route path="following/:id" element={<OtherDetails />} />
+              </Route>
               <Route path="notifications" element={<Notifications />} />
               <Route path="messages" element={<Messages />} />
               <Route path="bookmarks" element={<Bookmarks />} />
               <Route path="lists" element={<Lists />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="profile/followers" element={<Details />} />
-              <Route path="profile/following" element={<Details />} />
+              <Route path="profile" element={<Outlet />}>
+                <Route path="" element={<Profile />} />
+                <Route path="followers" element={<Details />} />
+                <Route path="following" element={<Details />} />
+              </Route>
               <Route path="more" element={<More />} />
             </Route>
             <Route path="/login" element={<Login />} />

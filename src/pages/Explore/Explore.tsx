@@ -5,7 +5,7 @@ import { CircularProgress, Modal } from "@mui/material";
 import axios from "axios";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
 import UserCard from "./User/UserCard";
-import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 type ExploreProps = {
   users: User[];
@@ -123,6 +123,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
       >
         <CircularProgress />
       </Modal>
+      <Outlet />
     </div>
   );
 };
