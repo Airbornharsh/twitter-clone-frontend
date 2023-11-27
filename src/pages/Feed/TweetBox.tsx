@@ -55,7 +55,6 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
   const handleTweet = async (e: any) => {
     e.preventDefault();
 
-    console.log("water");
     try {
       setIsScreenLoading(true);
       const res = await axios.post(

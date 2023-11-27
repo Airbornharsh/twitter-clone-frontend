@@ -112,7 +112,6 @@ const TweetView: React.FC<TweetViewProps> = ({ t, handleUpdate }) => {
   const handleTweet = async (e: any) => {
     e.preventDefault();
 
-    console.log("water");
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/tweet/reply/${_id}`,
