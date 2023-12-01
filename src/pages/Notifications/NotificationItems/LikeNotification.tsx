@@ -2,6 +2,7 @@ import React from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Avatar } from "@mui/material";
 import "../Notifications.css";
+import { useNavigate } from "react-router-dom";
 
 type UserType = {
   _id: string;
@@ -72,8 +73,14 @@ const LikeNotification: React.FC<Props> = ({ notification }) => {
     return `${month} ${day}`;
   };
 
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    navigate(`/home/tweet/${notification.likeNotification.tweetId._id}`);
+  };
+
   return (
-    <li className="notification__likeContainer">
+    <li className="notification__likeContainer" onClick={onClick}>
       <span className="notification__time">{postDate()}</span>
       <div className="notification__likeContainer1">
         <FavoriteIcon
@@ -90,26 +97,7 @@ const LikeNotification: React.FC<Props> = ({ notification }) => {
           </div>
           <div className="notification__tweet">
             <p className="notification__tweetTitle">
-              {notification.likeNotification.tweetId.title} hus c so cnsu ci sui
-              cui suicb uisdbuivbuibvuic uibvui buisvbui bvb uibuvbu
-              abubviebfubv bajkebdv uh usuicuis cbsui uhs ui uisui afv yyu u
-              busvhjd hisdjkj sdUvyu sjh bu ui i lsovyhsvbihuisv uisbvuihuis
-              vyui shf sdhso uv suuh suvhusvybuibs hvuu u hsuvihu svuhui vuisuig
-              vbiosh vsvboi uhs ui uisui afv yyu u busvhjd hisdjkj sdUvyu sjh bu
-              ui i lsovyhsvbihuisv uisbvuihuis vyui shf sdhso uv suuh
-              suvhusvybuibs hvuu u hsuvihu svuhui vuisuig vbiosh vsvboi uhs ui
-              uisui afv yyu u busvhjd hisdjkj sdUvyu sjh bu ui i lsovyhsvbihuisv
-              uisbvuihuis vyui shf sdhso uv suuh suvhusvybuibs hvuu u hsuvihu
-              svuhui vuisuig vbiosh vsvboi uhs ui uisui afv yyu u busvhjd
-              hisdjkj sdUvyu sjh bu ui i lsovyhsvbihuisv uisbvuihuis vyui shf s
-              vyhsvbihuisv uisbvuihuis vyui shf sdhso uv suuh suvhusvybuibs hvuu
-              u hsuvihu svuhui vuisuig vbiosh vsvboi uhs ui uisui afv yyu u
-              busvhjd hisdjkj sdUvyu sjh bu ui i lsovyhsvbihuisv uisbvuihuis
-              vyui shf sdhso uv suuh suvhusvybuibs hvuu u hsuvihu svuhui vuisuig
-              vbiosh vsvboi uhs ui uisui afv yyu u busvhjd hisdjkj sdUvyu sjh bu
-              ui i lsovyhsvbihuisv uisbvuihuis vyui shf sdhso uv suuh
-              suvhusvybuibs hvuu u hsuvihu svuhui vuisuig vbiosh vsvboi uhs ui
-              uisui
+              {notification.likeNotification.tweetId.title}
             </p>
             {notification.likeNotification.tweetId.tweetMedia[0] && (
               <div className="notification__tweetMedia">

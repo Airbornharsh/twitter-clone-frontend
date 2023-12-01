@@ -2,6 +2,7 @@ import React from "react";
 import PersonIcon from "@mui/icons-material/Person";
 import { Avatar } from "@mui/material";
 import "../Notifications.css";
+import { useNavigate } from "react-router-dom";
 
 type UserType = {
   _id: string;
@@ -72,8 +73,14 @@ const FollowNotification: React.FC<Props> = ({ notification }) => {
     return `${month} ${day}`;
   };
 
+  const navigate = useNavigate();
+
+  const onClick = () => {
+    navigate(`/home/explore/${notification.followNotification.from._id}`);
+  };
+
   return (
-    <li className="notification__likeContainer">
+    <li className="notification__likeContainer" onClick={onClick}>
       <span className="notification__time">{postDate()}</span>
       <div className="notification__likeContainer1">
         <PersonIcon
