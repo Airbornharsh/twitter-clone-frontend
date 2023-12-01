@@ -58,8 +58,23 @@ interface Props {
 }
 
 const LikeNotification: React.FC<Props> = ({ notification }) => {
+  const postDate = () => {
+    const date = new Date(notification.likeNotification.createdAt);
+
+    const diff = Date.now() - date.getTime();
+
+    if (diff / (1000 * 60 * 60 * 24) < 1)
+      return parseInt((diff / (1000 * 60 * 60)).toString()) + "h";
+    // if () return ;
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = date.getDate();
+
+    return `${month} ${day}`;
+  };
+
   return (
     <li className="notification__likeContainer">
+      <span className="notification__time">{postDate()}</span>
       <div className="notification__likeContainer1">
         <FavoriteIcon
           className="notification__likeIcon"
@@ -70,7 +85,7 @@ const LikeNotification: React.FC<Props> = ({ notification }) => {
           <div className="notifiaction_userDetail">
             <span className="notification__name">
               {notification.likeNotification.from.name}
-            </span>
+            </span>{" "}
             <span className="notification__text">liked your tweet</span>
           </div>
           <div className="notification__tweet">

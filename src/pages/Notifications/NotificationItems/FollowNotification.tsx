@@ -1,4 +1,5 @@
 import React from "react";
+import PersonIcon from "@mui/icons-material/Person";
 import { Avatar } from "@mui/material";
 import "../Notifications.css";
 
@@ -56,9 +57,9 @@ interface Props {
   notification: Notification;
 }
 
-const ReplyNotification: React.FC<Props> = ({ notification }) => {
+const FollowNotification: React.FC<Props> = ({ notification }) => {
   const postDate = () => {
-    const date = new Date(notification.replyNotification.createdAt);
+    const date = new Date(notification.followNotification.createdAt);
 
     const diff = Date.now() - date.getTime();
 
@@ -75,29 +76,17 @@ const ReplyNotification: React.FC<Props> = ({ notification }) => {
     <li className="notification__likeContainer">
       <span className="notification__time">{postDate()}</span>
       <div className="notification__likeContainer1">
-        <Avatar
-          className="notification__replyIcon"
-          src={notification.replyNotification.from.profileImage}
+        <PersonIcon
+          className="notification__followIcon"
+          sx={{ fontSize: 34 }}
         />
         <div className="notification__likeContainer2">
+          <Avatar src={notification.followNotification.from.profileImage} />
           <div className="notifiaction_userDetail">
             <span className="notification__name">
-              {notification.replyNotification.from.name}
+              {notification.followNotification.from.name}
             </span>{" "}
-            <span className="notification__text">reply your tweet</span>
-          </div>
-          <div className="notification__tweet">
-            <p className="notification__tweetTitle">
-              {notification.replyNotification.tweetId.title}
-            </p>
-            {notification.replyNotification.tweetId.tweetMedia[0] && (
-              <div className="notification__tweetMedia">
-                <img
-                  src={notification.replyNotification.tweetId.tweetMedia[0]}
-                  alt="tweet media"
-                />
-              </div>
-            )}
+            <span className="notification__text">followed you</span>
           </div>
         </div>
       </div>
@@ -105,4 +94,4 @@ const ReplyNotification: React.FC<Props> = ({ notification }) => {
   );
 };
 
-export default ReplyNotification;
+export default FollowNotification;

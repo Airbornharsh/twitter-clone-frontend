@@ -24,6 +24,8 @@
 .notification__ul > li{
   border-bottom: 1px solid var(--twitter-background);
   padding: 1rem 0;
+  width: 100%;
+  position: relative;
 }
 
 .notification__likeContainer1{
@@ -31,16 +33,24 @@
   height: auto;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   max-height: 10.4rem;
   overflow: ellipsis;
-  margin-bottom: 1rem;
+  overflow: hidden;
 }
 
 .notification__likeIcon{
   color: rgba(249,24,128,1.00);
   padding: 0.4rem 0.7rem 0.7rem 0.7rem;
+}
 
+.notification__followIcon{
+  color: rgba(29,161,242,1.00);
+  padding: 0.4rem 0.7rem 0.7rem 0.7rem;
+}
+
+.notification__replyIcon{
+  margin: 0.4rem 0.7rem 0.7rem 0.7rem;
 }
 
 .notification__likeContainer:hover{
@@ -68,8 +78,14 @@
 }
 
 .notification__tweetTitle{
-  white-space: wrap;
-  height: 5.7rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-} 
+  margin: 0;
+}
+
+.notification__time{
+  position: absolute;
+  font-weight: 900;
+  color: grey;
+  font-size: 0.8rem;
+  right: 0.2rem;
+  top: 0.2rem;
+}
