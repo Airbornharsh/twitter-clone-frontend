@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Avatar, CircularProgress } from "@mui/material";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import axios from "axios";
+import SendIcon from "@mui/icons-material/Send";
 
 type UserType = {
   name: string;
@@ -14,6 +15,7 @@ type UserType = {
 
 const ConversationPage = () => {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isSendLoading, setIsSendLoading] = React.useState(false);
   const [user, setUser] = React.useState<UserType>();
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
@@ -57,6 +59,17 @@ const ConversationPage = () => {
     fetchLists();
   }, [conversationId, loggedInUser]);
 
+  const sendMessage = (e: any) => {
+    e.preventDefault();
+    setIsSendLoading(true);
+    try {
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsSendLoading(false);
+    }
+  };
+
   const handleUserClick = () => {
     try {
       user?._id && navigate(`/home/explore/${user?._id}`);
@@ -80,7 +93,7 @@ const ConversationPage = () => {
     );
   } else {
     return (
-      <div className="lists__page">
+      <div className="lists__page conversation__page">
         <div className="heading-4">
           <ArrowBackIcon
             className="arrow-icon"
@@ -103,6 +116,10 @@ const ConversationPage = () => {
         </div>
 
         <div className="userCardList__ul"></div>
+        <form className="message__buttonContainer" onSubmit={sendMessage}>
+          <input type="text" placeholder="Type a message" />
+          <SendIcon className="message__button" />
+        </form>
       </div>
     );
   }

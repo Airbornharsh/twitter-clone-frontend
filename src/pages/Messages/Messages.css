@@ -1,0 +1,33 @@
+.conversation__page {
+  position: relative;
+}
+
+.message__buttonContainer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--twitter-background);
+  border-radius: 0.7rem;
+}
+
+.message__buttonContainer input {
+  width: 100%;
+  height: 50px;
+  border: none;
+  outline: none;
+  padding: 0 20px;
+  margin: 0;
+  background-color: transparent;
+}
+
+.message__button {
+  height: 50px;
+  width: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0.5rem;
+  color: var(--twitter-color);
+}
