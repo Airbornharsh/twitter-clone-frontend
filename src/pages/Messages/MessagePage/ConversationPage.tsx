@@ -13,6 +13,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../../context/firebase";
+import MessageI from "./MessageI";
 
 type UserType = {
   name: string;
@@ -30,6 +31,7 @@ const ConversationPage = () => {
   const [Messages, setMessages] = React.useState<any[]>([]);
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
+  const scrollRef = React.useRef<HTMLSpanElement>(null);
 
   const location = useLocation();
 
@@ -134,6 +136,7 @@ const ConversationPage = () => {
     } finally {
       setIsSendLoading(false);
       setMessage("");
+      scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -185,11 +188,27 @@ const ConversationPage = () => {
           <CircularProgress />
         ) : (
           <div className="message__page_messages">
-            {Messages.map((message: any) => (
-              <li>
-                {message.message} - {message.createdAt}
-              </li>
-            ))}
+            {Messages.map((message: any, index) => {
+              if (Messages.length === index + 1) {
+                return (
+                  <MessageI
+                    id={typeof loggedInUser == "object" ? loggedInUser?.id : ""}
+                    message={message}
+                    key={message._id}
+                    scroll={scrollRef}
+                  />
+                );
+              } else {
+                return (
+                  <MessageI
+                    id={typeof loggedInUser == "object" ? loggedInUser?.id : ""}
+                    message={message}
+                    key={message._id}
+                  />
+                );
+              }
+            })}
+            <span ref={scrollRef}></span>
           </div>
         )}
         <form className="message__buttonContainer" onSubmit={sendMessage}>

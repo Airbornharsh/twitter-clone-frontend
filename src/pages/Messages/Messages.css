@@ -32,6 +32,62 @@
   color: var(--twitter-color);
 }
 
-.message__page_messages{
-  
+.message__page_messages {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  margin-bottom: 3.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.message__page_messages::-webkit-scrollbar {
+  width: 0rem;
+}
+
+.message__intro{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.message__container1 {
+  width: calc(100% - 0.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+}
+
+.message__container2 {
+  width: calc(100% - 0.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+}
+
+.message__child1 , .message__child2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.07rem 1.6rem;
+  border-radius: 1.5rem;
+}
+
+.message__child1 {
+  align-items: flex-end;
+  margin-left: 1rem;
+  background-color: var(--twitter-color);
+}
+
+.message__child2 {
+  align-items: flex-start;
+  margin-right: 1rem;
+  background-color: var(--twitter-background);
 }
