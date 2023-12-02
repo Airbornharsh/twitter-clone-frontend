@@ -16,6 +16,7 @@ type UserType = {
 const ConversationPage = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSendLoading, setIsSendLoading] = React.useState(false);
+  const [message, setMessage] = React.useState("");
   const [user, setUser] = React.useState<UserType>();
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
@@ -59,14 +60,35 @@ const ConversationPage = () => {
     fetchLists();
   }, [conversationId, loggedInUser]);
 
-  const sendMessage = (e: any) => {
+  if (typeof loggedInUser !== "object") {
+    return null;
+  }
+
+  const sendMessage = async (e: any) => {
     e.preventDefault();
+
     setIsSendLoading(true);
     try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/send/${conversationId}`,
+        {
+          message,
+          messageMedia: [],
+          recieverId: user?._id,
+        },
+        {
+          headers: {
+            email: typeof loggedInUser == "object" && loggedInUser?.email,
+          },
+        }
+      );
+
+      console.log(res.data);
     } catch (e) {
       console.log(e);
     } finally {
       setIsSendLoading(false);
+      setMessage("");
     }
   };
 
@@ -117,8 +139,13 @@ const ConversationPage = () => {
 
         <div className="userCardList__ul"></div>
         <form className="message__buttonContainer" onSubmit={sendMessage}>
-          <input type="text" placeholder="Type a message" />
-          <SendIcon className="message__button" />
+          <input
+            type="text"
+            placeholder="Type a message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <SendIcon className="message__button" onClick={sendMessage} />
         </form>
       </div>
     );

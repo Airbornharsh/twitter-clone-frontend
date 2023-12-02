@@ -76,7 +76,7 @@ const TweetReplyBox: React.FC<TweetBoxProps> = ({
 
     try {
       setIsScreenLoading(true);
-      const res = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/tweet/reply/${id}`,
         {
           title: title,
@@ -88,8 +88,6 @@ const TweetReplyBox: React.FC<TweetBoxProps> = ({
           },
         }
       );
-
-      console.log(res.data);
     } catch (e) {
       console.log(e);
     } finally {
