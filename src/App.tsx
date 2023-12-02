@@ -21,6 +21,7 @@ import Details from "./pages/Profile.js/Details/Details";
 import OtherDetails from "./pages/Explore/OtherProfile/OtherDetails";
 import TweetPage from "./pages/TweetPage/TweetPage";
 import GroupMessages from "./pages/Messages/GroupMessages";
+import ConversationPage from "./pages/Messages/MessagePage/ConversationPage";
 
 type User = {
   name: string;
@@ -75,9 +76,8 @@ function App() {
               <Route path="tweet/:id" element={<TweetPage />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="messages" element={<Outlet />}>
-                <Route path="" element={<Messages />}>
-                  <Route path=":id" element={<Messages />} />
-                </Route>
+                <Route path="" element={<Messages />} />
+                <Route path=":id" element={<ConversationPage />} />
                 <Route path="group" element={<GroupMessages />} />
               </Route>
               <Route path="bookmarks" element={<Bookmarks />} />

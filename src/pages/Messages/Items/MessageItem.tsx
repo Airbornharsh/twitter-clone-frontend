@@ -1,5 +1,4 @@
 import React from "react";
-import UserCard from "../../Explore/User/UserCard";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import { useNavigate } from "react-router-dom";
 
@@ -38,8 +37,6 @@ const MessageItem: React.FC<Conversation> = ({ conversation }) => {
       console.log(e);
     }
   };
-
-  console.log(conversation);
 
   return (
     <li className="userCard__container">
