@@ -2,6 +2,7 @@ import React from "react";
 import "./OtherFollow.css";
 import useLoggedInUser from "../../../../hooks/useLoggedInUser";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   _id: string;
@@ -9,6 +10,7 @@ interface User {
   userName: string;
   email: string;
   profileImage: string;
+  private: boolean;
   coverImage: string;
   bio: string;
   location: string;
@@ -33,6 +35,8 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [loggedInUser, reloadUser] = useLoggedInUser();
   const id = otherUser?._id;
+
+  const navigate = useNavigate();
 
   const handleCancelRequest = async () => {
     try {
@@ -130,7 +134,46 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
         typeof loggedInUser == "object" && loggedInUser?.id !== otherUser._id
       );
     }
-    return false; 
+    return false;
+  };
+
+  const checkIfMessageAllowed = () => {
+    if (otherUser) {
+      if (otherUser.private) {
+        if (
+          typeof loggedInUser == "object" &&
+          otherUser?.allowed.includes(loggedInUser?.id)
+        ) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const onMessageClick = async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/`,
+        {
+          userId: otherUser?._id,
+        },
+        {
+          headers: {
+            email: typeof loggedInUser == "object" && loggedInUser?.email,
+          },
+        }
+      );
+
+      console.log(res.data.conversation._id);
+
+      navigate("/home/messages/" + res.data.conversation._id);
+    } catch (e) {
+      console.log(e);
+    } finally {
+    }
   };
 
   return (
@@ -160,6 +203,9 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
         ) : (
           <button onClick={handleFollow}>Follow</button>
         ))}
+      {checkIfMessageAllowed() && (
+        <button onClick={onMessageClick}>Message</button>
+      )}
     </div>
   );
 };

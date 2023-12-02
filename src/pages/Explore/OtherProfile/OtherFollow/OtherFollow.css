@@ -1,5 +1,7 @@
-.OtherFollow__Container{
+.OtherFollow__Container {
   margin-right: 1rem;
+  display: flex;
+  gap: 0.8rem;
 }
 
 .OtherFollow__Container button {
@@ -17,4 +19,3 @@
 .OtherFollow__Container button:hover {
   background-color: #36a0e2;
 }
-

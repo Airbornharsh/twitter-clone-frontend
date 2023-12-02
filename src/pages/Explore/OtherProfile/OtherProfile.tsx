@@ -18,6 +18,7 @@ type User = {
   userName: string;
   email: string;
   profileImage: string;
+  private: boolean;
   coverImage: string;
   bio: string;
   location: string;
@@ -62,6 +63,7 @@ const OtherProfile = () => {
     userName: "",
     email: "",
     profileImage: "",
+    private: false,
     coverImage: "",
     bio: "",
     location: "",
