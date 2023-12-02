@@ -20,6 +20,7 @@ import { useState } from "react";
 import Details from "./pages/Profile.js/Details/Details";
 import OtherDetails from "./pages/Explore/OtherProfile/OtherDetails";
 import TweetPage from "./pages/TweetPage/TweetPage";
+import GroupMessages from "./pages/Messages/GroupMessages";
 
 type User = {
   name: string;
@@ -73,7 +74,12 @@ function App() {
               </Route>
               <Route path="tweet/:id" element={<TweetPage />} />
               <Route path="notifications" element={<Notifications />} />
-              <Route path="messages" element={<Messages />} />
+              <Route path="messages" element={<Outlet />}>
+                <Route path="" element={<Messages />}>
+                  <Route path=":id" element={<Messages />} />
+                </Route>
+                <Route path="group" element={<GroupMessages />} />
+              </Route>
               <Route path="bookmarks" element={<Bookmarks />} />
               <Route path="lists" element={<Lists />} />
               <Route path="profile" element={<Outlet />}>
