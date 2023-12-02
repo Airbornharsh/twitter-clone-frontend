@@ -5,6 +5,14 @@ import { Avatar, CircularProgress } from "@mui/material";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import axios from "axios";
 import SendIcon from "@mui/icons-material/Send";
+import {
+  query,
+  collection,
+  orderBy,
+  limit,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../../../context/firebase";
 
 type UserType = {
   name: string;
@@ -15,9 +23,11 @@ type UserType = {
 
 const ConversationPage = () => {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isMessagesLoading, setIsMessagesLoading] = React.useState(false);
   const [isSendLoading, setIsSendLoading] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [user, setUser] = React.useState<UserType>();
+  const [Messages, setMessages] = React.useState<any[]>([]);
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
 
@@ -59,6 +69,37 @@ const ConversationPage = () => {
 
     fetchLists();
   }, [conversationId, loggedInUser]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      setIsMessagesLoading(true);
+
+      const q = query(
+        collection(db, "conversations", conversationId, "messages"),
+        orderBy("createdAt", "asc"),
+        limit(50)
+      );
+
+      try {
+        const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+          const fetchedMessages: any[] = [];
+          QuerySnapshot.forEach((doc) => {
+            fetchedMessages.push({ ...doc.data(), id: doc.id });
+          });
+
+          setMessages(fetchedMessages);
+        });
+
+        return () => unsubscribe();
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsMessagesLoading(false);
+      }
+    };
+
+    fetchMessages();
+  }, [conversationId]);
 
   if (typeof loggedInUser !== "object") {
     return null;
@@ -140,8 +181,17 @@ const ConversationPage = () => {
             {user?.name}
           </p>
         </div>
-
-        <div className="userCardList__ul"></div>
+        {isMessagesLoading ? (
+          <CircularProgress />
+        ) : (
+          <div className="message__page_messages">
+            {Messages.map((message: any) => (
+              <li>
+                {message.message} - {message.createdAt}
+              </li>
+            ))}
+          </div>
+        )}
         <form className="message__buttonContainer" onSubmit={sendMessage}>
           <input
             type="text"
@@ -150,7 +200,7 @@ const ConversationPage = () => {
             onChange={(e) => setMessage(e.target.value)}
           />
           {isSendLoading ? (
-            <CircularProgress className="message__button" size={"1.8rem"}/>
+            <CircularProgress className="message__button" size={"1.8rem"} />
           ) : (
             <SendIcon className="message__button" onClick={sendMessage} />
           )}
