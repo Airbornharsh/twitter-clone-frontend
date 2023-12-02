@@ -76,7 +76,7 @@ const ConversationPage = () => {
 
       const q = query(
         collection(db, "conversations", conversationId, "messages"),
-        orderBy("createdAt", "asc"),
+        orderBy("createdAt", "desc"),
         limit(50)
       );
 
@@ -87,7 +87,7 @@ const ConversationPage = () => {
             fetchedMessages.push({ ...doc.data(), id: doc.id });
           });
 
-          setMessages(fetchedMessages);
+          setMessages(fetchedMessages.reverse());
         });
 
         return () => unsubscribe();
