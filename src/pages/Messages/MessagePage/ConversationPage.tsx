@@ -67,6 +67,10 @@ const ConversationPage = () => {
   const sendMessage = async (e: any) => {
     e.preventDefault();
 
+    if (isSendLoading) {
+      return;
+    }
+
     setIsSendLoading(true);
     try {
       const res = await axios.put(
@@ -145,7 +149,11 @@ const ConversationPage = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <SendIcon className="message__button" onClick={sendMessage} />
+          {isSendLoading ? (
+            <CircularProgress className="message__button" size={"1.8rem"}/>
+          ) : (
+            <SendIcon className="message__button" onClick={sendMessage} />
+          )}
         </form>
       </div>
     );
