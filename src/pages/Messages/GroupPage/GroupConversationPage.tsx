@@ -20,6 +20,9 @@ type GroupType = {
   groupName: string;
   groupImage: string;
   groupDescription: string;
+  groupMembers: UserType[];
+  groupAdmin: UserType[];
+  requestedMembers: UserType[];
   _id: string;
 };
 
@@ -83,7 +86,9 @@ const GroupConversationPage = () => {
         setGroup({
           groupName: res.data.groupConversation.groupName,
           groupImage: res.data.groupConversation.groupImage,
-          // groupAdmin: res.data.groupConversation.groupAdmin,
+          groupAdmin: res.data.groupConversation.groupAdmin,
+          groupMembers: res.data.groupConversation.groupMembers,
+          requestedMembers: res.data.groupConversation.requestedMembers,
           groupDescription: res.data.groupConversation.groupDescription,
           _id: res.data.groupConversation._id,
         });

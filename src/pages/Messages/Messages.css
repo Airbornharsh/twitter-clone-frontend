@@ -311,6 +311,9 @@
   font-size: 1.3rem;
   font-weight: 600;
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .group__info__footer__members {

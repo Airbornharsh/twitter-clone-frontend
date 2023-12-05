@@ -2,6 +2,7 @@ import { Avatar, CircularProgress, Modal } from "@mui/material";
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
+import { MdPending } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,9 +13,19 @@ type UserType = {
   _id: string;
 };
 
+type GroupType = {
+  groupName: string;
+  groupImage: string;
+  groupDescription: string;
+  groupMembers: UserType[];
+  groupAdmin: UserType[];
+  requestedMembers: UserType[];
+  _id: string;
+};
+
 type GroupInfoInterface = {
   setIsGroupInfo: React.Dispatch<React.SetStateAction<boolean>>;
-  group: any;
+  group: GroupType | undefined;
   users: UserType[];
   mySelf: any;
   conversationId: string;
@@ -32,6 +43,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
   const [search, setSearch] = React.useState("");
   const [searchUsers, setSearchUsers] = React.useState<UserType[]>([]);
   const [isAddingMember, setIsAddingMember] = React.useState(false);
+  const [isRequesting, setIsRequesting] = React.useState(false);
   const navigate = useNavigate();
 
   const removeAddedUsers = (tempUsers: UserType[]) => {
@@ -85,7 +97,10 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
           <span className="group_info_body_p">{group?.groupDescription}</span>
         </div>
         <div className="group__info__footer">
-          <h2 className="group_info_member_h2">Members</h2>
+          <h2 className="group_info_member_h2">
+            Members{" "}
+            {isAdmin && <MdPending onClick={() => setIsRequesting(true)} />}
+          </h2>
           {isAdmin && (
             <button
               className="group_info_addmember"
@@ -159,7 +174,156 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
           />
         </div>
       </Modal>
+      <Modal
+        open={isRequesting}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div className="adding_member_container">
+          <h2>Requests</h2>
+          <ul>
+            {group?.requestedMembers.map((request: any) => (
+              <Request
+                name={request.name}
+                userName={request.userName}
+                profileImage={request.profileImage}
+                _id={request._id}
+                email={mySelf.email}
+                conversationId={conversationId}
+                key={request._id + "addingMember"}
+              />
+            ))}
+          </ul>
+          <CloseIcon
+            className="create_group_close_icon"
+            onClick={() => {
+              setIsRequesting(false);
+            }}
+            style={{
+              cursor: "pointer",
+            }}
+          />
+        </div>
+      </Modal>
     </div>
+  );
+};
+
+type RequestType = {
+  name: string;
+  userName: string;
+  profileImage: string;
+  _id: string;
+  email: string;
+  conversationId: string;
+};
+
+const Request: React.FC<RequestType> = ({
+  name,
+  userName,
+  profileImage,
+  _id,
+  email,
+  conversationId,
+}) => {
+  const [isAccepting, setIsAccepting] = React.useState(false);
+  const [isAccepted, setIsAccepted] = React.useState(false);
+  const [isRejecting, setIsRejecting] = React.useState(false);
+  const [isRejected, setIsRejected] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handleAccept = async () => {
+    try {
+      setIsAccepting(true);
+
+      await axios.patch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/allow/${conversationId}`,
+        {
+          userId: _id,
+        },
+        {
+          headers: {
+            email: email,
+          },
+        }
+      );
+
+      setIsAccepted(true);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsAccepting(false);
+    }
+  };
+
+  const handleReject = async () => {
+    try {
+      setIsRejecting(true);
+
+      await axios.patch(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/deny/${conversationId}`,
+        {
+          userId: _id,
+        },
+        {
+          headers: {
+            email: email,
+          },
+        }
+      );
+
+      setIsRejected(true);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsRejecting(false);
+    }
+  };
+
+  return (
+    <li>
+      <div className="adding__member__detail">
+        <Avatar
+          src={profileImage}
+          alt="profileImage"
+          onClick={() => {
+            navigate(`/home/explore/${_id}`);
+          }}
+        />
+        <p
+          style={{
+            marginLeft: "1rem",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            navigate(`/home/explore/${_id}`);
+          }}
+        >
+          {name}
+        </p>
+      </div>
+      <div className="adding__member__buttons">
+        {isAccepted ? (
+          <p>Accepted</p>
+        ) : isRejected ? (
+          <p>Rejected</p>
+        ) : (
+          <>
+            {isAccepting || isRejecting ? (
+              <CircularProgress size={"1.8rem"} />
+            ) : (
+              <>
+                <button onClick={handleAccept}>Accept</button>
+                <button onClick={handleReject}>Reject</button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </li>
   );
 };
 
