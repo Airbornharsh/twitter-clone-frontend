@@ -333,11 +333,15 @@ const Group: React.FC<GroupItemType> = ({
   requestedMembers,
 }) => {
   const [isJoining, setIsJoining] = React.useState(false);
+  const [isJoined] = React.useState(groupMembers.includes(userId));
+  const [isRequested, setIsRequested] = React.useState(
+    requestedMembers.includes(userId)
+  );
 
   const joinRequest = async () => {
     setIsJoining(true);
     try {
-      const res = await axios.put(
+      await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/join/${_id}`,
         {},
         {
@@ -347,16 +351,13 @@ const Group: React.FC<GroupItemType> = ({
         }
       );
 
-      console.log(res.data);
+      setIsRequested(true);
     } catch (e) {
       console.log(e);
     } finally {
       setIsJoining(false);
     }
   };
-
-  const isJoined = groupMembers.includes(userId);
-  const isRequested = requestedMembers.includes(userId);
 
   const navigate = useNavigate();
 
