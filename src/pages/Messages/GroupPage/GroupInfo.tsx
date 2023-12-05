@@ -1,4 +1,4 @@
-import { Avatar, Modal } from "@mui/material";
+import { Avatar, CircularProgress, Modal } from "@mui/material";
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
@@ -187,7 +187,7 @@ const User: React.FC<UserItemType> = ({
     try {
       setIsAdding(true);
 
-      const res = await axios.post(
+      const res = await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/add/${conversationId}`,
         {
           members: [_id],
@@ -229,7 +229,9 @@ const User: React.FC<UserItemType> = ({
           {name}
         </p>
       </div>
-      <button onClick={handleAdd}>Add</button>
+      <button onClick={handleAdd}>
+        {isAdding ? <CircularProgress size={"1.8rem"} /> : "Add"}
+      </button>
     </li>
   );
 };
