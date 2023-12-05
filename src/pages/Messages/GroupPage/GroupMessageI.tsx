@@ -1,6 +1,7 @@
 import React from "react";
 import "../Messages.css";
 import { Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 type UserType = {
   name: string;
@@ -32,6 +33,7 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
   scroll,
 }) => {
   scroll?.current?.scrollIntoView({ behavior: "smooth" });
+  const navigate = useNavigate();
 
   if (!id) {
     return null;
@@ -40,9 +42,13 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
   if (!Object.keys(message).includes("readBy")) {
     return (
       <li className="message__intro">
-        <span style={{
-          fontWeight: "bold",
-        }}>{new Date(message.createdAt).toLocaleDateString()}</span>
+        <span
+          style={{
+            fontWeight: "bold",
+          }}
+        >
+          {new Date(message.createdAt).toLocaleDateString()}
+        </span>
         <span>{message.groupMessage}</span>
       </li>
     );
@@ -59,7 +65,16 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
   } else {
     return (
       <li className="groupmessage__container2" key={message.groupMessageId}>
-        <Avatar src={user.profileImage} alt="profileImage" />
+        <Avatar
+          src={user.profileImage}
+          style={{
+            cursor: "pointer",
+          }}
+          alt="profileImage"
+          onClick={() => {
+            navigate(`/home/explore/${user._id}`);
+          }}
+        />
         <div className="groupmessage__child2">
           <p>{message.groupMessage}</p>
         </div>
