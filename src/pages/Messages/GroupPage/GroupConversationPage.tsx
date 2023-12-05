@@ -210,7 +210,7 @@ const GroupConversationPage = () => {
         <div className="heading-4">
           <ArrowBackIcon
             className="arrow-icon"
-            onClick={() => navigate("/home/messages")}
+            onClick={() => navigate("/home/messages/group")}
           />
           <Avatar
             src={group?.groupImage}
