@@ -300,29 +300,30 @@
   margin-top: 0.5rem;
 }
 
-.group__info__footer{
+.group__info__footer {
   width: 90%;
   display: flex;
   margin-top: 1rem;
   flex-direction: column;
 }
 
-.group_info_member_h2{
+.group_info_member_h2 {
   font-size: 1.3rem;
   font-weight: 600;
   margin-top: 1rem;
 }
 
-.group__info__footer__members{
+.group__info__footer__members {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 
-.group__info__footer__members__member{
+.group__info__footer__members__member {
   height: 4rem;
   width: 100%;
   display: flex;
@@ -330,4 +331,84 @@
   padding: 0 1rem;
   border-radius: 0.5rem;
   background-color: var(--twitter-background);
+}
+
+.group_info_addmember {
+  width: 100%;
+  height: 3rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  background-color: var(--twitter-color);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  position: relative;
+  margin: 0;
+}
+
+.adding_member_container {
+  width: 40rem;
+  height: 90vh;
+  min-height: 30rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  border: 0;
+  position: relative;
+}
+
+.adding_member_container input{
+  width: 90%;
+  height: 3rem;
+  border: none;
+  outline: none;
+  /* padding: 0 1rem; */
+  padding: 0;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.adding_member_container ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  width: 90%;
+  gap: 0.3rem;
+}
+
+.adding_member_container li {
+  list-style: none;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--twitter-background);
+  justify-content: space-between;
+}
+
+.adding__member__detail{
+  display: flex;
+  align-items: center;
+}
+
+.adding_member_container li button{
+  border: none;
+  outline: none;
+  cursor: pointer;
+  /* background-color: transparent; */
+  color: var(--twitter-color);
+  font-size: 1.2rem;
+  font-weight: 600;
 }

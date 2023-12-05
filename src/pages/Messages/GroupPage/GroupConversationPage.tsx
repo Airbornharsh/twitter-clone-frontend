@@ -50,6 +50,7 @@ const GroupConversationPage = () => {
   );
   const [users, setUsers] = React.useState<UserType[]>([]);
   const [isGroupInfo, setIsGroupInfo] = React.useState(false);
+  const [isAdmin, setIsAdmin] = React.useState(false);
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
   const scrollRef = React.useRef<HTMLSpanElement>(null);
@@ -72,9 +73,17 @@ const GroupConversationPage = () => {
           }
         );
 
+        res.data.groupConversation.groupAdmin.forEach((user: UserType) => {
+          if (typeof loggedInUser == "object")
+            if (user._id === loggedInUser?.id) {
+              setIsAdmin(true);
+            }
+        });
+
         setGroup({
           groupName: res.data.groupConversation.groupName,
           groupImage: res.data.groupConversation.groupImage,
+          // groupAdmin: res.data.groupConversation.groupAdmin,
           groupDescription: res.data.groupConversation.groupDescription,
           _id: res.data.groupConversation._id,
         });
@@ -133,6 +142,7 @@ const GroupConversationPage = () => {
   const mySelf = {
     name: loggedInUser?.name,
     userName: loggedInUser?.userName,
+    email: loggedInUser?.email,
     profileImage: loggedInUser?.profileImage,
     _id: loggedInUser?.id,
   };
@@ -265,6 +275,8 @@ const GroupConversationPage = () => {
             group={group}
             users={users}
             mySelf={mySelf}
+            conversationId={conversationId}
+            isAdmin={isAdmin}
           />
         )}
       </div>
