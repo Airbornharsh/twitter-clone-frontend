@@ -93,6 +93,30 @@
   background-color: var(--twitter-background);
 }
 
+.groupmessage__container2 {
+  width: calc(100% - 0.5rem);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 0.5rem;
+  gap: 0.3rem;
+}
+
+.groupmessage__child2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.07rem 1.6rem;
+  border-radius: 1.5rem;
+  border-top-left-radius: 0;
+}
+
+.groupmessage__child2 {
+  align-items: flex-start;
+  margin-right: 1rem;
+  background-color: var(--twitter-background);
+}
+
 .create_Group_button {
   width: 100%;
   display: flex;
@@ -163,7 +187,7 @@
 }
 
 .crete_group_container input[type="file"] {
-  position: absolute;;
+  position: absolute;
   top: -1.3rem;
   left: 0rem;
   opacity: 0;

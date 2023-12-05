@@ -48,6 +48,7 @@ const GroupConversationPage = () => {
     []
   );
   const [users, setUsers] = React.useState<UserType[]>([]);
+  const [lastUser, setLastUser] = React.useState<string>();
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
   const scrollRef = React.useRef<HTMLSpanElement>(null);
@@ -77,7 +78,7 @@ const GroupConversationPage = () => {
           _id: res.data.groupConversation._id,
         });
 
-        const tempUsers = res.data.groupConversation.members.filter(
+        const tempUsers = res.data.groupConversation.groupMembers.filter(
           (member: any) =>
             member._id !== (typeof loggedInUser == "object" && loggedInUser?.id)
         );
@@ -208,7 +209,6 @@ const GroupConversationPage = () => {
         ) : (
           <div className="message__page_messages">
             {groupMessages.map((message: GroupMessageType, index) => {
-              console.log(message);
               if (groupMessages.length === index + 1) {
                 return (
                   <GroupMessageI

@@ -1,5 +1,6 @@
 import React from "react";
 import "../Messages.css";
+import { Avatar } from "@mui/material";
 
 type UserType = {
   name: string;
@@ -32,8 +33,6 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
 }) => {
   scroll?.current?.scrollIntoView({ behavior: "smooth" });
 
-  console.log(message);
-
   if (!id) {
     return null;
   }
@@ -53,14 +52,15 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
     return (
       <li className="message__container1" key={message.groupMessageId}>
         <div className="message__child1">
-          <p>{message.groupMessage}</p>
+          <p>{message.groupMessage} ME</p>
         </div>
       </li>
     );
   } else {
     return (
-      <li className="message__container2" key={message.groupMessageId}>
-        <div className="message__child2">
+      <li className="groupmessage__container2" key={message.groupMessageId}>
+        <Avatar src={user.profileImage} alt="profileImage" />
+        <div className="groupmessage__child2">
           <p>{message.groupMessage}</p>
         </div>
       </li>
