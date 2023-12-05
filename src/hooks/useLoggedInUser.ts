@@ -26,6 +26,7 @@ type User = {
   likedTweets: string[];
   bookmarkedTweets: string[];
   retweetedTweets: string[];
+  groupConversations: string[];
   createdAt: number;
 };
 
@@ -55,6 +56,7 @@ const useLoggedInUser = () => {
     likedTweets: [],
     bookmarkedTweets: [],
     retweetedTweets: [],
+    groupConversations: [],
     createdAt: Date.now(),
   });
 
@@ -89,6 +91,7 @@ const useLoggedInUser = () => {
         likedTweets: data?.likedTweets,
         bookmarkedTweets: data?.bookmarkedTweets,
         retweetedTweets: data?.retweetedTweets,
+        groupConversations: data?.groupConversations,
         createdAt: data?.createdAt,
       });
     };
@@ -126,6 +129,7 @@ const useLoggedInUser = () => {
       likedTweets: data?.likedTweets,
       bookmarkedTweets: data?.bookmarkedTweets,
       retweetedTweets: data?.retweetedTweets,
+      groupConversations: data?.groupConversations,
       createdAt: data?.createdAt,
     });
   };
