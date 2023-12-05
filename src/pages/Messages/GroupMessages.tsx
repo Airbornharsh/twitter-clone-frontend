@@ -7,8 +7,9 @@ import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
-import { CircularProgress, Modal } from "@mui/material";
+import { Avatar, CircularProgress, Modal } from "@mui/material";
 import GroupMessageItem from "./Items/GroupMessageItem";
+import Search from "@mui/icons-material/Search";
 
 type GroupConversationType = {
   _id: string;
@@ -32,6 +33,11 @@ const GroupMessages = () => {
   const [imageURL, setImageURL] = React.useState("");
   const [groupName, setGroupName] = React.useState("");
   const [groupDescription, setGroupDescription] = React.useState("");
+  const [isSearchGroup, setIsSearchGroup] = React.useState(false);
+  const [searchGroup, setSearchGroup] = React.useState<string>("");
+  const [searchedGroups, setSearchedGroups] = React.useState<
+    GroupConversationType[]
+  >([]);
   const [loggedInUser] = useLoggedInUser();
   const navigate = useNavigate();
 
@@ -60,6 +66,10 @@ const GroupMessages = () => {
 
     fetchLists();
   }, [loggedInUser]);
+
+  if (typeof loggedInUser !== "object") {
+    return null;
+  }
 
   const handleUploadImage = (e: any) => {
     setIsImageLoading(true);
@@ -115,6 +125,28 @@ const GroupMessages = () => {
     }
   };
 
+  const searchingGroup = async (e: any) => {
+    setSearchGroup(e.target.value);
+    try {
+      if (e.target.value) {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/search/${e.target.value}`,
+          {
+            headers: {
+              email: typeof loggedInUser == "object" && loggedInUser?.email,
+            },
+          }
+        );
+
+        res.data.groupConversations &&
+          setSearchedGroups(res.data.groupConversations);
+      }
+    } catch (e) {
+      console.log(e);
+      setSearchedGroups([]);
+    }
+  };
+
   return (
     <div className="lists__page">
       <div className="heading-4">
@@ -137,11 +169,19 @@ const GroupMessages = () => {
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <div className="userCardList__ul">
+        <div className="userCardList__ul group_conversation_container">
           <li className="create_Group_button">
             <button onClick={() => setIsCreateGroup(true)}>
               Create a Group
             </button>
+            {!isSearchGroup && (
+              <Search
+                className="search__button_message"
+                onClick={(e) => {
+                  setIsSearchGroup(true);
+                }}
+              />
+            )}
           </li>
           {groupConversations.map((groupConversation) => (
             <GroupMessageItem
@@ -220,7 +260,134 @@ const GroupMessages = () => {
           />
         </div>
       </Modal>
+      <Modal
+        open={isSearchGroup}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div className="adding_member_container">
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchGroup}
+            onChange={searchingGroup}
+          />
+          <ul>
+            {searchedGroups.map((group) => (
+              <Group
+                key={group._id + "addingMember"}
+                _id={group._id}
+                email={loggedInUser?.email}
+                userId={loggedInUser?.id}
+                groupName={group.groupName}
+                groupDescription={group.groupDescription}
+                groupImage={group.groupImage}
+                groupAdmin={group.groupAdmin}
+                groupMembers={group.groupMembers}
+                requestedMembers={group.requestedMembers}
+                createdAt={group.createdAt}
+              />
+            ))}
+          </ul>
+          <CloseIcon
+            className="create_group_close_icon"
+            onClick={() => {
+              setIsSearchGroup(false);
+            }}
+            style={{
+              cursor: "pointer",
+            }}
+          />
+        </div>
+      </Modal>
     </div>
+  );
+};
+
+type GroupItemType = {
+  _id: string;
+  email: string;
+  userId: string;
+  groupName: string;
+  groupDescription: string;
+  groupImage: string;
+  groupAdmin: string[];
+  groupMembers: string[];
+  requestedMembers: string[];
+  createdAt: number;
+};
+
+const Group: React.FC<GroupItemType> = ({
+  groupName,
+  _id,
+  email,
+  userId,
+  createdAt,
+  groupAdmin,
+  groupDescription,
+  groupImage,
+  groupMembers,
+  requestedMembers,
+}) => {
+  const [isJoining, setIsJoining] = React.useState(false);
+
+  const joinRequest = async () => {
+    setIsJoining(true);
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/join/${_id}`,
+        {},
+        {
+          headers: {
+            email: email,
+          },
+        }
+      );
+
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsJoining(false);
+    }
+  };
+
+  const isJoined = groupMembers.includes(userId);
+  const isRequested = requestedMembers.includes(userId);
+
+  const navigate = useNavigate();
+
+  const handleGroupClick = () => {
+    isJoined && navigate(`/home/messages/group/${_id}`);
+  };
+
+  return (
+    <li onClick={handleGroupClick}>
+      <span>
+        <Avatar src={groupImage} />
+        <p>{groupName}</p>
+      </span>
+      {isJoined ? (
+        <p>Joined</p>
+      ) : (
+        <>
+          {isRequested ? (
+            <p>Requested</p>
+          ) : (
+            <>
+              {isJoining ? (
+                <CircularProgress size={"2rem"} />
+              ) : (
+                <button onClick={joinRequest}>Join</button>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </li>
   );
 };
 

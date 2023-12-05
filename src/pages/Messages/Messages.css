@@ -367,7 +367,7 @@
   position: relative;
 }
 
-.adding_member_container input{
+.adding_member_container input {
   width: 90%;
   height: 3rem;
   border: none;
@@ -398,17 +398,36 @@
   justify-content: space-between;
 }
 
-.adding__member__detail{
+.adding_member_container span{
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.adding__member__detail {
   display: flex;
   align-items: center;
 }
 
-.adding_member_container li button{
+.adding_member_container li button {
   border: none;
   outline: none;
   cursor: pointer;
-  /* background-color: transparent; */
+  background-color: transparent;
   color: var(--twitter-color);
   font-size: 1.2rem;
   font-weight: 600;
+}
+
+.group_conversation_container {
+  position: relative;
+}
+
+.search__button_message {
+  color: var(--twitter-color);
+  position: absolute;
+  right: -2rem;
+  top: 1.2rem;
 }
