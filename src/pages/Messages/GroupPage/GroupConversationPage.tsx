@@ -137,8 +137,8 @@ const GroupConversationPage = () => {
 
     setIsSendLoading(true);
     try {
-      const res = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/send/${conversationId}`,
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/message/${conversationId}`,
         {
           message,
           messageMedia: [],

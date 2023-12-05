@@ -53,7 +53,7 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
     return (
       <li className="message__container1" key={message.groupMessageId}>
         <div className="message__child1">
-          <p>{message.groupMessage}bnjsnfjk</p>
+          <p>{message.groupMessage}</p>
         </div>
       </li>
     );
