@@ -39,8 +39,8 @@ const MessageItem: React.FC<Conversation> = ({ conversation }) => {
   };
 
   return (
-    <li className="userCard__container">
-      <div className="userCard__child1" onClick={handleUserClick}>
+    <li className="userCard__container" onClick={handleUserClick}>
+      <div className="userCard__child1">
         <img
           src={
             profileImage

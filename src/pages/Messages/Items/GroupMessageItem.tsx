@@ -1,70 +1,50 @@
 import React from "react";
-import useLoggedInUser from "../../../hooks/useLoggedInUser";
+// import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import { useNavigate } from "react-router-dom";
 
-type UserType = {
-  name: string;
-  userName: string;
-  profileImage: string;
+type GroupConversationType = {
   _id: string;
-};
-
-type ConversationType = {
-  _id: string;
-  members: UserType[];
+  groupName: string;
+  groupDescription: string;
+  groupImage: string;
+  groupAdmin: string[];
+  groupMembers: string[];
+  requestedMembers: string[];
   createdAt: number;
 };
 
 interface Conversation {
-  conversation: ConversationType;
+  groupConversation: GroupConversationType;
 }
 
-const GroupMessageItem: React.FC<Conversation> = ({ conversation }) => {
-  const [loggedInUser] = useLoggedInUser();
+const GroupMessageItem: React.FC<Conversation> = ({ groupConversation }) => {
+  // const [loggedInUser] = useLoggedInUser();
   const navigate = useNavigate();
-
-  const user = conversation.members.filter(
-    (member) =>
-      member._id !== (typeof loggedInUser == "object" && loggedInUser?.id)
-  )[0];
-
-  const { name, userName, profileImage, _id } = user;
 
   const handleUserClick = () => {
     try {
-      _id && navigate(`/home/messages/${conversation._id}`);
+      navigate(`/home/messages/group/${groupConversation._id}`);
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <li className="userCard__container">
-      <div className="userCard__child1" onClick={handleUserClick}>
+    <li className="userCard__container" onClick={handleUserClick}>
+      <div className="userCard__child1">
         <img
           src={
-            profileImage
-              ? profileImage
+            groupConversation.groupImage
+              ? groupConversation.groupImage
               : "https://www.proactivechannel.com/Files/BrandImages/Default.jpg"
           }
           alt="profileImage"
         />
         <div className="userCard__details">
-          <h4>{name}</h4>
-          <p>@{userName}</p>
+          <h4>{groupConversation.groupName}</h4>
+          <p>{groupConversation.groupMembers.length} Members</p>
         </div>
       </div>
-      {/* <Modal
-        open={isLoading}
-        className="modal"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CircularProgress />
-      </Modal> */}
     </li>
   );
 };
