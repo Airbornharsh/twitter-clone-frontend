@@ -10,7 +10,6 @@
 .profilePage {
   flex: 0.9;
   border-right: 1px solid var(--twitter-background);
-  min-width: fit-content;
   overflow-y: scroll;
 }
 

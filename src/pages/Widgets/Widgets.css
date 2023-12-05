@@ -1,6 +1,5 @@
 .widgets {
   flex: 0.3;
-  min-width: fit-content;
   overflow-y: scroll;
 }
 
