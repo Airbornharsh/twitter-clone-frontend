@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../context/firebase";
 import GroupMessageI from "./GroupMessageI";
+import GroupInfo from "./GroupInfo";
 
 type GroupType = {
   groupName: string;
@@ -48,7 +49,7 @@ const GroupConversationPage = () => {
     []
   );
   const [users, setUsers] = React.useState<UserType[]>([]);
-  const [lastUser, setLastUser] = React.useState<string>();
+  const [isGroupInfo, setIsGroupInfo] = React.useState(false);
   const navigate = useNavigate();
   const [loggedInUser] = useLoggedInUser();
   const scrollRef = React.useRef<HTMLSpanElement>(null);
@@ -129,6 +130,13 @@ const GroupConversationPage = () => {
     return null;
   }
 
+  const mySelf = {
+    name: loggedInUser?.name,
+    userName: loggedInUser?.userName,
+    profileImage: loggedInUser?.profileImage,
+    _id: loggedInUser?.id,
+  };
+
   const sendMessage = async (e: any) => {
     e.preventDefault();
 
@@ -194,12 +202,17 @@ const GroupConversationPage = () => {
             className="arrow-icon"
             onClick={() => navigate("/home/messages")}
           />
-          <Avatar src={group?.groupImage} alt="profileImage" />
+          <Avatar
+            src={group?.groupImage}
+            alt="profileImage"
+            onClick={() => setIsGroupInfo(true)}
+          />
           <p
             style={{
               marginLeft: "1rem",
               cursor: "pointer",
             }}
+            onClick={() => setIsGroupInfo(true)}
           >
             {group?.groupName}
           </p>
@@ -246,6 +259,14 @@ const GroupConversationPage = () => {
             <SendIcon className="message__button" onClick={sendMessage} />
           )}
         </form>
+        {isGroupInfo && (
+          <GroupInfo
+            setIsGroupInfo={setIsGroupInfo}
+            group={group}
+            users={users}
+            mySelf={mySelf}
+          />
+        )}
       </div>
     );
   }
