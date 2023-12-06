@@ -271,6 +271,15 @@
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--twitter-background);
+  position: relative;
+}
+
+.group__info__header .exit_group{
+  position: absolute;
+  top: 0rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .group__info__header .group_photo_container {

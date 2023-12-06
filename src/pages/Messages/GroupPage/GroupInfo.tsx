@@ -4,6 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
 import CreateIcon from "@mui/icons-material/Create";
 import DoneIcon from "@mui/icons-material/Done";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { MdPending } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -269,6 +270,24 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
     }
   };
 
+  const onLeaveGroup = async () => {
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/leave/${conversationId}`,
+        {},
+        {
+          headers: {
+            email: mySelf.email,
+          },
+        }
+      );
+
+      navigate("/home/messages/group");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="group__info">
       <ArrowBackIcon
@@ -277,6 +296,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
       />
       <div className="group__info__container">
         <div className="group__info__header">
+          <ExitToAppIcon className="exit_group" onClick={onLeaveGroup} />
           <div className="group_photo_container">
             <img
               src={group?.groupImage}
