@@ -307,6 +307,42 @@
   font-weight: 600;
 }
 
+.group__info__header .edit_group_name_info{
+  display: flex;
+  position: relative;
+  margin: 0.8rem 0;
+}
+
+.group__info__header .edit_group_name_info input{
+  width: 100%;
+  height: 3rem;
+  border: 0.1rem black solid;
+  /* padding: 0 1rem; */
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.group__info__header .edit_group_name_info input::placeholder{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.group__info__header .edit_group_name_info .done_icon{
+  height: 3rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 2rem;
+  position: absolute;
+  font-weight: 600;
+  right: 0.3rem;
+}
+
 .group__info__body {
   width: 90%;
   display: flex;

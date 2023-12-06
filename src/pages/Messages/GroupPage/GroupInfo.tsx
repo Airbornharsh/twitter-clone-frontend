@@ -3,6 +3,7 @@ import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
 import CreateIcon from "@mui/icons-material/Create";
+import DoneIcon from "@mui/icons-material/Done";
 import { MdPending } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -45,7 +46,9 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
   isAdmin,
 }) => {
   const [search, setSearch] = React.useState("");
-  // const [groupImage, setGroupImage] = React.useState(group?.groupImage);
+  const [groupName, setGroupName] = React.useState(group?.groupName);
+  const [isChangeGroupName, setIsChangeGroupName] = React.useState(false);
+  const [isChangingGroupName, setIsChangingGroupName] = React.useState(false);
   const [searchUsers, setSearchUsers] = React.useState<UserType[]>([]);
   const [isAddingMember, setIsAddingMember] = React.useState(false);
   const [isRequesting, setIsRequesting] = React.useState(false);
@@ -116,6 +119,35 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
     }
   };
 
+  const onChangeGroupName = async (e: any) => {
+    e.preventDefault();
+
+    setIsChangingGroupName(true);
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/update/${conversationId}`,
+        {
+          groupName: groupName,
+        },
+        {
+          headers: {
+            email: mySelf.email,
+          },
+        }
+      );
+
+      setGroup({
+        ...group,
+        groupName: groupName,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsChangingGroupName(false);
+      setIsChangeGroupName(false);
+    }
+  };
+
   return (
     <div className="group__info">
       <ArrowBackIcon
@@ -142,7 +174,32 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
               </>
             )}
           </div>
-          <h2 onClick={() => setIsGroupInfo(true)}>{group?.groupName}</h2>
+          {isAdmin && isChangeGroupName ? (
+            <form className="edit_group_name_info" onSubmit={onChangeGroupName}>
+              <input
+                type="text"
+                value={groupName}
+                onChange={(e) =>
+                  setGroupName(e.target.value.replace(/\s+/g, " ").trim())
+                }
+              />
+              {isChangingGroupName ? (
+                <CircularProgress
+                  size={"1.8rem"}
+                  className="done_icon"
+                  style={{
+                    marginTop: "0.6rem",
+                  }}
+                />
+              ) : (
+                <DoneIcon className="done_icon" onClick={onChangeGroupName} />
+              )}
+            </form>
+          ) : (
+            <h2 onClick={() => setIsChangeGroupName(true)}>
+              {group?.groupName}
+            </h2>
+          )}
         </div>
         <div className="group__info__body">
           <span className="group_info_body_h2">Description</span>
