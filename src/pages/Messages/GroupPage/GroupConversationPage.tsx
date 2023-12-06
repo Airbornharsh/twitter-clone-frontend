@@ -158,6 +158,7 @@ const GroupConversationPage = () => {
   const mySelf = {
     name: loggedInUser?.name,
     userName: loggedInUser?.userName,
+    token: loggedInUser?.token,
     email: loggedInUser?.email,
     profileImage: loggedInUser?.profileImage,
     _id: loggedInUser?.id,

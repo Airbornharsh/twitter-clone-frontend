@@ -132,6 +132,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
 
     setIsChangingGroupName(true);
     try {
+      console.log(mySelf);
       await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/update/${conversationId}`,
         {
