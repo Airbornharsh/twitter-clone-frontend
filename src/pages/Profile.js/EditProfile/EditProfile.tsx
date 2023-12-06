@@ -7,7 +7,6 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "./EditProfile.css";
-import { User } from "firebase/auth";
 import axios from "axios";
 
 const style = {
@@ -41,7 +40,6 @@ interface EditChildProps {
 }
 
 interface EditProfileProps {
-  user: User | null;
   loggedInUser: LoggedInUser | any;
 }
 
@@ -93,7 +91,7 @@ const EditChild: React.FC<EditChildProps> = ({ dob, setDob }) => {
   );
 };
 
-const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
+const EditProfile: React.FC<EditProfileProps> = ({ loggedInUser }) => {
   const [name, setName] = React.useState("");
   const [bio, setBio] = React.useState("");
   const [location, setLocation] = React.useState("");
@@ -119,7 +117,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
         },
         {
           headers: {
-            email: user?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );
@@ -141,7 +139,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ user, loggedInUser }) => {
         },
         {
           headers: {
-            email: user?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );

@@ -120,7 +120,7 @@ const TweetView: React.FC<TweetViewProps> = ({ t, handleUpdate }) => {
         },
         {
           headers: {
-            email: loggedInUser.email,
+            token: loggedInUser.token,
           },
         }
       );
@@ -153,7 +153,7 @@ const TweetView: React.FC<TweetViewProps> = ({ t, handleUpdate }) => {
         {},
         {
           headers: {
-            email: loggedInUser?.email,
+            token: loggedInUser?.token,
           },
         }
       );
@@ -186,7 +186,7 @@ const TweetView: React.FC<TweetViewProps> = ({ t, handleUpdate }) => {
         {},
         {
           headers: {
-            email: loggedInUser?.email,
+            token: loggedInUser?.token,
           },
         }
       );

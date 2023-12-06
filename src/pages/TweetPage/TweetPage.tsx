@@ -60,7 +60,7 @@ const TweetPage = () => {
           `${process.env.REACT_APP_BACKEND_URL}/tweet/other/${id}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -83,7 +83,7 @@ const TweetPage = () => {
         `${process.env.REACT_APP_BACKEND_URL}/tweet/other/${id}`,
         {
           headers: {
-            email: typeof loggedInUser == "object" && loggedInUser?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );

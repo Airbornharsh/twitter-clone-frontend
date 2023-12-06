@@ -28,7 +28,7 @@ const Lists = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/list/${userType}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );

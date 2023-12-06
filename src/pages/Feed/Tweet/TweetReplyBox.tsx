@@ -3,9 +3,7 @@ import { Avatar, Box, Button, CircularProgress, Modal } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import { useAuthState } from "react-firebase-hooks/auth";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
-import auth from "../../../context/firebase";
 
 interface TweetBoxProps {
   // handleUpdate: () => void;
@@ -36,8 +34,7 @@ const TweetReplyBox: React.FC<TweetBoxProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [loggedInUser] = useLoggedInUser();
-  const [user] = useAuthState(auth);
-  const email = user?.email as string;
+  const token = typeof loggedInUser === "object" ? loggedInUser?.token : "";
 
   const userProfilePic =
     loggedInUser &&
@@ -84,7 +81,7 @@ const TweetReplyBox: React.FC<TweetBoxProps> = ({
         },
         {
           headers: {
-            email: email,
+            token: token,
           },
         }
       );

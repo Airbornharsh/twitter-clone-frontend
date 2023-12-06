@@ -50,7 +50,7 @@ const GroupMessages = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -107,7 +107,7 @@ const GroupMessages = () => {
         },
         {
           headers: {
-            email: typeof loggedInUser == "object" && loggedInUser?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );
@@ -133,7 +133,7 @@ const GroupMessages = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/search/${e.target.value}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -280,7 +280,7 @@ const GroupMessages = () => {
               <Group
                 key={group._id + "addingMember"}
                 _id={group._id}
-                email={loggedInUser?.email}
+                token={loggedInUser?.token}
                 userId={loggedInUser?.id}
                 groupName={group.groupName}
                 groupDescription={group.groupDescription}
@@ -309,7 +309,7 @@ const GroupMessages = () => {
 
 type GroupItemType = {
   _id: string;
-  email: string;
+  token: string | undefined;
   userId: string;
   groupName: string;
   groupDescription: string;
@@ -323,7 +323,7 @@ type GroupItemType = {
 const Group: React.FC<GroupItemType> = ({
   groupName,
   _id,
-  email,
+  token,
   userId,
   createdAt,
   groupAdmin,
@@ -346,7 +346,7 @@ const Group: React.FC<GroupItemType> = ({
         {},
         {
           headers: {
-            email: email,
+            token: token,
           },
         }
       );

@@ -46,7 +46,7 @@ const ConversationPage = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/conversation/user/${conversationId}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -125,7 +125,7 @@ const ConversationPage = () => {
         },
         {
           headers: {
-            email: typeof loggedInUser == "object" && loggedInUser?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );

@@ -5,9 +5,10 @@ import axios from "axios";
 
 type User = {
   id: string;
+  token?: string;
+  email: string;
   name: string;
   userName: string;
-  email: string;
   private: boolean;
   profileImage: string;
   coverImage: string;
@@ -32,9 +33,9 @@ type User = {
 
 const useLoggedInUser = () => {
   const [user] = useAuthState(auth);
-  const email = user?.email;
   const [loggedInUser, setLoggedInUser] = useState<User>({
     id: "",
+    token: "",
     name: "",
     userName: "",
     email: "",
@@ -62,14 +63,17 @@ const useLoggedInUser = () => {
 
   useEffect(() => {
     const onLoad = async () => {
+      const token = await user?.getIdToken();
+
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
         headers: {
-          email: email,
+          token: token,
         },
       });
       const data = await res.data.user;
       setLoggedInUser({
         id: data?._id,
+        token: token,
         name: data?.name,
         userName: data?.userName,
         email: data?.email,
@@ -97,17 +101,18 @@ const useLoggedInUser = () => {
     };
 
     onLoad();
-  }, [email]);
+  }, [user]);
 
   const reloadUser = async () => {
     const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
       headers: {
-        email: email,
+        token: loggedInUser.token,
       },
     });
     const data = await res.data.user;
     setLoggedInUser({
       id: data?._id,
+      token: loggedInUser.token,
       name: data?.name,
       userName: data?.userName,
       email: data?.email,

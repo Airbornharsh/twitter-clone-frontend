@@ -133,7 +133,7 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
         {},
         {
           headers: {
-            email: loggedInUser?.email,
+            token: loggedInUser?.token,
           },
         }
       );
@@ -166,7 +166,7 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
         {},
         {
           headers: {
-            email: loggedInUser?.email,
+            token: loggedInUser?.token,
           },
         }
       );

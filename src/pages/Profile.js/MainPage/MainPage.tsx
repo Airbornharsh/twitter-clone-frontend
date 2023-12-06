@@ -10,16 +10,16 @@ import axios from "axios";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import "./MainPage.css";
 import Tweet from "../../Feed/Tweet/Tweet";
-import { User as FireBaseAuth } from "firebase/auth";
 import { CircularProgress, Modal } from "@mui/material";
 
 interface MainProfileProps {
-  user: FireBaseAuth | null;
+  user: MyUser;
 }
 
 type User = {
   _id: string;
   name: string;
+  token: string;
   userName: string;
   email: string;
   profileImage: string;
@@ -40,6 +40,34 @@ type User = {
   likedTweets: string[];
   bookmarkedTweets: string[];
   retweetedTweets: string[];
+  createdAt: number;
+};
+
+type MyUser = {
+  id: string;
+  token?: string;
+  email: string;
+  name: string;
+  userName: string;
+  private: boolean;
+  profileImage: string;
+  coverImage: string;
+  bio: string;
+  location: string;
+  website: string;
+  dob: string;
+  allowed: string[];
+  blocked: string[];
+  followers: string[];
+  following: string[];
+  pending: string[];
+  pendingBy: string[];
+  blockedBy: string[];
+  tweets: string[];
+  likedTweets: string[];
+  bookmarkedTweets: string[];
+  retweetedTweets: string[];
+  groupConversations: string[];
   createdAt: number;
 };
 
@@ -69,7 +97,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
           `${process.env.REACT_APP_BACKEND_URL}/tweet`,
           {
             headers: {
-              email: user?.email,
+              token: user?.token,
             },
           }
         );
@@ -80,7 +108,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
       }
     };
     handleUpdate();
-  }, [user?.email]);
+  }, [user]);
 
   const handleUpdate = async () => {
     try {
@@ -88,7 +116,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
         `${process.env.REACT_APP_BACKEND_URL}/tweet`,
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -122,7 +150,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
           },
           {
             headers: {
-              email: user?.email,
+              token: user?.token,
             },
           }
         );
@@ -160,7 +188,7 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
           },
           {
             headers: {
-              email: user?.email,
+              token: user?.token,
             },
           }
         );
@@ -261,11 +289,11 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
                     <h3 className="heading-3">
                       {loggedInUser?.name
                         ? loggedInUser.name
-                        : user && user.displayName}
+                        : user && user.name}
                     </h3>
                     <p className="userNameSection">@{userName}</p>
                   </div>
-                  <EditProfile user={user} loggedInUser={loggedInUser} />
+                  <EditProfile loggedInUser={loggedInUser} />
                 </div>
                 <div className="infoContainer">
                   {typeof loggedInUser == "object" && loggedInUser?.bio ? (

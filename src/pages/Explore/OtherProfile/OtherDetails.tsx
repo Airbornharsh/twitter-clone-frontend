@@ -76,7 +76,7 @@ const OtherDetails = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/other/` + id,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -87,7 +87,7 @@ const OtherDetails = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/list/${type}/${id}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );

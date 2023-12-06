@@ -41,7 +41,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
           `${process.env.REACT_APP_BACKEND_URL}/user/list?search=${search}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -68,7 +68,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
         `${process.env.REACT_APP_BACKEND_URL}/user/list?search=${search}`,
         {
           headers: {
-            email: typeof loggedInUser == "object" && loggedInUser?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );

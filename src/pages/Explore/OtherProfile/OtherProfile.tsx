@@ -95,7 +95,7 @@ const OtherProfile = () => {
           `${process.env.REACT_APP_BACKEND_URL}/user/other/` + otherUser._id,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -114,7 +114,7 @@ const OtherProfile = () => {
           `${process.env.REACT_APP_BACKEND_URL}/tweet/other/list/${otherUser._id}`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -140,7 +140,7 @@ const OtherProfile = () => {
         `${process.env.REACT_APP_BACKEND_URL}/tweet/other/list/${otherUser._id}`,
         {
           headers: {
-            email: typeof loggedInUser == "object" && loggedInUser?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );

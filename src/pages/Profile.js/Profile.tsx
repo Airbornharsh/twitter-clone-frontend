@@ -1,14 +1,18 @@
 import React from "react";
 import "../Page.css";
-import { useUserAuth } from "../../context/UserAuthContext";
 import MainProfile from "./MainPage/MainPage";
+import useLoggedInUser from "../../hooks/useLoggedInUser";
 
 function Profile() {
-  const { user } = useUserAuth();
+  const [loggedInUser] = useLoggedInUser();
 
+  if (typeof loggedInUser !== "object") {
+    return null;
+  }
+  
   return (
     <div className="profilePage">
-      <MainProfile user={user} />
+      <MainProfile user={loggedInUser} />
     </div>
   );
 }

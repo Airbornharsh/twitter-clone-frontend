@@ -55,7 +55,7 @@ const Feed = () => {
           `${process.env.REACT_APP_BACKEND_URL}/tweet/other`,
           {
             headers: {
-              email: typeof loggedInUser == "object" && loggedInUser?.email,
+              token: typeof loggedInUser == "object" && loggedInUser?.token,
             },
           }
         );
@@ -74,7 +74,7 @@ const Feed = () => {
         `${process.env.REACT_APP_BACKEND_URL}/tweet/other`,
         {
           headers: {
-            email: typeof loggedInUser == "object" && loggedInUser?.email,
+            token: typeof loggedInUser == "object" && loggedInUser?.token,
           },
         }
       );

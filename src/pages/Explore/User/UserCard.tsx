@@ -45,7 +45,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -65,7 +65,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -85,7 +85,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -105,7 +105,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -125,7 +125,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -145,7 +145,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );
@@ -165,7 +165,7 @@ const UserCard: React.FC<UserCardProps> = ({
         {},
         {
           headers: {
-            email: user?.email,
+            token: user?.token,
           },
         }
       );

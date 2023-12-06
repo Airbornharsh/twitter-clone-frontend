@@ -81,7 +81,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         }/user/list?search=${e.target.value.trim()}`,
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -118,7 +118,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         },
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -139,7 +139,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         },
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -168,7 +168,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         },
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -209,7 +209,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         },
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -232,7 +232,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         },
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -255,7 +255,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         },
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -277,7 +277,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
         {},
         {
           headers: {
-            email: mySelf.email,
+            token: mySelf.token,
           },
         }
       );
@@ -484,7 +484,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
                 userName={user.userName}
                 profileImage={user.profileImage}
                 _id={user._id}
-                email={mySelf.email}
+                token={mySelf.token}
                 conversationId={conversationId}
                 key={user._id + "addingMember"}
               />
@@ -518,7 +518,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
                 userName={request.userName}
                 profileImage={request.profileImage}
                 _id={request._id}
-                email={mySelf.email}
+                token={mySelf.token}
                 conversationId={conversationId}
                 key={request._id + "addingMember"}
               />
@@ -544,7 +544,7 @@ type RequestType = {
   userName: string;
   profileImage: string;
   _id: string;
-  email: string;
+  token: string;
   conversationId: string;
 };
 
@@ -553,7 +553,7 @@ const Request: React.FC<RequestType> = ({
   userName,
   profileImage,
   _id,
-  email,
+  token,
   conversationId,
 }) => {
   const [isAccepting, setIsAccepting] = React.useState(false);
@@ -573,7 +573,7 @@ const Request: React.FC<RequestType> = ({
         },
         {
           headers: {
-            email: email,
+            token: token,
           },
         }
       );
@@ -597,7 +597,7 @@ const Request: React.FC<RequestType> = ({
         },
         {
           headers: {
-            email: email,
+            token: token,
           },
         }
       );
@@ -659,7 +659,7 @@ type UserItemType = {
   userName: string;
   profileImage: string;
   _id: string;
-  email: string;
+  token: string;
   conversationId: string;
 };
 
@@ -668,7 +668,7 @@ const User: React.FC<UserItemType> = ({
   userName,
   profileImage,
   _id,
-  email,
+  token,
   conversationId,
 }) => {
   const [isAdding, setIsAdding] = React.useState(false);
@@ -685,7 +685,7 @@ const User: React.FC<UserItemType> = ({
         },
         {
           headers: {
-            email: email,
+            token: token,
           },
         }
       );
