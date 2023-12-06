@@ -273,15 +273,38 @@
   border-bottom: 1px solid var(--twitter-background);
 }
 
-.group__info__header h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
+.group__info__header .group_photo_container{
+  width: 11rem;
+  height: 11rem;
+  border-radius: 100%;
+  position: relative;
 }
 
 .group__info__header__avatar {
   width: 11rem;
   height: 11rem;
   border-radius: 100%;
+}
+
+.group__info__header .select_groupphoto_info {
+  width: 11rem;
+  height: 11rem;
+  border-radius: 100%;
+  position: absolute;
+  top: -1.2rem;
+  opacity: 0;
+  z-index: 10;
+}
+
+.group__info__header .create_group_icon  {
+  position: absolute;
+  top: 0;
+  right: 0.2rem;
+}
+
+.group__info__header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .group__info__body {
@@ -401,7 +424,7 @@
   justify-content: space-between;
 }
 
-.adding_member_container span{
+.adding_member_container span {
   font-size: 1.2rem;
   font-weight: 600;
   display: flex;

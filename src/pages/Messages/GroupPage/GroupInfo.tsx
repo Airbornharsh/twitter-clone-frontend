@@ -2,6 +2,7 @@ import { Avatar, CircularProgress, Modal } from "@mui/material";
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CloseIcon from "@mui/icons-material/Close";
+import CreateIcon from "@mui/icons-material/Create";
 import { MdPending } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -20,12 +21,14 @@ type GroupType = {
   groupMembers: UserType[];
   groupAdmin: UserType[];
   requestedMembers: UserType[];
+  createdAt: number;
   _id: string;
 };
 
 type GroupInfoInterface = {
   setIsGroupInfo: React.Dispatch<React.SetStateAction<boolean>>;
-  group: GroupType | undefined;
+  group: GroupType;
+  setGroup: React.Dispatch<React.SetStateAction<GroupType>>;
   users: UserType[];
   mySelf: any;
   conversationId: string;
@@ -35,12 +38,14 @@ type GroupInfoInterface = {
 const GroupInfo: React.FC<GroupInfoInterface> = ({
   setIsGroupInfo,
   group,
+  setGroup,
   users,
   mySelf,
   conversationId,
   isAdmin,
 }) => {
   const [search, setSearch] = React.useState("");
+  // const [groupImage, setGroupImage] = React.useState(group?.groupImage);
   const [searchUsers, setSearchUsers] = React.useState<UserType[]>([]);
   const [isAddingMember, setIsAddingMember] = React.useState(false);
   const [isRequesting, setIsRequesting] = React.useState(false);
@@ -76,6 +81,41 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
     }
   };
 
+  const onChangeGroupImage = async (e: any) => {
+    try {
+      const image = e.target.files[0];
+
+      const formData = new FormData();
+      formData.set("image", image);
+
+      const res = await axios.post(
+        "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
+        formData
+      );
+
+      const tempGroupImage = res.data.data.display_url;
+
+      setGroup({
+        ...group,
+        groupImage: tempGroupImage,
+      });
+
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/update/${conversationId}`,
+        {
+          groupImage: tempGroupImage,
+        },
+        {
+          headers: {
+            email: mySelf.email,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="group__info">
       <ArrowBackIcon
@@ -84,12 +124,24 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
       />
       <div className="group__info__container">
         <div className="group__info__header">
-          <img
-            src={group?.groupImage}
-            className="group__info__header__avatar"
-            alt="profileImage"
-            onClick={() => setIsGroupInfo(true)}
-          />
+          <div className="group_photo_container">
+            <img
+              src={group?.groupImage}
+              className="group__info__header__avatar"
+              alt="profileImage"
+              onClick={() => setIsGroupInfo(true)}
+            />
+            {isAdmin && (
+              <>
+                <input
+                  type="file"
+                  onChange={onChangeGroupImage}
+                  className="select_groupphoto_info"
+                />
+                <CreateIcon className="create_group_icon" />
+              </>
+            )}
+          </div>
           <h2 onClick={() => setIsGroupInfo(true)}>{group?.groupName}</h2>
         </div>
         <div className="group__info__body">

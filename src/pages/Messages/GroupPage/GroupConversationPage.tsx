@@ -23,6 +23,7 @@ type GroupType = {
   groupMembers: UserType[];
   groupAdmin: UserType[];
   requestedMembers: UserType[];
+  createdAt: number;
   _id: string;
 };
 
@@ -47,7 +48,16 @@ const GroupConversationPage = () => {
   const [isMessagesLoading, setIsMessagesLoading] = React.useState(false);
   const [isSendLoading, setIsSendLoading] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const [group, setGroup] = React.useState<GroupType>();
+  const [group, setGroup] = React.useState<GroupType>({
+    _id: "",
+    groupName: "",
+    groupImage: "",
+    groupDescription: "",
+    groupMembers: [],
+    groupAdmin: [],
+    requestedMembers: [],
+    createdAt: Date.now(),
+  });
   const [groupMessages, setGroupMessages] = React.useState<GroupMessageType[]>(
     []
   );
@@ -90,6 +100,7 @@ const GroupConversationPage = () => {
           groupMembers: res.data.groupConversation.groupMembers,
           requestedMembers: res.data.groupConversation.requestedMembers,
           groupDescription: res.data.groupConversation.groupDescription,
+          createdAt: res.data.groupConversation.createdAt,
           _id: res.data.groupConversation._id,
         });
 
@@ -278,6 +289,7 @@ const GroupConversationPage = () => {
           <GroupInfo
             setIsGroupInfo={setIsGroupInfo}
             group={group}
+            setGroup={setGroup}
             users={users}
             mySelf={mySelf}
             conversationId={conversationId}
