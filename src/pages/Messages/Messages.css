@@ -393,6 +393,34 @@
   padding: 0 1rem;
   border-radius: 0.5rem;
   background-color: var(--twitter-background);
+  justify-content: space-between;
+}
+
+.group__info__footer__members__member_child{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.group__info__footer__members__member .admin__edit__member {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.group__info__footer__members__member .admin__edit__member button {
+  padding: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--twitter-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.group__info__footer__members__member .admin__edit__member button:hover {
+  text-decoration: underline;
 }
 
 .group_info_addmember {

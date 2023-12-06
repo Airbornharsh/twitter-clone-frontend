@@ -30,7 +30,7 @@ type GroupInfoInterface = {
   setIsGroupInfo: React.Dispatch<React.SetStateAction<boolean>>;
   group: GroupType;
   setGroup: React.Dispatch<React.SetStateAction<GroupType>>;
-  users: UserType[];
+  // users: UserType[];
   mySelf: any;
   conversationId: string;
   isAdmin: boolean;
@@ -40,7 +40,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
   setIsGroupInfo,
   group,
   setGroup,
-  users,
+  // users,
   mySelf,
   conversationId,
   isAdmin,
@@ -64,7 +64,7 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
   const removeAddedUsers = (tempUsers: UserType[]) => {
     const temp = tempUsers.filter(
       (tempUser) =>
-        !users.find((user) => user._id === tempUser._id) &&
+        !group.groupMembers.find((user) => user._id === tempUser._id) &&
         tempUser._id !== mySelf._id
     );
 
@@ -184,6 +184,91 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
     }
   };
 
+  const isUserAdmin = (id: string) => {
+    return group?.groupAdmin.find((admin) => admin._id === id);
+  };
+
+  const getUser = (id: string) => {
+    return (
+      (group.groupMembers.find((user) => user._id === id) as UserType) || {
+        name: mySelf.name,
+        userName: mySelf.userName,
+        profileImage: mySelf.profileImage,
+        _id: mySelf._id,
+      }
+    );
+  };
+
+  const onMakeAdmin = async (id: string) => {
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/makeadmin/${conversationId}`,
+        {
+          members: [id],
+        },
+        {
+          headers: {
+            email: mySelf.email,
+          },
+        }
+      );
+
+      setGroup({
+        ...group,
+        groupAdmin: [...group?.groupAdmin, getUser(id)],
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onRemoveAdmin = async (id: string) => {
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/removeadmin/${conversationId}`,
+        {
+          members: [id],
+        },
+        {
+          headers: {
+            email: mySelf.email,
+          },
+        }
+      );
+
+      setGroup({
+        ...group,
+        groupAdmin: group?.groupAdmin.filter((admin) => admin._id !== id),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onRemoveMember = async (id: string) => {
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/remove/${conversationId}`,
+        {
+          members: [id],
+        },
+        {
+          headers: {
+            email: mySelf.email,
+          },
+        }
+      );
+
+      setGroup({
+        ...group,
+        groupMembers: group?.groupMembers.filter((member) => member._id !== id),
+        groupAdmin: group?.groupAdmin.filter((admin) => admin._id !== id),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="group__info">
       <ArrowBackIcon
@@ -262,7 +347,10 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
                   }}
                 />
               ) : (
-                <DoneIcon className="done_icon" onClick={onChangeGroupDescription} />
+                <DoneIcon
+                  className="done_icon"
+                  onClick={onChangeGroupDescription}
+                />
               )}
             </form>
           ) : (
@@ -288,28 +376,69 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
             </button>
           )}
           <div className="group__info__footer__members">
-            {[mySelf, ...users].map((user) => (
-              <div className="group__info__footer__members__member">
-                <Avatar
-                  src={user.profileImage}
-                  alt="profileImage"
-                  onClick={() => {
-                    navigate(`/home/explore/${user._id}`);
-                  }}
-                />
-                <p
-                  style={{
-                    marginLeft: "1rem",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    navigate(`/home/explore/${user._id}`);
-                  }}
-                >
-                  {user.name}
-                </p>
-              </div>
-            ))}
+            {[mySelf, ...group.groupMembers].map((user) => {
+              return (
+                <div className="group__info__footer__members__member">
+                  <div className="group__info__footer__members__member_child">
+                    <Avatar
+                      src={user.profileImage}
+                      alt="profileImage"
+                      onClick={() => {
+                        navigate(`/home/explore/${user._id}`);
+                      }}
+                    />
+                    <p
+                      style={{
+                        marginLeft: "1rem",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        navigate(`/home/explore/${user._id}`);
+                      }}
+                    >
+                      {user.name}
+                    </p>
+                  </div>
+                  {isAdmin && (
+                    <span className="admin__edit__member">
+                      {isUserAdmin(user._id) ? (
+                        <>
+                          {user._id !== mySelf._id ? (
+                            <button
+                              onClick={() => {
+                                onRemoveAdmin(user._id);
+                              }}
+                            >
+                              Remove Admin
+                            </button>
+                          ) : (
+                            <p>Admin</p>
+                          )}
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            onMakeAdmin(user._id);
+                          }}
+                        >
+                          Make Admin
+                        </button>
+                      )}
+                      {user._id !== mySelf._id && (
+                        <CloseIcon
+                          onClick={() => {
+                            onRemoveMember(user._id);
+                          }}
+                          style={{
+                            cursor: "pointer",
+                          }}
+                        />
+                      )}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

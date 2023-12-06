@@ -61,7 +61,7 @@ const GroupConversationPage = () => {
   const [groupMessages, setGroupMessages] = React.useState<GroupMessageType[]>(
     []
   );
-  const [users, setUsers] = React.useState<UserType[]>([]);
+  // const [users, setUsers] = React.useState<UserType[]>([]);
   const [isGroupInfo, setIsGroupInfo] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const navigate = useNavigate();
@@ -93,23 +93,23 @@ const GroupConversationPage = () => {
             }
         });
 
+        const tempUsers = res.data.groupConversation.groupMembers.filter(
+          (member: any) =>
+            member._id !== (typeof loggedInUser == "object" && loggedInUser?.id)
+        );
+
         setGroup({
           groupName: res.data.groupConversation.groupName,
           groupImage: res.data.groupConversation.groupImage,
           groupAdmin: res.data.groupConversation.groupAdmin,
-          groupMembers: res.data.groupConversation.groupMembers,
+          groupMembers: tempUsers,
           requestedMembers: res.data.groupConversation.requestedMembers,
           groupDescription: res.data.groupConversation.groupDescription,
           createdAt: res.data.groupConversation.createdAt,
           _id: res.data.groupConversation._id,
         });
 
-        const tempUsers = res.data.groupConversation.groupMembers.filter(
-          (member: any) =>
-            member._id !== (typeof loggedInUser == "object" && loggedInUser?.id)
-        );
-
-        setUsers(tempUsers);
+        // setUsers(tempUsers);
       } catch (e) {
         console.log(e);
       } finally {
@@ -197,7 +197,7 @@ const GroupConversationPage = () => {
 
   const getUser = (id: string) => {
     return (
-      (users.find((user) => user._id === id) as UserType) || {
+      (group.groupMembers.find((user) => user._id === id) as UserType) || {
         name: typeof loggedInUser == "object" && loggedInUser?.name,
         userName: typeof loggedInUser == "object" && loggedInUser?.userName,
         profileImage:
@@ -290,7 +290,8 @@ const GroupConversationPage = () => {
             setIsGroupInfo={setIsGroupInfo}
             group={group}
             setGroup={setGroup}
-            users={users}
+            // users={group.groupMembers}
+            // setUsers={setUsers}
             mySelf={mySelf}
             conversationId={conversationId}
             isAdmin={isAdmin}
