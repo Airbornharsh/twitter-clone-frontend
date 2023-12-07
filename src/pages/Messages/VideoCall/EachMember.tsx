@@ -5,7 +5,7 @@ type EachMemberProps = {
 };
 
 const EachMember: React.FC<EachMemberProps> = ({ userId }) => {
-  return <video id={`video-player-${userId}`} autoPlay />;
+  return <video id={`remote-video-${userId}`} autoPlay />;
 };
 
 export default EachMember;
