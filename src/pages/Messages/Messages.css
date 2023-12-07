@@ -2,6 +2,35 @@
   position: relative;
 }
 
+.messagepage-heading-4{
+  width: 100%;
+  font-size: 1.2rem;
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--twitter-background);
+}
+
+.messagepage_heading_child_1{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.messagepage_heading_child_2{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 0.7rem;
+}
+
+.message_video_call{
+  font-size: 1.5rem;
+  color: var(--twitter-color);
+  cursor: pointer;
+}
+
 .message__buttonContainer {
   width: 100%;
   position: absolute;

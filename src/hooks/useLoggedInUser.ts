@@ -65,6 +65,8 @@ const useLoggedInUser = () => {
     const onLoad = async () => {
       const token = await user?.getIdToken();
 
+      console.log("token", token)
+
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/user`, {
         headers: {
           token: token,

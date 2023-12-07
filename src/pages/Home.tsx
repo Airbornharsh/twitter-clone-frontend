@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar/Sidebar";
 import Widgets from "./Widgets/Widgets";
 import "../App.css";
 import auth from "../context/firebase";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const Home = () => {
   const user = auth?.currentUser;
@@ -11,11 +11,15 @@ const Home = () => {
     auth.signOut();
   };
 
+  const location = useLocation();
+
   return (
     <div className="app">
-      <Sidebar handleLogout={handleLogout} user={user} />
+      {location.pathname.split("/")[5] !== "video" && (
+        <Sidebar handleLogout={handleLogout} user={user} />
+      )}
       <Outlet />
-      <Widgets />
+      {location.pathname.split("/")[5] !== "video" && <Widgets />}
     </div>
   );
 };

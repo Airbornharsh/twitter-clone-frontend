@@ -5,6 +5,7 @@ import { Avatar, CircularProgress } from "@mui/material";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import axios from "axios";
 import SendIcon from "@mui/icons-material/Send";
+import VideoCallIcon from "@mui/icons-material/VideoCall";
 import {
   query,
   collection,
@@ -208,6 +209,10 @@ const GroupConversationPage = () => {
     );
   };
 
+  const onJoinVideoCall = () => {
+    navigate(`/home/messages/group/${conversationId}/video`);
+  }
+
   if (isLoading) {
     return (
       <div className="lists__page">
@@ -224,25 +229,30 @@ const GroupConversationPage = () => {
   } else {
     return (
       <div className="lists__page conversation__page">
-        <div className="heading-4">
-          <ArrowBackIcon
-            className="arrow-icon"
-            onClick={() => navigate("/home/messages/group")}
-          />
-          <Avatar
-            src={group?.groupImage}
-            alt="profileImage"
-            onClick={() => setIsGroupInfo(true)}
-          />
-          <p
-            style={{
-              marginLeft: "1rem",
-              cursor: "pointer",
-            }}
-            onClick={() => setIsGroupInfo(true)}
-          >
-            {group?.groupName}
-          </p>
+        <div className="messagepage-heading-4">
+          <div className="messagepage_heading_child_1">
+            <ArrowBackIcon
+              className="arrow-icon"
+              onClick={() => navigate("/home/messages/group")}
+            />
+            <Avatar
+              src={group?.groupImage}
+              alt="profileImage"
+              onClick={() => setIsGroupInfo(true)}
+            />
+            <p
+              style={{
+                marginLeft: "1rem",
+                cursor: "pointer",
+              }}
+              onClick={() => setIsGroupInfo(true)}
+            >
+              {group?.groupName}
+            </p>
+          </div>
+          <div className="messagepage_heading_child_2">
+            <VideoCallIcon className="message_video_call" onClick={onJoinVideoCall}/>
+          </div>
         </div>
         {isMessagesLoading ? (
           <CircularProgress />

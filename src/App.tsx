@@ -23,6 +23,8 @@ import TweetPage from "./pages/TweetPage/TweetPage";
 import GroupMessages from "./pages/Messages/GroupMessages";
 import ConversationPage from "./pages/Messages/MessagePage/ConversationPage";
 import GroupConversationPage from "./pages/Messages/GroupPage/GroupConversationPage";
+import VideoCallPage from "./pages/Messages/VideoCall/VideoCallPage";
+import VideoCheck from "./pages/Messages/VideoCall/VIdeoCheck";
 
 type User = {
   name: string;
@@ -81,6 +83,8 @@ function App() {
                 <Route path="group" element={<Outlet />}>
                   <Route path="" element={<GroupMessages />} />
                   <Route path=":id" element={<GroupConversationPage />} />
+                  <Route path=":id/video" element={<VideoCallPage />} />
+                  {/* <Route path=":id/video" element={<VideoCheck />} /> */}
                 </Route>
                 <Route path=":id" element={<ConversationPage />} />
               </Route>
