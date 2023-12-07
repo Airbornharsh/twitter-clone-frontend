@@ -187,17 +187,6 @@ const VideoCallPage = () => {
       await leaveChannel();
     }
 
-    // const data = client.connectionState;
-
-    // if (data === "CONNECTED") {
-    //   setIsJoined(true);
-    //   await turnOnMicrophone(true);
-    //   await turnOnCamera(true);
-    //   await publishAudio();
-    //   await publishVideo();
-    //   return;
-    // }
-
     client.on("user-published", onUserPublish);
 
     client.on("user-unpublished", onUserUnPublish);
@@ -226,18 +215,10 @@ const VideoCallPage = () => {
       const mem = <EachMember userId={user.uid.toString()} />;
 
       setVideoMembers((prev) => [...prev, mem]);
-
-      // const mem = document.createElement("video");
-      // mem.id = `remote-video-${user.uid}`;
-      // mem.autoplay = true;
-      // const videocallPage = document.getElementById("videocall_page");
-      // videocallPage?.appendChild(mem);
-
       setTimeout(() => {
         remoteTrack.play(`remote-video-${user.uid}`);
       }, 1);
 
-      // remoteTrack.play(`remote-video-${userId}`);
     }
     if (mediaType === "audio") {
       const remoteTrack = await client.subscribe(user, mediaType);
@@ -250,8 +231,6 @@ const VideoCallPage = () => {
     mediaType: "video" | "audio"
   ) => {
     if (mediaType === "video") {
-      // const mem = document.getElementById(`remote-video-${user.uid}`);
-      // mem?.remove();
       setVideoMembers((prev) =>
         prev.filter((member) => member.props.userId !== user.uid.toString())
       );
