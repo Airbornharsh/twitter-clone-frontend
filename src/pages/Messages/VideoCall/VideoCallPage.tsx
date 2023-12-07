@@ -235,7 +235,13 @@ const VideoCallPage = () => {
     client.on("user-published", onUserPublish);
 
     await client.join(agoraAppId!, conversationId, token, userId);
+
     setIsJoined(true);
+    await turnOnMicrophone(true);
+    await turnOnCamera(true);
+    await publishAudio();
+    await publishVideo();
+    setIsVideoPubed(true);
   };
 
   const leaveChannel = async () => {
@@ -264,9 +270,9 @@ const VideoCallPage = () => {
   const publishVideo = async () => {
     await turnOnCamera(true);
 
-    if (!isJoined) {
-      await joinChannel();
-    }
+    // if (!isJoined) {
+    //   await joinChannel();
+    // }
     await client.publish(videoTrack);
     setIsVideoPubed(true);
   };
@@ -274,9 +280,9 @@ const VideoCallPage = () => {
   const publishAudio = async () => {
     await turnOnMicrophone(true);
 
-    if (!isJoined) {
-      await joinChannel();
-    }
+    // if (!isJoined) {
+    //   await joinChannel();
+    // }
 
     await client.publish(audioTrack);
     setIsAudioPubed(true);
@@ -290,8 +296,6 @@ const VideoCallPage = () => {
       <div>
         <h1>Group Name: {group.groupName}</h1>
         <button onClick={joinChannel}>Join</button>
-        <button onClick={publishVideo}>Publish Video</button>
-        <button onClick={publishAudio}>Publish Audio</button>
         <button
           onClick={() => {
             turnOnMicrophone();
