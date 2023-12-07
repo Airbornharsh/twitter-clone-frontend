@@ -218,7 +218,6 @@ const VideoCallPage = () => {
       setTimeout(() => {
         remoteTrack.play(`remote-video-${user.uid}`);
       }, 1);
-
     }
     if (mediaType === "audio") {
       const remoteTrack = await client.subscribe(user, mediaType);
@@ -252,8 +251,15 @@ const VideoCallPage = () => {
   return (
     <div className="videocall_page">
       <div className="videocall_page_p2">
-        <video id={`camera-video`} className="myself_video" />
-        {videoMembers.map((member) => member)}
+        <div className="video_containers">
+          <video
+            id={`camera-video`}
+            className={
+              isJoined ? "myself_video_active" : "myself_video_unactive"
+            }
+          />
+          {videoMembers.map((member) => member)}
+        </div>
         <div className="videocall_page_child">
           <div className="videocall_page_child_2">
             {!isJoined ? (

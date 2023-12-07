@@ -567,6 +567,7 @@
   position: fixed;
   left: 0;
   overflow: hidden;
+  background-color: black;
 }
 
 .videocall_page_p2 {
@@ -585,9 +586,27 @@
   background-color: transparent;
 }
 
-.myself_video {
+.video_containers {
   width: 100%;
   height: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 0.5rem;
+}
+
+.video_containers video{
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.myself_video_unactive {
+  width: 100%;
+  height: 100%;
+}
+
+.myself_video_active {
+  /* width: 16rem; */
+  /* align-self: 16/9; */
 }
 
 .videocall_page_child_2 {
