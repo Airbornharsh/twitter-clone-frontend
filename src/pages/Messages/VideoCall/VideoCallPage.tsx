@@ -133,7 +133,30 @@ const VideoCallPage = () => {
     fetchGroup();
   }, [conversationId, loggedInUser]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    const turnOnCamera = async () => {
+      setIsVideoOn(true);
+
+      if (videoTrack) {
+        return videoTrack.setEnabled(true);
+      }
+      videoTrack = await createCameraVideoTrack();
+      videoTrack.play("camera-video");
+    };
+
+    const turnOnMicrophone = async () => {
+      setIsAudioOn(true);
+
+      if (audioTrack) {
+        return audioTrack.setEnabled(true);
+      }
+
+      audioTrack = await createMicrophoneAudioTrack();
+    };
+
+    turnOnMicrophone();
+    turnOnCamera();
+  }, []);
 
   const turnOnCamera = async (flag?: boolean) => {
     flag = flag ?? !isVideoOn;
@@ -192,15 +215,15 @@ const VideoCallPage = () => {
   ) => {
     if (mediaType === "video") {
       const remoteTrack = await client.subscribe(user, mediaType);
-      // const mem = <EachMember userId={user.uid.toString()} />;
+      const mem = <EachMember userId={user.uid.toString()} />;
 
-      // setVideoMembers((prev) => [...prev, mem]);
+      setVideoMembers((prev) => [...prev, mem]);
 
-      const mem = document.createElement("video");
-      mem.id = `remote-video-${user.uid}`;
-      mem.autoplay = true;
-      const videocallPage = document.getElementById("videocall_page");
-      videocallPage?.appendChild(mem);
+      // const mem = document.createElement("video");
+      // mem.id = `remote-video-${user.uid}`;
+      // mem.autoplay = true;
+      // const videocallPage = document.getElementById("videocall_page");
+      // videocallPage?.appendChild(mem);
 
       setTimeout(() => {
         remoteTrack.play(`remote-video-${user.uid}`);
@@ -220,8 +243,11 @@ const VideoCallPage = () => {
     mediaType: "video" | "audio"
   ) => {
     if (mediaType === "video") {
-      const mem = document.getElementById(`remote-video-${user.uid}`);
-      mem?.remove();
+      // const mem = document.getElementById(`remote-video-${user.uid}`);
+      // mem?.remove();
+      setVideoMembers((prev) =>
+        prev.filter((member) => member.props.userId !== user.uid.toString())
+      );
     }
   };
 
@@ -243,7 +269,7 @@ const VideoCallPage = () => {
     <div className="videocall_page" id="videocall_page">
       <video id={`camera-video`} />
       {/* <video id="remote-video" /> */}
-      {/* {videoMembers.map((member) => member)} */}
+      {videoMembers.map((member) => member)}
       <div>
         <h1>Group Name: {group.groupName}</h1>
         <button onClick={joinChannel}>Join</button>
