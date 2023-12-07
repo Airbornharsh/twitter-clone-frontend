@@ -44,65 +44,67 @@ function App() {
   const [users, setUsers] = useState<User[]>([]);
 
   return (
-    <div className="App">
-      <UserAuthContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Feed />} />
-            </Route>
-            <Route
-              path="/home"
-              element={
-                <ProtectedRoute>
-                  <Home />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="feed" element={<Feed />} />
-              <Route path="explore" element={<Outlet />}>
-                <Route
-                  path=""
-                  element={<Explore users={users} setUsers={setUsers} />}
-                />
-                <Route path=":id" element={<OtherProfile />} />
-                <Route path="followers/:id" element={<OtherDetails />} />
-                <Route path="following/:id" element={<OtherDetails />} />
+    <div id="ParentApp">
+      <div className="App">
+        <UserAuthContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Feed />} />
               </Route>
-              <Route path="tweet/:id" element={<TweetPage />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="messages" element={<Outlet />}>
-                <Route path="" element={<Messages />} />
-                <Route path="group" element={<Outlet />}>
-                  <Route path="" element={<GroupMessages />} />
-                  <Route path=":id" element={<GroupConversationPage />} />
-                  <Route path=":id/video" element={<VideoCallPage />} />
-                  {/* <Route path=":id/video" element={<VideoCheck />} /> */}
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="feed" element={<Feed />} />
+                <Route path="explore" element={<Outlet />}>
+                  <Route
+                    path=""
+                    element={<Explore users={users} setUsers={setUsers} />}
+                  />
+                  <Route path=":id" element={<OtherProfile />} />
+                  <Route path="followers/:id" element={<OtherDetails />} />
+                  <Route path="following/:id" element={<OtherDetails />} />
                 </Route>
-                <Route path=":id" element={<ConversationPage />} />
+                <Route path="tweet/:id" element={<TweetPage />} />
+                <Route path="notifications" element={<Notifications />} />
+                <Route path="messages" element={<Outlet />}>
+                  <Route path="" element={<Messages />} />
+                  <Route path="group" element={<Outlet />}>
+                    <Route path="" element={<GroupMessages />} />
+                    <Route path=":id" element={<GroupConversationPage />} />
+                    <Route path=":id/video" element={<VideoCallPage />} />
+                    {/* <Route path=":id/video" element={<VideoCheck />} /> */}
+                  </Route>
+                  <Route path=":id" element={<ConversationPage />} />
+                </Route>
+                <Route path="bookmarks" element={<Bookmarks />} />
+                <Route path="lists" element={<Lists />} />
+                <Route path="profile" element={<Outlet />}>
+                  <Route path="" element={<Profile />} />
+                  <Route path="followers" element={<Details />} />
+                  <Route path="following" element={<Details />} />
+                </Route>
+                <Route path="more" element={<More />} />
               </Route>
-              <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path="lists" element={<Lists />} />
-              <Route path="profile" element={<Outlet />}>
-                <Route path="" element={<Profile />} />
-                <Route path="followers" element={<Details />} />
-                <Route path="following" element={<Details />} />
-              </Route>
-              <Route path="more" element={<More />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="page-loading" element={<PageLoading />} />
-          </Routes>
-        </BrowserRouter>
-      </UserAuthContextProvider>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="page-loading" element={<PageLoading />} />
+            </Routes>
+          </BrowserRouter>
+        </UserAuthContextProvider>
+      </div>
     </div>
   );
 }

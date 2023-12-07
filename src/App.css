@@ -3,13 +3,22 @@ body {
   --twitter-background: #e6ecf0;
 }
 
+#ParentApp{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* background-color: black; */
+  height: 100vh;
+  width: 100vw;
+}
+
 .app {
   display: flex;
   height: 100vh;
   max-width: 1300px;
   margin-right: auto;
   margin-left: auto;
-  padding: 0 10px;
 }
 
 @media screen and (max-width: 668px) {

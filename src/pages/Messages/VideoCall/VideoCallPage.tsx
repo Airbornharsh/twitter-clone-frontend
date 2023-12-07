@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import AgoraRTC from "agora-rtc-sdk-ng";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import EachMember from "./EachMember";
+import MicOffIcon from "@mui/icons-material/MicOff";
+import MicIcon from "@mui/icons-material/Mic";
+import VideocamOffIcon from "@mui/icons-material/VideocamOff";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import LogoutIcon from "@mui/icons-material/Logout";
 import {
   IAgoraRTCRemoteUser,
   ICameraVideoTrack,
@@ -31,19 +35,12 @@ type UserType = {
   _id: string;
 };
 
-const client = createClient({ mode: "rtc", codec: "vp8" });
-
-let audioTrack: IMicrophoneAudioTrack;
-let videoTrack: ICameraVideoTrack;
-
 const VideoCallPage = () => {
   const [token, setToken] = React.useState("");
   const [videoMembers, setVideoMembers] = React.useState<any[]>([]);
   const [isAudioOn, setIsAudioOn] = React.useState(false);
   const [isVideoOn, setIsVideoOn] = React.useState(false);
-  const [isAudioPubed, setIsAudioPubed] = React.useState(false);
-  const [isVideoPubed, setIsVideoPubed] = React.useState(false);
-  const [isVideoSubed, setIsVideoSubed] = React.useState(false);
+  const [isJoined, setIsJoined] = useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [group, setGroup] = React.useState<GroupType>({
@@ -66,6 +63,11 @@ const VideoCallPage = () => {
     (typeof loggedInUser == "object" ? loggedInUser?.id : "").slice(15, 23),
     16
   );
+
+  const client = createClient({ mode: "rtc", codec: "vp8" });
+
+  let audioTrack: IMicrophoneAudioTrack;
+  let videoTrack: ICameraVideoTrack;
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -180,12 +182,21 @@ const VideoCallPage = () => {
     audioTrack = await createMicrophoneAudioTrack();
   };
 
-  const [isJoined, setIsJoined] = useState(false);
-
   const joinChannel = async () => {
     if (isJoined) {
       await leaveChannel();
     }
+
+    // const data = client.connectionState;
+
+    // if (data === "CONNECTED") {
+    //   setIsJoined(true);
+    //   await turnOnMicrophone(true);
+    //   await turnOnCamera(true);
+    //   await publishAudio();
+    //   await publishVideo();
+    //   return;
+    // }
 
     client.on("user-published", onUserPublish);
 
@@ -198,13 +209,10 @@ const VideoCallPage = () => {
     await turnOnCamera(true);
     await publishAudio();
     await publishVideo();
-    setIsVideoPubed(true);
   };
 
   const leaveChannel = async () => {
     setIsJoined(false);
-    setIsAudioPubed(false);
-    setIsVideoPubed(false);
 
     await client.leave();
   };
@@ -227,7 +235,6 @@ const VideoCallPage = () => {
 
       setTimeout(() => {
         remoteTrack.play(`remote-video-${user.uid}`);
-        setIsVideoSubed(true);
       }, 1);
 
       // remoteTrack.play(`remote-video-${userId}`);
@@ -255,39 +262,58 @@ const VideoCallPage = () => {
     await turnOnCamera(true);
 
     await client.publish(videoTrack);
-    setIsVideoPubed(true);
   };
 
   const publishAudio = async () => {
     await turnOnMicrophone(true);
 
     await client.publish(audioTrack);
-    setIsAudioPubed(true);
   };
 
   return (
-    <div className="videocall_page" id="videocall_page">
-      <video id={`camera-video`} />
-      {/* <video id="remote-video" /> */}
-      {videoMembers.map((member) => member)}
-      <div>
-        <h1>Group Name: {group.groupName}</h1>
-        <button onClick={joinChannel}>Join</button>
-        <button
-          onClick={() => {
-            turnOnMicrophone();
-          }}
-        >
-          {isAudioOn ? "Mic Off" : "Mic On"}
-        </button>
-        <button
-          onClick={() => {
-            turnOnCamera();
-          }}
-        >
-          {isVideoOn ? "Camera Off" : "Camera On"}
-        </button>
-        <button onClick={leaveChannel}>Leave</button>
+    <div className="videocall_page">
+      <div className="videocall_page_p2">
+        <video id={`camera-video`} className="myself_video" />
+        {videoMembers.map((member) => member)}
+        <div className="videocall_page_child">
+          <div className="videocall_page_child_2">
+            {!isJoined ? (
+              <button onClick={joinChannel}>Join</button>
+            ) : (
+              <>
+                {isAudioOn ? (
+                  <MicIcon
+                    onClick={() => {
+                      turnOnMicrophone();
+                    }}
+                  />
+                ) : (
+                  <MicOffIcon
+                    className="mute"
+                    onClick={() => {
+                      turnOnMicrophone();
+                    }}
+                  />
+                )}
+                {isVideoOn ? (
+                  <VideocamIcon
+                    onClick={() => {
+                      turnOnCamera();
+                    }}
+                  />
+                ) : (
+                  <VideocamOffIcon
+                    className="mute"
+                    onClick={() => {
+                      turnOnCamera();
+                    }}
+                  />
+                )}
+                <LogoutIcon onClick={leaveChannel} className="end_call" />
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
   position: relative;
 }
 
-.messagepage-heading-4{
+.messagepage-heading-4 {
   width: 100%;
   font-size: 1.2rem;
   display: flex;
@@ -12,20 +12,20 @@
   border-bottom: 2px solid var(--twitter-background);
 }
 
-.messagepage_heading_child_1{
+.messagepage_heading_child_1 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.messagepage_heading_child_2{
+.messagepage_heading_child_2 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-right: 0.7rem;
 }
 
-.message_video_call{
+.message_video_call {
   font-size: 1.5rem;
   color: var(--twitter-color);
   cursor: pointer;
@@ -303,7 +303,7 @@
   position: relative;
 }
 
-.group__info__header .exit_group{
+.group__info__header .exit_group {
   position: absolute;
   top: 0rem;
   right: 1rem;
@@ -434,7 +434,7 @@
   justify-content: space-between;
 }
 
-.group__info__footer__members__member_child{
+.group__info__footer__members__member_child {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -560,9 +560,80 @@
   top: 1.2rem;
 }
 
-.videocall_page{
-  max-width: 1300px;
-  width: 100%;
+.videocall_page {
+  /* max-width: 1300px; */
+  width: 100vw;
   height: 100vh;
+  position: fixed;
+  left: 0;
+  overflow: hidden;
+}
+
+.videocall_page_p2 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.videocall_page_child {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  background-color: transparent;
+}
+
+.myself_video {
+  width: 100%;
+  height: 100%;
+}
+
+.videocall_page_child_2 {
+  /* height: 100%; */
   position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.videocall_page_child_2 button {
+  padding: 0.3rem 0.5rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 0.3rem;
+  background-color: var(--twitter-color);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+
+.videocall_page_child_2 button:hover {
+  background-color: #1a91da;
+}
+
+.videocall_page_child_2 svg {
+  font-size: 2.4rem;
+  color: var(--twitter-color);
+  cursor: pointer;
+}
+
+.videocall_page_child_2 .mute {
+  color: #ff0000;
+}
+
+.videocall_page_child_2 .end_call {
+  color: red;
+}
+
+.videocall_page_child_2 .end_call:hover {
+  color: #ff0000;
 }
