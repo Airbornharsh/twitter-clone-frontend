@@ -8,6 +8,8 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { MdPending } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../context/firebase";
 
 type UserType = {
   name: string;
@@ -94,27 +96,28 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
 
   const onChangeGroupImage = async (e: any) => {
     try {
-      const image = e.target.files[0];
+      const image = e.target.files[0] as File;
 
-      const formData = new FormData();
-      formData.set("image", image);
-
-      const res = await axios.post(
-        "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
-        formData
+      const storageRef = ref(
+        storage,
+        `images/group/${mySelf._id}${Math.random() * 100000000}${Date.now()}${
+          image.name
+        }`
       );
 
-      const tempGroupImage = res.data.data.display_url;
+      await uploadBytes(storageRef, image);
+
+      const url = await getDownloadURL(storageRef);
 
       setGroup({
         ...group,
-        groupImage: tempGroupImage,
+        groupImage: url,
       });
 
       await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/update/${conversationId}`,
         {
-          groupImage: tempGroupImage,
+          groupImage: url,
         },
         {
           headers: {

@@ -9,6 +9,8 @@ import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { Avatar, CircularProgress, Modal } from "@mui/material";
 import GroupMessageItem from "./Items/GroupMessageItem";
 import Search from "@mui/icons-material/Search";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../context/firebase";
 
 type GroupConversationType = {
   _id: string;
@@ -70,27 +72,28 @@ const GroupMessages = () => {
     return null;
   }
 
-  const handleUploadImage = (e: any) => {
-    setIsImageLoading(true);
-    const image = e.target.files[0];
+  const handleUploadImage = async (e: any) => {
+    try {
+      setIsLoading(true);
+      const image = e.target.files[0] as File;
+      const userId = typeof loggedInUser === "object" ? loggedInUser.id : "";
 
-    const formData = new FormData();
-    formData.set("image", image);
+      const storageRef = ref(
+        storage,
+        `images/group/${userId}${Math.random() * 100000000}${Date.now()}${
+          image.name
+        }`
+      );
 
-    axios
-      .post(
-        "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
-        formData
-      )
-      .then((res) => {
-        setImageURL(res.data.data.display_url);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsImageLoading(false);
-      });
+      await uploadBytes(storageRef, image);
+
+      const url = await getDownloadURL(storageRef);
+
+      setImageURL(url);
+    } catch (e) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onCreateGroup = async (e: any) => {

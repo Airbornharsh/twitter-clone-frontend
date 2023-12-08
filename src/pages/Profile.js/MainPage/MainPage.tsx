@@ -11,6 +11,8 @@ import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import "./MainPage.css";
 import Tweet from "../../Feed/Tweet/Tweet";
 import { CircularProgress, Modal } from "@mui/material";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../context/firebase";
 
 interface MainProfileProps {
   user: MyUser;
@@ -130,18 +132,18 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const handleUploadCoverImage = async (e: any) => {
     try {
       setIsLoading(true);
-      const image = e.target.files[0];
+      const image = e.target.files[0] as File;
+      const userId = typeof loggedInUser === "object" ? loggedInUser.id : "";
 
-      const formData = new FormData();
-      formData.set("image", image);
-
-      const res = await axios.post(
-        "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
-        formData
+      const storageRef = ref(
+        storage,
+        `images/${userId}/coverImage/${image.name}`
       );
 
-      const url = res.data.data.display_url;
-      // setImageURL(url);
+      await uploadBytes(storageRef, image);
+
+      const url = await getDownloadURL(storageRef);
+
       if (url) {
         await axios.put(
           `${process.env.REACT_APP_BACKEND_URL}/user`,
@@ -168,18 +170,18 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
   const handleUploadProfileImage = async (e: any) => {
     try {
       setIsLoading(true);
-      const image = e.target.files[0];
+      const image = e.target.files[0] as File;
+      const userId = typeof loggedInUser === "object" ? loggedInUser.id : "";
 
-      const formData = new FormData();
-      formData.set("image", image);
-
-      const res = await axios.post(
-        "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
-        formData
+      const storageRef = ref(
+        storage,
+        `images/${userId}/profileImage/${image.name}`
       );
 
-      const url = res.data.data.display_url;
-      // setImageURL(url);
+      await uploadBytes(storageRef, image);
+
+      const url = await getDownloadURL(storageRef);
+
       if (url) {
         await axios.put(
           `${process.env.REACT_APP_BACKEND_URL}/user`,
@@ -199,7 +201,6 @@ const MainProfile: React.FC<MainProfileProps> = ({ user }) => {
     } catch (e) {
       console.log(e);
       window.alert(e);
-    } finally {
       setIsLoading(false);
     }
   };

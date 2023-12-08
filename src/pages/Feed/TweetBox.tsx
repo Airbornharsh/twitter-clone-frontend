@@ -4,6 +4,8 @@ import { Avatar, Button, CircularProgress, Modal } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import axios from "axios";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../context/firebase";
 
 interface TweetBoxProps {
   handleUpdate: () => void;
@@ -24,29 +26,30 @@ const TweetBox: React.FC<TweetBoxProps> = ({ handleUpdate }) => {
       ? loggedInUser?.profileImage
       : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png");
 
-  const handleUploadImage = (e: any) => {
-    setIsLoading(true);
-    setIsScreenLoading(true);
-    const image = e.target.files[0];
+  const handleUploadImage = async (e: any) => {
+    try {
+      setIsLoading(true);
+      setIsScreenLoading(true);
+      const image = e.target.files[0] as File;
+      const userId = typeof loggedInUser === "object" ? loggedInUser.id : "";
 
-    const formData = new FormData();
-    formData.set("image", image);
+      const storageRef = ref(
+        storage,
+        `images/${userId}/Tweet/${Math.random() * 100000000}${Date.now()}${
+          image.name
+        }`
+      );
 
-    axios
-      .post(
-        "https://api.imgbb.com/1/upload?key=c1e87660595242c0175f82bb850d3e15",
-        formData
-      )
-      .then((res) => {
-        setImageURL(res.data.data.display_url);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsScreenLoading(false);
-      });
+      await uploadBytes(storageRef, image);
+
+      const url = await getDownloadURL(storageRef);
+
+      setImageURL(url);
+    } catch (e) {
+    } finally {
+      setIsScreenLoading(false);
+      setIsLoading(false);
+    }
   };
 
   const handleTweet = async (e: any) => {
