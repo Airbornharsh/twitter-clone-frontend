@@ -274,8 +274,6 @@ const VideoCallPage = () => {
       setVideoMembers((prev) =>
         prev.filter((member) => member.props.userId !== user.uid.toString())
       );
-      document.getElementById(`remote-video-${user.uid}`)?.remove();
-      document.getElementById(`video-container-${user.uid}`)?.remove();
     }
   };
 
