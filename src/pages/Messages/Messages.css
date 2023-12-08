@@ -151,7 +151,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.5rem 0 1rem 0;
+  margin: 0.5rem 3.5rem 1rem 0;
 }
 
 .create_Group_button button {
@@ -482,7 +482,9 @@
 }
 
 .adding_member_container {
-  width: 40rem;
+  max-width: 40rem;
+  width: 90vw;
+  max-height: 40rem;
   height: 90vh;
   min-height: 30rem;
   background-color: white;
@@ -550,12 +552,20 @@
 
 .group_conversation_container {
   position: relative;
+  width: 80%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.group_conversation_container li {
+  width: 100%;
 }
 
 .search__button_message {
   color: var(--twitter-color);
   position: absolute;
-  right: -2rem;
+  right: 1rem;
   top: 1.2rem;
 }
 
@@ -604,13 +614,13 @@
   align-self: 16/9;
 } */
 
-.video_containers .video_container{
+.video_containers .video_container {
   width: 100%;
   aspect-ratio: 16/9;
   position: relative;
 }
 
-.video_containers .video_container .video_user_detail{
+.video_containers .video_container .video_user_detail {
   position: absolute;
   top: 0;
   left: 0;
@@ -674,4 +684,14 @@
 
 .videocall_page_child_2 .end_call:hover {
   color: #ff0000;
+}
+
+@media screen and (max-width: 950px) {
+  .conversation__page {
+    flex: 1;
+  }
+
+  .group_conversation_container {
+    width: 96%;
+  }
 }

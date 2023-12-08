@@ -282,7 +282,6 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
           justifyContent: "center",
           alignItems: "center",
           width: "100vw",
-          // maxWidth: "40rem",
           height: "100vh",
         }}
       >

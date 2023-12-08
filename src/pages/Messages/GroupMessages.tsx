@@ -74,7 +74,7 @@ const GroupMessages = () => {
 
   const handleUploadImage = async (e: any) => {
     try {
-      setIsLoading(true);
+      setIsImageLoading(true);
       const image = e.target.files[0] as File;
       const userId = typeof loggedInUser === "object" ? loggedInUser.id : "";
 
@@ -92,7 +92,7 @@ const GroupMessages = () => {
       setImageURL(url);
     } catch (e) {
     } finally {
-      setIsLoading(false);
+      setIsImageLoading(false);
     }
   };
 
@@ -153,8 +153,15 @@ const GroupMessages = () => {
     <div className="lists__page">
       <div className="heading-4">
         <ArrowBackIcon className="arrow-icon" onClick={() => navigate("/")} />
-        {/* <h4 className="heading-4">{userName}</h4> */}
         <p>Conversations</p>
+        {!isSearchGroup && (
+          <Search
+            className="search__button_message"
+            onClick={(e) => {
+              setIsSearchGroup(true);
+            }}
+          />
+        )}
       </div>
       <ul>
         <li>
@@ -171,20 +178,12 @@ const GroupMessages = () => {
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <div className="userCardList__ul group_conversation_container">
-          <li className="create_Group_button">
+        <div className="group_conversation_container">
+          <div className="create_Group_button">
             <button onClick={() => setIsCreateGroup(true)}>
               Create a Group
             </button>
-            {!isSearchGroup && (
-              <Search
-                className="search__button_message"
-                onClick={(e) => {
-                  setIsSearchGroup(true);
-                }}
-              />
-            )}
-          </li>
+          </div>
           {groupConversations.map((groupConversation) => (
             <GroupMessageItem
               key={groupConversation._id}
