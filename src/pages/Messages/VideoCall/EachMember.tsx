@@ -9,7 +9,7 @@ const EachMember: React.FC<EachMemberProps> = ({ userId, user }) => {
   // alert(user.name);
 
   return (
-    <div className="video_container">
+    <div className="video_container" id={`video-container-${userId}`}>
       <video id={`remote-video-${userId}`} autoPlay></video>
       <div className="video_user_detail">
         <p className="video_name">{user.name}</p>

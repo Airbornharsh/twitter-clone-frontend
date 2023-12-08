@@ -16,6 +16,8 @@ import {
   createClient,
   createMicrophoneAudioTrack,
 } from "agora-rtc-sdk-ng/esm";
+import { doc } from "firebase/firestore";
+import { CircularProgress } from "@mui/material";
 
 type GroupType = {
   groupName: string;
@@ -35,11 +37,20 @@ type UserType = {
   _id: string;
 };
 
+const client = createClient({ mode: "rtc", codec: "vp8" });
+
+let audioTrack: IMicrophoneAudioTrack;
+let videoTrack: ICameraVideoTrack;
+
 const VideoCallPage = () => {
   const [token, setToken] = React.useState("");
-  const [videoMembers, setVideoMembers] = React.useState<any[]>([]);
+  const [videoMembers, setVideoMembers] = React.useState<React.ReactElement[]>(
+    []
+  );
+  const [uids, setUids] = React.useState<string[]>([]);
   const [isAudioOn, setIsAudioOn] = React.useState(false);
   const [isVideoOn, setIsVideoOn] = React.useState(false);
+  const [isJoining, setIsJoining] = React.useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
@@ -63,11 +74,6 @@ const VideoCallPage = () => {
     (typeof loggedInUser == "object" ? loggedInUser?.id : "").slice(15, 23),
     16
   );
-
-  const client = createClient({ mode: "rtc", codec: "vp8" });
-
-  let audioTrack: IMicrophoneAudioTrack;
-  let videoTrack: ICameraVideoTrack;
 
   useEffect(() => {
     const fetchGroup = async () => {
@@ -195,6 +201,7 @@ const VideoCallPage = () => {
   };
 
   const joinChannel = async () => {
+    setIsJoining(true);
     if (isJoined) {
       await leaveChannel();
     }
@@ -205,15 +212,28 @@ const VideoCallPage = () => {
 
     await client.join(agoraAppId!, conversationId, token, userId);
 
-    setIsJoined(true);
     // await turnOnMicrophone(true);
     await turnOnCamera(true);
     // await publishAudio();
     await publishVideo();
+    setIsJoining(false);
+    setIsJoined(true);
   };
 
   const leaveChannel = async () => {
     setIsJoined(false);
+
+    // videoTrack.close();
+    // audioTrack.close();
+
+    await client.unpublish([videoTrack, audioTrack]);
+
+    // videoMembers.forEach((member) => {
+    //   document.getElementById(`remote-video-${member.props.userId}`)?.remove();
+    //   document.getElementById(`video-container-${member.props.userId}`)?.remove();
+    // });
+
+    setVideoMembers([]);
 
     await client.leave();
   };
@@ -224,14 +244,18 @@ const VideoCallPage = () => {
   ) => {
     if (mediaType === "video") {
       const remoteTrack = await client.subscribe(user, mediaType);
-      const mem = (
-        <EachMember
-          userId={user.uid.toString()}
-          user={userData(user.uid.toString())}
-        />
-      );
 
-      setVideoMembers((prev) => [...prev, mem]);
+      if (!uids.includes(user.uid.toString())) {
+        const mem = (
+          <EachMember
+            userId={user.uid.toString()}
+            user={userData(user.uid.toString())}
+          />
+        );
+        setVideoMembers((prev) => [...prev, mem]);
+        setUids((prev) => [...prev, user.uid.toString()]);
+      }
+
       setTimeout(() => {
         remoteTrack.play(`remote-video-${user.uid}`);
       }, 2000);
@@ -250,6 +274,8 @@ const VideoCallPage = () => {
       setVideoMembers((prev) =>
         prev.filter((member) => member.props.userId !== user.uid.toString())
       );
+      document.getElementById(`remote-video-${user.uid}`)?.remove();
+      document.getElementById(`video-container-${user.uid}`)?.remove();
     }
   };
 
@@ -280,7 +306,13 @@ const VideoCallPage = () => {
         <div className="videocall_page_child">
           <div className="videocall_page_child_2">
             {!isJoined ? (
-              <button onClick={joinChannel}>Join</button>
+              <>
+                {isJoining ? (
+                  <CircularProgress />
+                ) : (
+                  <button onClick={joinChannel}>Join</button>
+                )}
+              </>
             ) : (
               <>
                 {isAudioOn ? (
