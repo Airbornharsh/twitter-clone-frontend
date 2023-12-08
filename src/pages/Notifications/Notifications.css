@@ -13,18 +13,22 @@
 }
 
 .notification__ul {
-  width: 90%;
+  width: 100%;
   list-style: none;
   display: flex;
   flex-direction: column;
-  padding: 0;
-  align-items: flex-start;
+  align-items: center;
+  overflow: auto;
+}
+
+.notification__ul::-webkit-scrollbar {
+  display: none;
 }
 
 .notification__ul > li {
   border-bottom: 1px solid var(--twitter-background);
   padding: 1rem 0;
-  width: 100%;
+  width: 90%;
   position: relative;
 }
 
@@ -96,3 +100,15 @@
   border-radius: 1rem;
   margin-top: 0.5rem;
 } */
+
+@media screen and (max-width: 950px) {
+  .notifications__page {
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .notification__likeContainer1 {
+    max-height: 100%;
+  }
+}
