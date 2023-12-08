@@ -706,3 +706,13 @@
     margin: 0;
   }
 }
+
+.close_videocall{
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: var(--twitter-color);
+  cursor: pointer;
+  z-index: 100;
+}

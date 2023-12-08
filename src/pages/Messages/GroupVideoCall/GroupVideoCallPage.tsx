@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import EachMember from "./EachMember";
 import MicOffIcon from "@mui/icons-material/MicOff";
@@ -8,6 +8,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import LogoutIcon from "@mui/icons-material/Logout";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   IAgoraRTCRemoteUser,
   ICameraVideoTrack,
@@ -63,10 +64,9 @@ const GroupVideoCallPage = () => {
     requestedMembers: [],
     createdAt: Date.now(),
   });
-  // const [localVideoTracks, setLocalVideoTracks] = React.useState<any[]>([]);
-  // const [remoteUsers, setRemoteUsers] = React.useState<any[]>([]);
   const [loggedInUser] = useLoggedInUser();
   const location = useLocation();
+  const navigate = useNavigate();
   const conversationId = location.pathname.split("/")[4];
   const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
   const userId = parseInt(
@@ -144,19 +144,12 @@ const GroupVideoCallPage = () => {
     const turnOnCamera = async () => {
       setIsVideoOn(true);
 
-      if (videoTrack) {
-        return videoTrack.setEnabled(true);
-      }
       videoTrack = await createCameraVideoTrack();
       videoTrack.play("camera-video");
     };
 
     const turnOnMicrophone = async () => {
       setIsAudioOn(true);
-
-      if (audioTrack) {
-        return audioTrack.setEnabled(true);
-      }
 
       audioTrack = await createMicrophoneAudioTrack();
     };
@@ -283,8 +276,25 @@ const GroupVideoCallPage = () => {
     await client.publish(audioTrack);
   };
 
+  const CloseVideoCall = async () => {
+    if (isJoined) {
+      await client.unpublish([videoTrack, audioTrack]);
+    }
+
+    audioTrack.close();
+    videoTrack.close();
+
+    setVideoMembers([]);
+
+    await client.leave();
+    setIsJoined(false);
+
+    navigate(`/home/messages/group/${group._id}`);
+  };
+
   return (
     <div className="videocall_page">
+      <CloseIcon className="close_videocall" onClick={CloseVideoCall} />
       <div className="videocall_page_p2">
         <div className="video_containers">
           <video
