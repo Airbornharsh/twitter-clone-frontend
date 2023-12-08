@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useLoggedInUser from "../../../hooks/useLoggedInUser";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import EachMember from "./EachMember";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import MicIcon from "@mui/icons-material/Mic";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
@@ -40,25 +41,33 @@ const client = createClient({ mode: "rtc", codec: "vp8" });
 let audioTrack: IMicrophoneAudioTrack;
 let videoTrack: ICameraVideoTrack;
 
-const VideoCallPage = () => {
+const GroupVideoCallPage = () => {
   const [token, setToken] = React.useState("");
+  const [videoMembers, setVideoMembers] = React.useState<React.ReactElement[]>(
+    []
+  );
+  const [uids, setUids] = React.useState<string[]>([]);
   const [isAudioOn, setIsAudioOn] = React.useState(false);
   const [isVideoOn, setIsVideoOn] = React.useState(false);
   const [isJoining, setIsJoining] = React.useState(false);
   const [isJoined, setIsJoined] = useState(false);
   // const [isLoading, setIsLoading] = React.useState(false);
   // const [isAdmin, setIsAdmin] = React.useState(false);
-  const [user, setUser] = React.useState<UserType>({
+  const [group, setGroup] = React.useState<GroupType>({
     _id: "",
-    name: "",
-    userName: "",
-    profileImage: "",
+    groupName: "",
+    groupImage: "",
+    groupDescription: "",
+    groupMembers: [],
+    groupAdmin: [],
+    requestedMembers: [],
+    createdAt: Date.now(),
   });
   // const [localVideoTracks, setLocalVideoTracks] = React.useState<any[]>([]);
   // const [remoteUsers, setRemoteUsers] = React.useState<any[]>([]);
   const [loggedInUser] = useLoggedInUser();
   const location = useLocation();
-  const conversationId = location.pathname.split("/")[3];
+  const conversationId = location.pathname.split("/")[4];
   const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
   const userId = parseInt(
     (typeof loggedInUser == "object" ? loggedInUser?.id : "").slice(15, 23),
@@ -71,7 +80,7 @@ const VideoCallPage = () => {
         // setIsLoading(true);
 
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/conversation/user/${conversationId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/${conversationId}`,
           {
             headers: {
               token: typeof loggedInUser == "object" && loggedInUser?.token,
@@ -79,16 +88,27 @@ const VideoCallPage = () => {
           }
         );
 
-        const tempUser = res.data.conversation.members.filter(
+        res.data.groupConversation.groupAdmin.forEach((user: UserType) => {
+          if (typeof loggedInUser == "object")
+            if (user._id === loggedInUser?.id) {
+              // setIsAdmin(true);
+            }
+        });
+
+        const tempUsers = res.data.groupConversation.groupMembers.filter(
           (member: any) =>
             member._id !== (typeof loggedInUser == "object" && loggedInUser?.id)
-        )[0];
+        );
 
-        setUser({
-          name: tempUser.name,
-          userName: tempUser.userName,
-          profileImage: tempUser.profileImage,
-          _id: tempUser._id,
+        setGroup({
+          groupName: res.data.groupConversation.groupName,
+          groupImage: res.data.groupConversation.groupImage,
+          groupAdmin: res.data.groupConversation.groupAdmin,
+          groupMembers: tempUsers,
+          requestedMembers: res.data.groupConversation.requestedMembers,
+          groupDescription: res.data.groupConversation.groupDescription,
+          createdAt: res.data.groupConversation.createdAt,
+          _id: res.data.groupConversation._id,
         });
 
         // setUsers(tempUsers);
@@ -102,7 +122,7 @@ const VideoCallPage = () => {
     const tokenGeneration = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/user/conversation/video/${conversationId}`,
+          `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/video/${conversationId}`,
           {
             headers: {
               token: typeof loggedInUser == "object" && loggedInUser?.token,
@@ -144,6 +164,18 @@ const VideoCallPage = () => {
     turnOnMicrophone();
     turnOnCamera();
   }, []);
+
+  const userData = (tempUserId: string) => {
+    const users = group.groupMembers;
+
+    const user = users.filter((user: any) => {
+      const id = parseInt(user._id.slice(15, 23), 16);
+
+      return id === parseInt(tempUserId);
+    });
+
+    return user[0];
+  };
 
   const turnOnCamera = async (flag?: boolean) => {
     flag = flag ?? !isVideoOn;
@@ -190,7 +222,17 @@ const VideoCallPage = () => {
   const leaveChannel = async () => {
     setIsJoined(false);
 
+    // videoTrack.close();
+    // audioTrack.close();
+
     await client.unpublish([videoTrack, audioTrack]);
+
+    // videoMembers.forEach((member) => {
+    //   document.getElementById(`remote-video-${member.props.userId}`)?.remove();
+    //   document.getElementById(`video-container-${member.props.userId}`)?.remove();
+    // });
+
+    setVideoMembers([]);
 
     await client.leave();
   };
@@ -202,8 +244,19 @@ const VideoCallPage = () => {
     if (mediaType === "video") {
       const remoteTrack = await client.subscribe(user, mediaType);
 
+      if (!uids.includes(user.uid.toString())) {
+        const mem = (
+          <EachMember
+            userId={user.uid.toString()}
+            user={userData(user.uid.toString())}
+          />
+        );
+        setVideoMembers((prev) => [...prev, mem]);
+        setUids((prev) => [...prev, user.uid.toString()]);
+      }
+
       setTimeout(() => {
-        remoteTrack.play(`remote-video`);
+        remoteTrack.play(`remote-video-${user.uid}`);
       }, 2000);
     }
     if (mediaType === "audio") {
@@ -217,9 +270,9 @@ const VideoCallPage = () => {
     mediaType: "video" | "audio"
   ) => {
     if (mediaType === "video") {
-      // setVideoMembers((prev) =>
-      //   prev.filter((member) => member.props.userId !== user.uid.toString())
-      // );
+      setVideoMembers((prev) =>
+        prev.filter((member) => member.props.userId !== user.uid.toString())
+      );
     }
   };
 
@@ -245,12 +298,7 @@ const VideoCallPage = () => {
               isJoined ? "myself_video_active" : "myself_video_unactive"
             }
           />
-          <div className="video_container">
-            <video id={`remote-video`} autoPlay></video>
-            <div className="video_user_detail">
-              <p className="video_name">{user.name}</p>
-            </div>
-          </div>
+          {videoMembers.map((member) => member)}
         </div>
         <div className="videocall_page_child">
           <div className="videocall_page_child_2">
@@ -302,4 +350,4 @@ const VideoCallPage = () => {
   );
 };
 
-export default VideoCallPage;
+export default GroupVideoCallPage;
