@@ -591,7 +591,7 @@
 .video_containers {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20vw, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: 0.5rem;
 }
 
@@ -604,6 +604,30 @@
   width: 16rem;
   align-self: 16/9;
 } */
+
+.video_containers .video_container{
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+}
+
+.video_containers .video_container .video_user_detail{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.video_container .video_name {
+  height: 2.3rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
 
 .videocall_page_child_2 {
   /* height: 100%; */

@@ -160,6 +160,18 @@ const VideoCallPage = () => {
     turnOnCamera();
   }, []);
 
+  const userData = (tempUserId: string) => {
+    const users = group.groupMembers;
+
+    const user = users.filter((user: any) => {
+      const id = parseInt(user._id.slice(15, 23), 16);
+
+      return id === parseInt(tempUserId);
+    });
+
+    return user[0];
+  };
+
   const turnOnCamera = async (flag?: boolean) => {
     flag = flag ?? !isVideoOn;
     setIsVideoOn(flag);
@@ -194,9 +206,9 @@ const VideoCallPage = () => {
     await client.join(agoraAppId!, conversationId, token, userId);
 
     setIsJoined(true);
-    await turnOnMicrophone(true);
+    // await turnOnMicrophone(true);
     await turnOnCamera(true);
-    await publishAudio();
+    // await publishAudio();
     await publishVideo();
   };
 
@@ -212,12 +224,17 @@ const VideoCallPage = () => {
   ) => {
     if (mediaType === "video") {
       const remoteTrack = await client.subscribe(user, mediaType);
-      const mem = <EachMember userId={user.uid.toString()} />;
+      const mem = (
+        <EachMember
+          userId={user.uid.toString()}
+          user={userData(user.uid.toString())}
+        />
+      );
 
       setVideoMembers((prev) => [...prev, mem]);
       setTimeout(() => {
         remoteTrack.play(`remote-video-${user.uid}`);
-      }, 1);
+      }, 2000);
     }
     if (mediaType === "audio") {
       const remoteTrack = await client.subscribe(user, mediaType);
