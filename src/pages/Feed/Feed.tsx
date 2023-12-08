@@ -5,6 +5,7 @@ import TweetBox from "./TweetBox";
 import axios from "axios";
 import Tweet from "./Tweet/Tweet";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
+import NavBarTop from "../Home/NavBarTop";
 
 type User = {
   _id: string;
@@ -86,6 +87,7 @@ const Feed = () => {
 
   return (
     <div className="feed">
+      <NavBarTop />
       <TweetBox handleUpdate={handleUpdate} />
       {tweets.map((t) => (
         <Tweet key={t._id} t={t} handleUpdate={handleUpdate} />

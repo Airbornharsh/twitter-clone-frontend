@@ -82,7 +82,6 @@ const Sidebar: React.FC<Props> = ({ handleLogout, user }) => {
       <Button variant="outlined" className="sidebar__tweet">
         Tweet
       </Button>
-
       <div className="Profile__info">
         <Avatar
           src={

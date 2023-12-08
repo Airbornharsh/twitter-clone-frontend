@@ -4,6 +4,8 @@ import Widgets from "./Widgets/Widgets";
 import "../App.css";
 import auth from "../context/firebase";
 import { Outlet, useLocation } from "react-router-dom";
+import NavBarTop from "./Home/NavBarTop";
+import NavBarBottom from "./Home/NavBarBottom";
 
 const Home = () => {
   const user = auth?.currentUser;
@@ -18,7 +20,9 @@ const Home = () => {
       {location.pathname.split("/")[5] !== "video" && (
         <Sidebar handleLogout={handleLogout} user={user} />
       )}
+      {/* <NavBarTop /> */}
       <Outlet />
+      <NavBarBottom />
       {location.pathname.split("/")[5] !== "video" && <Widgets />}
     </div>
   );

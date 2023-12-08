@@ -24,6 +24,16 @@
   font-size: 30px;
 }
 
+@media screen and (min-width: 950px) {
+  .navbarbottom__container {
+    display: none;
+  }
+
+  .navbartop__container {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 950px) {
   .page {
     flex: 1;
@@ -31,5 +41,42 @@
 
   .profilePage {
     flex: 1;
+  }
+
+  .navbartop__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* width: 100vw; */
+    border-bottom: 1px solid var(--twitter-background);
+    height: 3rem;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 5;
+  }
+
+  .navbartop__avatar {
+  }
+
+  .navbartop__setting {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .navbarbottom__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100vw;
+    border-top: 1px solid var(--twitter-background);
+    height: 3.3rem;
+    position: fixed;
+    bottom: 0;
+    background-color: white;
+    z-index: 5;
   }
 }
