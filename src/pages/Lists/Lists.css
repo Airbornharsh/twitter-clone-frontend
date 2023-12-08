@@ -48,7 +48,7 @@
   border-bottom: 3px solid var(--twitter-color);
 }
 
-.lists__page__unactiveList  {
+.lists__page__unactiveList {
   color: var(--twitter-color);
   border-bottom: 3px solid white;
 }
@@ -58,4 +58,16 @@
   list-style: none;
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width: 950px) {
+  .lists__page {
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .userCardList__ul {
+    width: 100%;
+  }
 }
