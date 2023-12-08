@@ -99,14 +99,14 @@ const LikeNotification: React.FC<Props> = ({ notification }) => {
             <p className="notification__tweetTitle">
               {notification.likeNotification.tweetId.title}
             </p>
-            {notification.likeNotification.tweetId.tweetMedia[0] && (
+            {/* {notification.likeNotification.tweetId.tweetMedia[0] && (
               <div className="notification__tweetMedia">
                 <img
                   src={notification.likeNotification.tweetId.tweetMedia[0]}
                   alt="tweet media"
                 />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

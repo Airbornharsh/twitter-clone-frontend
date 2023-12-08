@@ -12,7 +12,7 @@
   display: none;
 }
 
-.notification__ul{
+.notification__ul {
   width: 90%;
   list-style: none;
   display: flex;
@@ -21,14 +21,14 @@
   align-items: flex-start;
 }
 
-.notification__ul > li{
+.notification__ul > li {
   border-bottom: 1px solid var(--twitter-background);
   padding: 1rem 0;
   width: 100%;
   position: relative;
 }
 
-.notification__likeContainer1{
+.notification__likeContainer1 {
   width: 100%;
   height: auto;
   display: flex;
@@ -39,49 +39,49 @@
   overflow: hidden;
 }
 
-.notification__likeIcon{
-  color: rgba(249,24,128,1.00);
+.notification__likeIcon {
+  color: rgba(249, 24, 128, 1);
   padding: 0.4rem 0.7rem 0.7rem 0.7rem;
 }
 
-.notification__followIcon{
-  color: rgba(29,161,242,1.00);
+.notification__followIcon {
+  color: rgba(29, 161, 242, 1);
   padding: 0.4rem 0.7rem 0.7rem 0.7rem;
 }
 
-.notification__replyIcon{
+.notification__replyIcon {
   margin: 0.4rem 0.7rem 0.7rem 0.7rem;
 }
 
-.notification__likeContainer:hover{
+.notification__likeContainer:hover {
   background-color: var(--twitter-background);
   cursor: pointer;
 }
 
-.notification__likeContainer2{
+.notification__likeContainer2 {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.notification__name{
+.notification__name {
   font-weight: bold !important;
 }
 
-.notification__text{
+.notification__text {
   font-weight: 200;
 }
 
-.notification__tweet{
+.notification__tweet {
   font-weight: 200;
   color: grey;
 }
 
-.notification__tweetTitle{
+.notification__tweetTitle {
   margin: 0;
 }
 
-.notification__time{
+.notification__time {
   position: absolute;
   font-weight: 900;
   color: grey;
@@ -89,3 +89,10 @@
   right: 0.2rem;
   top: 0.2rem;
 }
+
+/* .notification__tweetMedia {
+  max-width: 10rem;
+  width: 90%;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+} */

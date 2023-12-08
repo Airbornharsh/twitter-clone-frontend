@@ -1,6 +1,5 @@
 import React from "react";
 import "./Widgets.css";
-// import { TwitterTimelineEmbed, TwitterTweetEmbed } from "react-twitter-embed";
 import SearchIcon from "@mui/icons-material/Search";
 import { useLocation, useNavigate } from "react-router-dom";
 

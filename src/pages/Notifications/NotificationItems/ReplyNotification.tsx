@@ -97,14 +97,14 @@ const ReplyNotification: React.FC<Props> = ({ notification }) => {
             <p className="notification__tweetTitle">
               {notification.replyNotification.tweetId.title}
             </p>
-            {notification.replyNotification.tweetId.tweetMedia[0] && (
+            {/* {notification.replyNotification.tweetId.tweetMedia[0] && (
               <div className="notification__tweetMedia">
                 <img
                   src={notification.replyNotification.tweetId.tweetMedia[0]}
                   alt="tweet media"
                 />
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
