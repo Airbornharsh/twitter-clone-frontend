@@ -1,6 +1,7 @@
 .OtherFollow__Container {
   margin-right: 1rem;
   display: flex;
+  align-items: center;
   gap: 0.8rem;
 }
 
@@ -18,4 +19,8 @@
 
 .OtherFollow__Container button:hover {
   background-color: #36a0e2;
+}
+
+.other_message{
+  color: var(--twitter-color);
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import "./OtherFollow.css";
 import useLoggedInUser from "../../../../hooks/useLoggedInUser";
+import EmailIcon from "@mui/icons-material/Email";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -203,9 +204,7 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
         ) : (
           <button onClick={handleFollow}>Follow</button>
         ))}
-      {checkIfMessageAllowed() && (
-        <button onClick={onMessageClick}>Message</button>
-      )}
+      {checkIfMessageAllowed() && <EmailIcon onClick={onMessageClick} className="other_message"/>}
     </div>
   );
 };
