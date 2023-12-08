@@ -212,9 +212,9 @@ const VideoCallPage = () => {
 
     await client.join(agoraAppId!, conversationId, token, userId);
 
-    // await turnOnMicrophone(true);
+    await turnOnMicrophone(true);
     await turnOnCamera(true);
-    // await publishAudio();
+    await publishAudio();
     await publishVideo();
     setIsJoining(false);
     setIsJoined(true);
