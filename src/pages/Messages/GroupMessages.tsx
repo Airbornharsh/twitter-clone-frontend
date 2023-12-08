@@ -207,6 +207,7 @@ const GroupMessages = () => {
               placeholder="Group Name"
               value={groupName}
               onChange={(e) => setGroupName(e.target.value)}
+              autoFocus
             />
             <input
               type="text"
@@ -227,7 +228,8 @@ const GroupMessages = () => {
                   {imageURL ? (
                     <FileDownloadDoneIcon />
                   ) : (
-                    <UploadFileIcon style={{ cursor: "pointer" }} />
+                    // <UploadFileIcon style={{ cursor: "pointer" }} />
+                    <button type="button">Upload Group Photo</button>
                   )}
                 </p>
               )}
@@ -274,6 +276,7 @@ const GroupMessages = () => {
             placeholder="Search"
             value={searchGroup}
             onChange={searchingGroup}
+            autoFocus
           />
           <ul>
             {searchedGroups.map((group) => (
