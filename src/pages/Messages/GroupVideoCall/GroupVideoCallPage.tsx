@@ -222,15 +222,10 @@ const GroupVideoCallPage = () => {
   const leaveChannel = async () => {
     setIsJoined(false);
 
-    // videoTrack.close();
-    // audioTrack.close();
-
     await client.unpublish([videoTrack, audioTrack]);
 
-    // videoMembers.forEach((member) => {
-    //   document.getElementById(`remote-video-${member.props.userId}`)?.remove();
-    //   document.getElementById(`video-container-${member.props.userId}`)?.remove();
-    // });
+    audioTrack.setEnabled(false);
+    videoTrack.setEnabled(false);
 
     setVideoMembers([]);
 
