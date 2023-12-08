@@ -16,7 +16,6 @@ import {
   createClient,
   createMicrophoneAudioTrack,
 } from "agora-rtc-sdk-ng/esm";
-import { doc } from "firebase/firestore";
 import { CircularProgress } from "@mui/material";
 
 type GroupType = {
@@ -52,8 +51,8 @@ const VideoCallPage = () => {
   const [isVideoOn, setIsVideoOn] = React.useState(false);
   const [isJoining, setIsJoining] = React.useState(false);
   const [isJoined, setIsJoined] = useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isAdmin, setIsAdmin] = React.useState(false);
+  // const [isLoading, setIsLoading] = React.useState(false);
+  // const [isAdmin, setIsAdmin] = React.useState(false);
   const [group, setGroup] = React.useState<GroupType>({
     _id: "",
     groupName: "",
@@ -78,7 +77,7 @@ const VideoCallPage = () => {
   useEffect(() => {
     const fetchGroup = async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
 
         const res = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/${conversationId}`,
@@ -92,7 +91,7 @@ const VideoCallPage = () => {
         res.data.groupConversation.groupAdmin.forEach((user: UserType) => {
           if (typeof loggedInUser == "object")
             if (user._id === loggedInUser?.id) {
-              setIsAdmin(true);
+              // setIsAdmin(true);
             }
         });
 
@@ -116,7 +115,7 @@ const VideoCallPage = () => {
       } catch (e) {
         console.log(e);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 

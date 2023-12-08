@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import useLoggedInUser from "../../hooks/useLoggedInUser";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { Avatar, CircularProgress, Modal } from "@mui/material";
 import GroupMessageItem from "./Items/GroupMessageItem";
