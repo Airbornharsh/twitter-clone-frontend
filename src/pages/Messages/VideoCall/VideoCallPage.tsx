@@ -17,17 +17,6 @@ import {
 } from "agora-rtc-sdk-ng/esm";
 import { CircularProgress } from "@mui/material";
 
-type GroupType = {
-  groupName: string;
-  groupImage: string;
-  groupDescription: string;
-  groupMembers: UserType[];
-  groupAdmin: UserType[];
-  requestedMembers: UserType[];
-  createdAt: number;
-  _id: string;
-};
-
 type UserType = {
   name: string;
   userName: string;
