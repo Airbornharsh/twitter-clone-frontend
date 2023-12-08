@@ -18,6 +18,11 @@
   gap: 0.5rem;
 }
 
+.messagepage_heading_child_1 p {
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
 .messagepage_heading_child_2 {
   display: flex;
   align-items: center;
@@ -693,5 +698,11 @@
 
   .group_conversation_container {
     width: 96%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .messagepage_heading_child_1 p {
+    margin: 0;
   }
 }

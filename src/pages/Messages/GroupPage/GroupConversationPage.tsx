@@ -241,10 +241,6 @@ const GroupConversationPage = () => {
               onClick={() => setIsGroupInfo(true)}
             />
             <p
-              style={{
-                marginLeft: "1rem",
-                cursor: "pointer",
-              }}
               onClick={() => setIsGroupInfo(true)}
             >
               {group?.groupName}

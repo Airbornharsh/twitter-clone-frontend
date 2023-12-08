@@ -183,10 +183,6 @@ const ConversationPage = () => {
               onClick={handleUserClick}
             />
             <p
-              style={{
-                marginLeft: "1rem",
-                cursor: "pointer",
-              }}
               onClick={handleUserClick}
             >
               {user?.name}
