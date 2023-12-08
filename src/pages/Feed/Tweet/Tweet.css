@@ -13,6 +13,8 @@
 
 .tweet__body > img {
   border-radius: 20px;
+  width: 50vw;
+  max-width: 30rem;
 }
 
 .tweet__footer {
@@ -88,4 +90,10 @@
   object-fit: cover;
   border-radius: 20px;
   border: 1px solid var(--twitter-background);
+}
+
+@media screen and (max-width: 700px){
+  .tweet__body > img{
+    border-radius: 0.8rem;
+  }
 }

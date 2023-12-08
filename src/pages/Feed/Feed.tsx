@@ -86,9 +86,6 @@ const Feed = () => {
 
   return (
     <div className="feed">
-      <div className="feed__header">
-        <h2>Home</h2>
-      </div>
       <TweetBox handleUpdate={handleUpdate} />
       {tweets.map((t) => (
         <Tweet key={t._id} t={t} handleUpdate={handleUpdate} />

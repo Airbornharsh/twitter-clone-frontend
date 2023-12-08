@@ -22,3 +22,9 @@
   font-size: 20px;
   font-weight: 800;
 }
+
+@media screen and (max-width: 950px) {
+  .feed {
+    flex: 1;
+  }
+}

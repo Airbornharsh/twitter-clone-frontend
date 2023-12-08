@@ -36,3 +36,16 @@
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (max-width: 1300px) {
+  .explore__page {
+    flex: 0.8;
+    flex-shrink: 1;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .explore__page{
+    flex: 1;
+  }
+}

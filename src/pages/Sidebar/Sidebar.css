@@ -61,8 +61,16 @@
   margin-top: 0;
 }
 
-@media screen and (max-width: 688px) {
+@media screen and (max-width: 1300px) {
+  .sidebar {
+    flex: 0.2;
+    min-width: 15rem;
+  }
+}
+
+@media screen and (max-width: 950px) {
   .sidebar {
     display: none;
   }
 }
+
