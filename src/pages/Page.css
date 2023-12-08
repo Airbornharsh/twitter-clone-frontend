@@ -5,6 +5,7 @@
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .profilePage {
@@ -21,4 +22,10 @@
   color: var(--twitter-color);
   text-align: center;
   font-size: 30px;
+}
+
+@media screen and (max-width: 950px) {
+  .page {
+    flex: 1;
+  }
 }
