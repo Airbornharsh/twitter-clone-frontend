@@ -19,6 +19,7 @@
   display: flex;
   justify-content: space-around;
   padding: 0;
+  margin-top: 0;
 }
 
 .lists__page > ul > li {
