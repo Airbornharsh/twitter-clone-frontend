@@ -181,6 +181,9 @@ const VideoCallPage = () => {
 
     await client.unpublish([videoTrack, audioTrack]);
 
+    audioTrack.setEnabled(false);
+    videoTrack.setEnabled(false);
+
     await client.leave();
   };
 
