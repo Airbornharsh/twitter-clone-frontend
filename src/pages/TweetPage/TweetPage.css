@@ -109,3 +109,15 @@
 .tweetpage::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width: 950px) {
+  .tweetpage {
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .tweetview__content img{
+    width: 100%;
+  }
+}
