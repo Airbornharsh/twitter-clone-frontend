@@ -275,7 +275,17 @@ const Tweet: React.FC<TweetProps> = ({ t, handleUpdate, otherUser }) => {
           </span>
         </div>
       </div>
-      <Modal open={isReply}>
+      <Modal
+        open={isReply}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100vw",
+          // maxWidth: "40rem",
+          height: "100vh",
+        }}
+      >
         <TweetReplyBox
           id={_id}
           setIsReply={setIsReply}
