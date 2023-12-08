@@ -19,18 +19,18 @@
   background-color: var(--twitter-background);
   padding: 10px 20px;
   border-radius: 50px;
-  margin-top: 10px;
-  margin-left: 20px;
+  margin-top: 1rem;
+  /* margin-left: 20px; */
   width: 80%;
 }
 
 .explore__input input {
   border: none;
-  margin-top: 0px;
+  margin: 0;
   background-color: var(--twitter-background);
 }
 
-.explore__userUl{
+.explore__userUl {
   width: 86%;
   list-style: none;
   display: flex;
@@ -45,7 +45,17 @@
 }
 
 @media screen and (max-width: 950px) {
-  .explore__page{
+  .explore__page {
     flex: 1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .explore__page .explore__input{
+    width: 90%;
+  }
+  
+  .explore__userUl {
+    width: 100%;
   }
 }
