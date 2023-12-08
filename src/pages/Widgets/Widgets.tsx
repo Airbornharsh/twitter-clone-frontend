@@ -2,15 +2,22 @@ import React from "react";
 import "./Widgets.css";
 // import { TwitterTimelineEmbed, TwitterTweetEmbed } from "react-twitter-embed";
 import SearchIcon from "@mui/icons-material/Search";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Widgets() {
   const location = useLocation();
 
+  const navigate = useNavigate();
+
   return (
     <div className="widgets">
       {location.pathname !== "/home/explore" && (
-        <div className="widgets__input">
+        <div
+          className="widgets__input"
+          onClick={() => {
+            navigate("/home/explore");
+          }}
+        >
           <SearchIcon className="widgets__searchIcon" />
           <input placeholder="Search Twitter" type="text" />
         </div>
