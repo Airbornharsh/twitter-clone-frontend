@@ -402,7 +402,10 @@ const GroupInfo: React.FC<GroupInfoInterface> = ({
           <div className="group__info__footer__members">
             {[mySelf, ...group.groupMembers].map((user) => {
               return (
-                <div className="group__info__footer__members__member">
+                <div
+                  className="group__info__footer__members__member"
+                  key={user._id}
+                >
                   <div className="group__info__footer__members__member_child">
                     <Avatar
                       src={user.profileImage}
