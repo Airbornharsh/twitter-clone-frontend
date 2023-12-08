@@ -11,7 +11,7 @@
 .profilePage {
   flex: 0.9;
   border-right: 1px solid var(--twitter-background);
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .profilePage::-webkit-scrollbar {
@@ -26,6 +26,10 @@
 
 @media screen and (max-width: 950px) {
   .page {
+    flex: 1;
+  }
+
+  .profilePage {
     flex: 1;
   }
 }
