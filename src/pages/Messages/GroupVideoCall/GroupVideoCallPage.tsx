@@ -223,6 +223,13 @@ const GroupVideoCallPage = () => {
     setVideoMembers([]);
 
     await client.leave();
+
+    videoTrack.close();
+    audioTrack.close();
+
+    videoTrack = await createCameraVideoTrack();
+    audioTrack = await createMicrophoneAudioTrack();
+    videoTrack.play("camera-video");
   };
 
   const onUserPublish = async (

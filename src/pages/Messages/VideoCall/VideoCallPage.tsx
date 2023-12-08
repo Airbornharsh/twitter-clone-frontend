@@ -172,12 +172,19 @@ const VideoCallPage = () => {
   const leaveChannel = async () => {
     setIsJoined(false);
 
-    await client.unpublish([videoTrack, audioTrack]);
+    if (isJoined) await client.unpublish([videoTrack, audioTrack]);
 
     audioTrack.setEnabled(false);
     videoTrack.setEnabled(false);
 
     await client.leave();
+
+    videoTrack.close();
+    audioTrack.close();
+
+    videoTrack = await createCameraVideoTrack();
+    audioTrack = await createMicrophoneAudioTrack();
+    videoTrack.play("camera-video");
   };
 
   const onUserPublish = async (
