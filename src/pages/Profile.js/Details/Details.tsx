@@ -63,7 +63,7 @@ const Details = () => {
             to="/home/profile/following"
             className={
               type === "following"
-                ? "lists__page__activeList"
+                ? "lists__page__activeList" 
                 : "lists__page__unactiveList"
             }
           >
