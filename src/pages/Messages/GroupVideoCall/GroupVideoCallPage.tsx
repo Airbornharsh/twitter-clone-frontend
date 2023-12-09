@@ -67,6 +67,7 @@ const GroupVideoCallPage = () => {
   const [loggedInUser] = useLoggedInUser();
   const location = useLocation();
   const navigate = useNavigate();
+  const GroupVideoCallPageRef = React.useRef<HTMLDivElement>(null);
   const conversationId = location.pathname.split("/")[4];
   const agoraAppId = process.env.REACT_APP_AGORA_APP_ID;
   const userId = parseInt(
@@ -141,34 +142,119 @@ const GroupVideoCallPage = () => {
   }, [conversationId, loggedInUser]);
 
   useEffect(() => {
-    const turnOnCamera = async () => {
-      setIsVideoOn(true);
+    const turnOnCamera = async (flag?: boolean) => {
+      flag = flag ?? !isVideoOn;
+      setIsVideoOn(flag);
 
+      if (videoTrack) {
+        return videoTrack.setEnabled(flag);
+      }
       videoTrack = await createCameraVideoTrack();
       videoTrack.play("camera-video");
     };
 
-    const turnOnMicrophone = async () => {
-      setIsAudioOn(true);
+    const turnOnMicrophone = async (flag?: boolean) => {
+      flag = flag ?? !isAudioOn;
+      setIsAudioOn(flag);
+
+      if (audioTrack) {
+        return audioTrack.setEnabled(flag);
+      }
 
       audioTrack = await createMicrophoneAudioTrack();
     };
 
-    turnOnMicrophone();
-    turnOnCamera();
+    const onUserPublish = async (
+      user: IAgoraRTCRemoteUser,
+      mediaType: "video" | "audio"
+    ) => {
+      if (mediaType === "video") {
+        const remoteTrack = await client.subscribe(user, mediaType);
+
+        if (!uids.includes(user.uid.toString())) {
+          const mem = (
+            <EachMember
+              userId={user.uid.toString()}
+              user={userData(user.uid.toString())}
+            />
+          );
+          setVideoMembers((prev) => [...prev, mem]);
+          setUids((prev) => [...prev, user.uid.toString()]);
+        }
+
+        setTimeout(() => {
+          remoteTrack.play(`remote-video-${user.uid}`);
+        }, 2000);
+      }
+      if (mediaType === "audio") {
+        const remoteTrack = await client.subscribe(user, mediaType);
+        remoteTrack.play();
+      }
+    };
+
+    const userData = (tempUserId: string) => {
+      const users = group.groupMembers;
+
+      const user = users.filter((user: any) => {
+        const id = parseInt(user._id.slice(15, 23), 16);
+
+        return id === parseInt(tempUserId);
+      });
+
+      return user[0];
+    };
+
+    const publishVideo = async () => {
+      await turnOnCamera(true);
+
+      await client.publish(videoTrack);
+    };
+
+    const publishAudio = async () => {
+      await turnOnMicrophone(true);
+
+      await client.publish(audioTrack);
+    };
+
+    const joinChannel = async () => {
+      setIsJoining(true);
+
+      if (isJoining) return;
+      if (isJoined) return;
+
+      client.on("user-published", onUserPublish);
+
+      client.on("user-unpublished", onUserUnPublish);
+
+      await client.join(agoraAppId!, conversationId, token, userId);
+
+      await turnOnMicrophone(true);
+      await turnOnCamera(true);
+      await publishAudio();
+      await publishVideo();
+      setIsJoining(false);
+      setIsJoined(true);
+    };
+
+    if (agoraAppId && conversationId && token && userId) {
+      joinChannel();
+    }
+  }, [
+    agoraAppId,
+    conversationId,
+    group.groupMembers,
+    isAudioOn,
+    isJoined,
+    isJoining,
+    isVideoOn,
+    token,
+    uids,
+    userId,
+  ]);
+
+  useEffect(() => {
+    GroupVideoCallPageRef.current?.requestFullscreen();
   }, []);
-
-  const userData = (tempUserId: string) => {
-    const users = group.groupMembers;
-
-    const user = users.filter((user: any) => {
-      const id = parseInt(user._id.slice(15, 23), 16);
-
-      return id === parseInt(tempUserId);
-    });
-
-    return user[0];
-  };
 
   const turnOnCamera = async (flag?: boolean) => {
     flag = flag ?? !isVideoOn;
@@ -192,73 +278,25 @@ const GroupVideoCallPage = () => {
     audioTrack = await createMicrophoneAudioTrack();
   };
 
-  const joinChannel = async () => {
-    setIsJoining(true);
-    if (isJoined) {
-      await leaveChannel();
-    }
+  // const leaveChannel = async () => {
 
-    client.on("user-published", onUserPublish);
+  //   await client.unpublish([videoTrack, audioTrack]);
 
-    client.on("user-unpublished", onUserUnPublish);
+  //   audioTrack.setEnabled(false);
+  //   videoTrack.setEnabled(false);
 
-    await client.join(agoraAppId!, conversationId, token, userId);
+  //   setVideoMembers([]);
 
-    await turnOnMicrophone(true);
-    await turnOnCamera(true);
-    await publishAudio();
-    await publishVideo();
-    setIsJoining(false);
-    setIsJoined(true);
-  };
+  //   await client.leave();
 
-  const leaveChannel = async () => {
-    setIsJoined(false);
+  //   videoTrack.close();
+  //   audioTrack.close();
 
-    await client.unpublish([videoTrack, audioTrack]);
-
-    audioTrack.setEnabled(false);
-    videoTrack.setEnabled(false);
-
-    setVideoMembers([]);
-
-    await client.leave();
-
-    videoTrack.close();
-    audioTrack.close();
-
-    videoTrack = await createCameraVideoTrack();
-    audioTrack = await createMicrophoneAudioTrack();
-    videoTrack.play("camera-video");
-  };
-
-  const onUserPublish = async (
-    user: IAgoraRTCRemoteUser,
-    mediaType: "video" | "audio"
-  ) => {
-    if (mediaType === "video") {
-      const remoteTrack = await client.subscribe(user, mediaType);
-
-      if (!uids.includes(user.uid.toString())) {
-        const mem = (
-          <EachMember
-            userId={user.uid.toString()}
-            user={userData(user.uid.toString())}
-          />
-        );
-        setVideoMembers((prev) => [...prev, mem]);
-        setUids((prev) => [...prev, user.uid.toString()]);
-      }
-
-      setTimeout(() => {
-        remoteTrack.play(`remote-video-${user.uid}`);
-      }, 2000);
-    }
-    if (mediaType === "audio") {
-      const remoteTrack = await client.subscribe(user, mediaType);
-      remoteTrack.play();
-    }
-  };
+  //   videoTrack = await createCameraVideoTrack();
+  //   audioTrack = await createMicrophoneAudioTrack();
+  //   videoTrack.play("camera-video");
+  //   setIsJoined(false);
+  // };
 
   const onUserUnPublish = async (
     user: IAgoraRTCRemoteUser,
@@ -271,36 +309,28 @@ const GroupVideoCallPage = () => {
     }
   };
 
-  const publishVideo = async () => {
-    await turnOnCamera(true);
-
-    await client.publish(videoTrack);
-  };
-
-  const publishAudio = async () => {
-    await turnOnMicrophone(true);
-
-    await client.publish(audioTrack);
-  };
-
   const CloseVideoCall = async () => {
     if (isJoined) {
       await client.unpublish([videoTrack, audioTrack]);
     }
 
-    audioTrack.close();
-    videoTrack.close();
+    audioTrack.setEnabled(false);
+    videoTrack.setEnabled(false);
 
     setVideoMembers([]);
 
     await client.leave();
+
+    audioTrack.close();
+    videoTrack.close();
+
     setIsJoined(false);
 
     navigate(`/home/messages/group/${group._id}`);
   };
 
   return (
-    <div className="videocall_page">
+    <div className="videocall_page" ref={GroupVideoCallPageRef}>
       <CloseIcon className="close_videocall" onClick={CloseVideoCall} />
       <div className="videocall_page_p2">
         <div className="video_containers">
@@ -316,11 +346,11 @@ const GroupVideoCallPage = () => {
           <div className="videocall_page_child_2">
             {!isJoined ? (
               <>
-                {isJoining ? (
+                {/* {isJoining ? (
                   <CircularProgress />
                 ) : (
                   <button onClick={joinChannel}>Join</button>
-                )}
+                )} */}
               </>
             ) : (
               <>
@@ -352,7 +382,7 @@ const GroupVideoCallPage = () => {
                     }}
                   />
                 )}
-                <LogoutIcon onClick={leaveChannel} className="end_call" />
+                <LogoutIcon onClick={CloseVideoCall} className="end_call" />
               </>
             )}
           </div>
