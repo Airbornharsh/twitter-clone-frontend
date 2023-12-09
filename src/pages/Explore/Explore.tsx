@@ -92,7 +92,7 @@ const Explore: React.FC<ExploreProps> = ({ users, setUsers }) => {
           <input
             type="text"
             placeholder="Search Twitter"
-            autoFocus
+            autoFocus={false}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
