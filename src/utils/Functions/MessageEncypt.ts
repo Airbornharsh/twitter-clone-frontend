@@ -10,6 +10,7 @@ export const encryptMessage = (message: string) => {
   // ]);
   // return encryptedMessage.toString();
   const ciphertext = CryptoJS.AES.encrypt(message, key!).toString();
+  console.log(message, ciphertext);
   return ciphertext;
 };
 
