@@ -4,7 +4,7 @@ import Widgets from "./Widgets/Widgets";
 import "../App.css";
 import auth from "../context/firebase";
 import { Outlet, useLocation } from "react-router-dom";
-import NavBarTop from "./Home/NavBarTop";
+// import NavBarTop from "./Home/NavBarTop";
 import NavBarBottom from "./Home/NavBarBottom";
 
 const Home = () => {

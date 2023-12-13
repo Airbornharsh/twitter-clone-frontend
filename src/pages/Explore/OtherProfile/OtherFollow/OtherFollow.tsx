@@ -38,6 +38,7 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
   const id = otherUser?._id;
 
   const navigate = useNavigate();
+  console.log(isLoading);
 
   const handleCancelRequest = async () => {
     try {
@@ -204,7 +205,9 @@ const OtherFollow: React.FC<MainProfileProps> = ({ otherUser }) => {
         ) : (
           <button onClick={handleFollow}>Follow</button>
         ))}
-      {checkIfMessageAllowed() && <EmailIcon onClick={onMessageClick} className="other_message"/>}
+      {checkIfMessageAllowed() && (
+        <EmailIcon onClick={onMessageClick} className="other_message" />
+      )}
     </div>
   );
 };

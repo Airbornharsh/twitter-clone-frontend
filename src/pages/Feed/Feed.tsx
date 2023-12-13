@@ -60,7 +60,7 @@ const Feed = () => {
             },
           }
         );
-        setTweets(res.data.tweets);
+        setTweets(res.data.tweets ? res.data.tweets : []);
       } catch (e) {
         console.log(e);
       }
@@ -79,7 +79,7 @@ const Feed = () => {
           },
         }
       );
-      setTweets(res.data.tweets);
+      setTweets(res.data.tweets ? res.data.tweets : []);
     } catch (e) {
       console.log(e);
     }

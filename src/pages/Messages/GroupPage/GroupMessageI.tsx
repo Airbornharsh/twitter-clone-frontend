@@ -2,6 +2,7 @@ import React from "react";
 import "../Messages.css";
 import { Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { decryptMessage } from "../../../utils/Functions/MessageEncypt";
 
 type UserType = {
   name: string;
@@ -58,7 +59,7 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
     return (
       <li className="message__container1" key={message.groupMessageId}>
         <div className="message__child1">
-          <p>{message.groupMessage}</p>
+          <p>{decryptMessage(message.groupMessage)}</p>
         </div>
       </li>
     );
@@ -76,7 +77,7 @@ const GroupMessageI: React.FC<GroupMessageIProps> = ({
           }}
         />
         <div className="groupmessage__child2">
-          <p>{message.groupMessage}</p>
+          <p>{decryptMessage(message.groupMessage)}</p>
         </div>
       </li>
     );
