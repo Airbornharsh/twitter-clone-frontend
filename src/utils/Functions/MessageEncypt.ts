@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-const key = process.env.REACT_APP_ENCRYTION_SECRET_KEY as string | undefined;
+const key = process.env.REACT_APP_ENCRYTION_SECRET_KEY;
 
 export const encryptMessage = (message: string) => {
   // const cipher = crypto.createCipher("aes-256-ctr", bufferKey);
