@@ -16,6 +16,7 @@ import {
 import { db } from "../../../context/firebase";
 import GroupMessageI from "./GroupMessageI";
 import GroupInfo from "./GroupInfo";
+import { encryptMessage } from "../../../utils/Functions/MessageEncypt";
 
 type GroupType = {
   groupName: string;
@@ -177,7 +178,7 @@ const GroupConversationPage = () => {
       const res = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/user/conversation/group/message/${conversationId}`,
         {
-          message,
+          message: encryptMessage(message),
           messageMedia: [],
         },
         {
@@ -211,7 +212,7 @@ const GroupConversationPage = () => {
 
   const onJoinVideoCall = () => {
     navigate(`/home/messages/group/${conversationId}/video`);
-  }
+  };
 
   if (isLoading) {
     return (
@@ -240,14 +241,13 @@ const GroupConversationPage = () => {
               alt="profileImage"
               onClick={() => setIsGroupInfo(true)}
             />
-            <p
-              onClick={() => setIsGroupInfo(true)}
-            >
-              {group?.groupName}
-            </p>
+            <p onClick={() => setIsGroupInfo(true)}>{group?.groupName}</p>
           </div>
           <div className="messagepage_heading_child_2">
-            <VideoCallIcon className="message_video_call" onClick={onJoinVideoCall}/>
+            <VideoCallIcon
+              className="message_video_call"
+              onClick={onJoinVideoCall}
+            />
           </div>
         </div>
         {isMessagesLoading ? (

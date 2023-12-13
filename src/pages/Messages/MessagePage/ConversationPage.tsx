@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../context/firebase";
 import MessageI from "./MessageI";
+import { encryptMessage } from "../../../utils/Functions/MessageEncypt";
 
 type UserType = {
   name: string;
@@ -120,7 +121,7 @@ const ConversationPage = () => {
       const res = await axios.put(
         `${process.env.REACT_APP_BACKEND_URL}/user/conversation/send/${conversationId}`,
         {
-          message,
+          message: encryptMessage(message),
           messageMedia: [],
           recieverId: user?._id,
         },
@@ -149,11 +150,9 @@ const ConversationPage = () => {
     }
   };
 
-
   const onJoinVideoCall = () => {
     navigate(`/home/messages/${conversationId}/video`);
-  }
-
+  };
 
   if (isLoading) {
     return (
@@ -182,11 +181,7 @@ const ConversationPage = () => {
               alt="profileImage"
               onClick={handleUserClick}
             />
-            <p
-              onClick={handleUserClick}
-            >
-              {user?.name}
-            </p>
+            <p onClick={handleUserClick}>{user?.name}</p>
           </div>
           <div className="messagepage_heading_child_2">
             <VideoCallIcon
